@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accounts;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CreateAccountController extends Controller
 {
@@ -29,7 +33,53 @@ class CreateAccountController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        if ($request->btnCreateAccount) {
+            $studentNumber = $request->studentNumber;
+            $password = $request->password;
+            $accountType = $request->accountType;
+            $confirmPass = $request->confirmPass;
+            $lastName = $request->lastName;
+            $firstName = $request->firstName;
+            $middleName = $request->middleName;
+            $level = $request->level;
+            $day = $request->day;
+            $month = $request->month;
+            $year = $request->year;
+            $date = new DateTime("$year-$month-$day");
+            $formattedDate = $date->format('Y-m-d');
+            $guardian = $request->guardian;
+            $contactNumber = $request->contactNumber;
+
+            if ($password != $confirmPass) {
+                session()->put("passwordNotMatch", true);
+                return redirect("/create");
+            }
+            $data = array();
+            $queryResult = DB::table('accounts')->where('studentNumber', '=', $studentNumber)->get();
+            $data = json_decode($queryResult, true);
+            if (count($data)> 0) {
+                session()->put('accountExist', true);
+            } else {
+                $newAccount = new Accounts();
+                $newAccount->studentNumber = $studentNumber;
+                $newAccount->accountType = $accountType;
+                $newAccount->password = Hash::make($password);
+                $newAccount->lastName = $lastName;
+                $newAccount->firstName = $firstName;
+                $newAccount->middleName = $middleName;
+                $newAccount->level = $level;
+                $newAccount->guardian = $guardian;
+                $newAccount->birthDate = $formattedDate;
+                $newAccount->contactNumber = $contactNumber;
+                $isSave = $newAccount->save();
+                if ($isSave) {
+                    session()->put("successCreate", true);
+                } else {
+                    session()->put("errorCreate", true);
+                }
+            }
+        }
+        return redirect("/create");
     }
 
     /**

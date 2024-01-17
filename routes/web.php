@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CreateAccountController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,4 @@ Route::get('/', function () {
 });
 
 Route::resource("/create", CreateAccountController::class);
+Route::resource("/login", LoginController::class);

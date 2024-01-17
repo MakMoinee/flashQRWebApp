@@ -80,7 +80,7 @@
                                 <a href="javascript:;">Administrative</a>
                                 <ul>
                                     <li><a href="/create" style="color: black !important;">Create Account</a></li>
-                                    <li><a href="" style="color: black !important;">Acount Activation</a></li>
+                                    <li><a href="/login" style="color: black !important;">Acount Activation</a></li>
                                     <li><a href="" style="color: black !important;">Authentication</a></li>
                                 </ul>
                             </li>

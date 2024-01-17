@@ -10,7 +10,7 @@
     <meta name="author" content="Template Mo">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 
-    <title>Create Account - FlashQR</title>
+    <title>Account Activation - FlashQR</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/templatemo-art-factory.css">
@@ -35,6 +35,7 @@
             .background-header .main-nav .nav li a {
                 color: black !important;
             }
+
             #about {
                 margin-top: 150px !important;
             }
@@ -46,6 +47,11 @@
 
         .blueButton {
             color: rgba(0, 136, 232, 1) !important;
+        }
+
+        .least {
+            width: 250px !important;
+            margin-bottom: 15px;
         }
     </style>
 
@@ -92,106 +98,29 @@
     <!-- ***** Header Area End ***** -->
 
 
-
-
     <!-- ***** Features Big Item Start ***** -->
     <section class="section" id="about">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <center>
-                        <h1>CREATE ACCOUNT</h1>
-                    </center>
-                    <br>
-                    <form action="/create" method="post" enctype="application/x-www-form-urlencoded">
-                        @csrf
-                        <div class="row">
-                            <div class="col-lg-3" style="float:left;">
-
-                            </div>
-                            <div class="col-lg-3" style="float:left;margin-right: 40px;">
-                                <h4 class="blueButton">Account Details</h4>
-                                <br>
-                                <select required class="form-control" name="accountType" id=""
-                                    aria-placeholder="Account Type">
-                                    <option value="">Account Type</option>
-                                    <option value="1">User</option>
-                                </select>
-                                <br>
-                                <input required class="form-control" required type="text" name="studentNumber"
-                                    id="" placeholder="Student Number">
-                                <br>
-                                <input required class="form-control" type="password" name="password" id=""
-                                    placeholder="Password">
-                                <br>
-                                <input required class="form-control" type="password" name="confirmPass" id=""
-                                    placeholder="Confirm Password">
-                                <br>
-                                <img src="/logo.png" class="img-responsive" alt="" srcset="">
-                            </div>
-                            <div class="col-lg-3" style="float:left;">
-                                <h4 class="blueButton">Personal Details</h4>
-                                <br>
-                                <input required class="form-control" type="text" name="lastName" id=""
-                                    placeholder="Last Name">
-                                <br>
-                                <input required class="form-control" type="text" name="firstName" id=""
-                                    placeholder="First Name">
-                                <br>
-                                <input class="form-control" type="text" name="middleName" id=""
-                                    placeholder="Middle Name">
-                                <br>
-                                <input required class="form-control" type="text" name="level" id=""
-                                    placeholder="Level">
-                                <br>
-                                <label for="birthDate">Birth Date</label>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <input required class="form-control" type="number" name="day"
-                                            id="" placeholder="Day"
-                                            style="width: 75px !important; float: left;">
-                                        <select required class="form-control" name="month" id=""
-                                            style="width: 85px !important; float: left;">
-                                            <option value="">Mon</option>
-                                            <option value="1">Jan</option>
-                                            <option value="2">Feb</option>
-                                            <option value="3">Mar</option>
-                                            <option value="4">Apr</option>
-                                            <option value="5">May</option>
-                                            <option value="6">Jun</option>
-                                            <option value="7">Jul</option>
-                                            <option value="8">Aug</option>
-                                            <option value="9">Sep</option>
-                                            <option value="10">Oct</option>
-                                            <option value="11">Nov</option>
-                                            <option value="12">Dec</option>
-                                        </select>
-                                        <select required class="form-control" name="year" id=""
-                                            style="width: 85px !important; float: left;">
-                                            <option value="">Year</option>
-                                            @foreach ($yrs as $item)
-                                                <option value="{{ $item }}">{{ $item }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <br>
-                                <input required class="form-control" type="text" name="guardian" id=""
-                                    placeholder="Guardian Name">
-                                <br>
-                                <input required class="form-control" type="number" name="contactNumber"
-                                    id="" placeholder="Contact Number">
-                                <br>
-                                <button type="submit" class="btn btn-warning" name="btnCreateAccount"
-                                    value="yes">Create</button>
-                            </div>
-                            <div class="col-lg-3" style="float:left;">
-
-                            </div>
-                        </div>
-                    </form>
-
+                    <div class="col-lg-6" style="float: left">
+                        <h3 class="blueButton" style="width: 250px !important;">
+                            <center>LOGIN</center>
+                        </h3>
+                        <br>
+                        <input required class="form-control least" type="text" name="studentNumber" id=""
+                            placeholder="Student Number">
+                        <input required class="form-control least" type="password" name="password" id=""
+                            placeholder="Password">
+                        <button class="btn btn-warning least" type="submit">Login</button>
+                        <h6 class="least">
+                            <center>OR</center>
+                        </h6>
+                        <a href="/create" class="least btn btn-primary">Create Account</a>
+                    </div>
+                    <div class="col-lg-6" style="float: left">
+                        <img src="/logo.png" alt="" srcset="">
+                    </div>
                 </div>
             </div>
             <div class="row">
