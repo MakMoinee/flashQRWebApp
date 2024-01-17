@@ -39,6 +39,10 @@
             #about {
                 margin-top: 150px !important;
             }
+
+            #logoDiv{
+                margin-top: 20px !important;
+            }
         }
 
         .header-area .main-nav .nav li:hover a {
@@ -104,21 +108,24 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="col-lg-6" style="float: left">
-                        <h3 class="blueButton" style="width: 250px !important;">
-                            <center>LOGIN</center>
-                        </h3>
-                        <br>
-                        <input required class="form-control least" type="text" name="studentNumber" id=""
-                            placeholder="Student Number">
-                        <input required class="form-control least" type="password" name="password" id=""
-                            placeholder="Password">
-                        <button class="btn btn-warning least" type="submit">Login</button>
-                        <h6 class="least">
-                            <center>OR</center>
-                        </h6>
+                        <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+                            @csrf
+                            <h3 class="blueButton" style="width: 250px !important;">
+                                <center>LOGIN</center>
+                            </h3>
+                            <br>
+                            <input required class="form-control least" type="text" name="studentNumber"
+                                id="" placeholder="Student Number">
+                            <input required class="form-control least" type="password" name="password" id=""
+                                placeholder="Password">
+                            <button class="btn btn-warning least" type="submit" name="btnLogin" value="yes">Login</button>
+                            <h6 class="least">
+                                <center>OR</center>
+                            </h6>
+                        </form>
                         <a href="/create" class="least btn btn-primary">Create Account</a>
                     </div>
-                    <div class="col-lg-6" style="float: left">
+                    <div class="col-lg-6" style="float: left" id="logoDiv">
                         <img src="/logo.png" alt="" srcset="">
                     </div>
                 </div>
@@ -185,19 +192,19 @@
         </script>
         {{ session()->forget('successCreate') }}
     @endif
-    @if (session()->pull('errorCreate'))
+    @if (session()->pull('errorLogin'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Create Account',
+                    title: 'Wrong Username or Password',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorCreate') }}
+        {{ session()->forget('errorLogin') }}
     @endif
     @if (session()->pull('passwordNotMatch'))
         <script>

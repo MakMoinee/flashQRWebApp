@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
-class LoginController extends Controller
+class AdminDashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,12 +15,16 @@ class LoginController extends Controller
             $user = session()->pull('users');
             session()->put('users', $user);
             $accountType = $user['accountType'];
+           
 
-            if ($accountType == 1) {
-                return redirect("/admin_dashboard");
+            if ($accountType != 1) {
+                return redirect("/");
             }
+
+            return view('admin.dashboard');
         }
-        return view('account_activation');
+
+        return redirect("/");
     }
 
     /**
@@ -38,30 +40,7 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->btnLogin) {
-            $password = $request->password;
-            $queryResults = DB::table('accounts')->where('studentNumber', '=', $request->studentNumber)->get();
-            $data = array();
-            $data = json_decode($queryResults, true);
-            $user = array();
-            foreach ($data as $d) {
-                if (password_verify($password, $d['password'])) {
-                    $user = $d;
-                    break;
-                }
-            }
-
-            if (count($user) > 0) {
-                session()->put('users', $user);
-                $accountType = $user['accountType'];
-                if ($accountType == 1) {
-                    return redirect("/admin_dashboard");
-                }
-            } else {
-                session()->put('errorLogin', true);
-            }
-        }
-        return redirect("/login");
+        //
     }
 
     /**
