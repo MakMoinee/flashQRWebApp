@@ -83,15 +83,25 @@
                                         Password and Security</a>
                                 </li>
                                 <li class="nav-divider"></li>
+                                <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/qr">
-                                        QR Integration
-                                    </a>
+                                    <a class="nav-link" href="/flashcard">
+                                        <img class="nav-icon" src="/card.svg" alt="" srcset=""> Flash
+                                        Card</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/qr">
-                                        Record Management
-                                    </a>
+                                    <a class="nav-link" href="/generateqr">
+                                        <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
+                                        QR</a>
+                                </li>
+                                <li class="nav-title">Record Management</li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/user_records">
+                                        <img class="nav-icon" src="/userrecords.svg" alt="" srcset=""> User Records</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/history">
+                                        <img class="nav-icon" src="/history.svg" alt="" srcset=""> History Records</a>
                                 </li>
 
                             </div>

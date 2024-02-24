@@ -83,15 +83,27 @@
                                         Password and Security</a>
                                 </li>
                                 <li class="nav-divider"></li>
+                                <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/qr">
-                                        QR Integration
-                                    </a>
+                                    <a class="nav-link" href="/flashcard">
+                                        <img class="nav-icon" src="/card.svg" alt="" srcset=""> Flash
+                                        Card</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/qr">
-                                        Record Management
-                                    </a>
+                                    <a class="nav-link" href="/generateqr">
+                                        <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
+                                        QR</a>
+                                </li>
+                                <li class="nav-title">Record Management</li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/user_records">
+                                        <img class="nav-icon" src="/userrecords.svg" alt="" srcset="">
+                                        User Records</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/history">
+                                        <img class="nav-icon" src="/history.svg" alt="" srcset="">
+                                        History Records</a>
                                 </li>
 
                             </div>
@@ -210,10 +222,132 @@
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <img style="float: left;" src="/profile.png" width="120" height="120"
+                                    class="img-responsive" alt="" srcset="">
+                                <h2 style="float:left;margin-left: 30px; margin-top: 40px;">Upload A New Photo</h2>
+                                <button style="float: right; margin-top: 40px;"
+                                    class="btn btn-warning text-white">Update</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 style="color: rgb(0, 145, 248)">PERSONAL DETAILS</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label for="lastName">LAST NAME</label>
+                                <br>
+                                <input type="text" class="form-control" name="lastName" id=""
+                                    value="{{ $currentUser['lastName'] }}">
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="firstName">FIRST NAME</label>
+                                <br>
+                                <input type="text" class="form-control" name="firstName" id=""
+                                    value="{{ $currentUser['firstName'] }}">
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="middleName">MIDDLE NAME</label>
+                                <br>
+                                <input type="text" class="form-control" name="middleName" id=""
+                                    value="{{ $currentUser['middleName'] }}">
+                            </div>
+                        </div>
 
+                        <div class="row mt-2">
+                            <div class="col-lg-6">
+                                <label for="birthDate">BIRTH DATE</label>
+                                <div class="row mt-1">
+                                    <div class="col-lg-12">
+                                        <input required class="form-control" type="number" name="day"
+                                            id="" placeholder="Day"
+                                            style="width: 125px !important; float: left;" min="1"
+                                            max="31">
+                                        <select required class="form-control" name="month" id=""
+                                            style="width: 135px !important; float: left;">
+                                            <option value="">Mon</option>
+                                            <option value="1">Jan</option>
+                                            <option value="2">Feb</option>
+                                            <option value="3">Mar</option>
+                                            <option value="4">Apr</option>
+                                            <option value="5">May</option>
+                                            <option value="6">Jun</option>
+                                            <option value="7">Jul</option>
+                                            <option value="8">Aug</option>
+                                            <option value="9">Sep</option>
+                                            <option value="10">Oct</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dec</option>
+                                        </select>
+                                        <select required class="form-control" name="year" id=""
+                                            style="width: 135px !important; float: left;">
+                                            <option value="">Year</option>
+                                            @foreach ($yrs as $item)
+                                                <option value="{{ $item }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-5" style="float: left;margin-right: 20px;">
+                                            <label for="studentNumber">STUDENT NUMBER</label>
+                                            <input type="text" class="form-control" name="" id=""
+                                                value="{{ $currentUser['studentNumber'] }}" title="Student Number">
+                                        </div>
+                                        <div class="col-lg-5" style="float: left; ">
+                                            <label for="level">LEVEL</label>
+                                            <input type="text" class="form-control" name="" id=""
+                                                value="{{ $currentUser['level'] }}" title="Level">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label for="guardian">GUARDIAN</label>
+                                <br>
+                                <input type="text" class="form-control" name="guardian" id=""
+                                    value="{{ $currentUser['guardian'] }}">
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-lg-4">
+                                <label for="contactNumber">CONTACT NUMBER</label>
+                                <br>
+                                <input type="text" class="form-control" name="contactNumber" id=""
+                                    value="{{ $currentUser['contactNumber'] }}">
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                            <div class="col-lg-4">
+                                <button style="float: right;margin-top: 20px;" type="submit"
+                                    class="btn btn-warning text-white">Submit Changes</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
         </div>

@@ -15,13 +15,16 @@ class AdminPersonalDetailsController extends Controller
             $user = session()->pull('users');
             session()->put('users', $user);
             $accountType = $user['accountType'];
-           
+
 
             if ($accountType != 1) {
                 return redirect("/");
             }
 
-            return view('admin.profiles');
+            $currentYear = date('Y');
+            $years = range(1990, $currentYear);
+
+            return view('admin.profiles', ['yrs' => $years, 'currentUser' => $user]);
         }
     }
 
