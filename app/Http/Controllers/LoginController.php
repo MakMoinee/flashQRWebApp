@@ -55,6 +55,7 @@ class LoginController extends Controller
                 $isActivated = $user['isActivated'];
                 if ($isActivated) {
                     session()->put('users', $user);
+                    session()->put('successLogin', true);
                     $accountType = $user['accountType'];
                     if ($accountType == 1) {
                         return redirect("/admin_dashboard");

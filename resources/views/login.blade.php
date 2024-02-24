@@ -10,7 +10,7 @@
     <meta name="author" content="Template Mo">
 
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@600&display=swap" rel="stylesheet">
-    <title>Account Activation - FlashQR</title>
+    <title>Account Authentication - FlashQR</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/templatemo-art-factory.css">
