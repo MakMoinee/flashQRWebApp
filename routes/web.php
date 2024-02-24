@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAccountActivationController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminPersonalDetailsController;
 use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -27,4 +28,5 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/login", LoginController::class)->middleware('throttle:10,1');
     Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:10,1');
     Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:10,1');
+    Route::resource("/profiles", AdminPersonalDetailsController::class)->middleware('throttle:10,1');
 });
