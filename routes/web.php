@@ -18,9 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [WelcomeController::class, 'index']);
-Route::get('/logout', [LogoutController::class, 'index']);
+Route::middleware(['general'])->group(function () {
+    Route::get('/', [WelcomeController::class, 'index'])->middleware('throttle:10,1');
+    Route::get('/logout', [LogoutController::class, 'index'])->middleware('throttle:10,1');
 
-Route::resource("/create", CreateAccountController::class);
-Route::resource("/login", LoginController::class);
-Route::resource("/admin_dashboard", AdminDashboardController::class);
+    Route::resource("/create", CreateAccountController::class)->middleware('throttle:10,1');
+    Route::resource("/login", LoginController::class)->middleware('throttle:10,1');
+    Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:10,1');
+});

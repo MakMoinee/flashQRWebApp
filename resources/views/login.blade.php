@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Template Mo">
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@600&display=swap" rel="stylesheet">
     <title>Account Activation - FlashQR</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
@@ -227,6 +227,20 @@
         {{ session()->forget('passwordNotMatch') }}
     @endif
 
+    @if (session()->pull('errorNotActivated'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Account Not Activated, Please Wait For Admin To Be Activated',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorNotActivated') }}
+    @endif
     @if (session()->pull('accountExist'))
         <script>
             setTimeout(() => {

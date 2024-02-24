@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('birthDate')->nullable(false);
             $table->string('guardian')->nullable(false);
             $table->string('contactNumber')->nullable(false);
+            $table->string('isActivated')->nullable(false);
             $table->timestamps();
         });
     }

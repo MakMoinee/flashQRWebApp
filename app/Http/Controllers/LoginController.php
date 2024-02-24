@@ -22,7 +22,7 @@ class LoginController extends Controller
                 return redirect("/admin_dashboard");
             }
         }
-        return view('account_activation');
+        return view('login');
     }
 
     /**
@@ -52,10 +52,15 @@ class LoginController extends Controller
             }
 
             if (count($user) > 0) {
-                session()->put('users', $user);
-                $accountType = $user['accountType'];
-                if ($accountType == 1) {
-                    return redirect("/admin_dashboard");
+                $isActivated = $user['isActivated'];
+                if ($isActivated) {
+                    session()->put('users', $user);
+                    $accountType = $user['accountType'];
+                    if ($accountType == 1) {
+                        return redirect("/admin_dashboard");
+                    }
+                } else {
+                    session()->put("errorNotActivated", true);
                 }
             } else {
                 session()->put('errorLogin', true);

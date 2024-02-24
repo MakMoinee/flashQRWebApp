@@ -24,5 +24,6 @@ class Accounts extends Model
         'accountType',
         'studentNumber',
         'guardian',
+        'isActivated',
     ];
 }
