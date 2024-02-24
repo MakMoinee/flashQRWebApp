@@ -71,6 +71,7 @@ class CreateAccountController extends Controller
                 $newAccount->guardian = $guardian;
                 $newAccount->birthDate = $formattedDate;
                 $newAccount->contactNumber = $contactNumber;
+                $newAccount->isActivated = false;
                 $isSave = $newAccount->save();
                 if ($isSave) {
                     session()->put("successCreate", true);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAccountActivationController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
@@ -25,4 +26,5 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/create", CreateAccountController::class)->middleware('throttle:10,1');
     Route::resource("/login", LoginController::class)->middleware('throttle:10,1');
     Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:10,1');
+    Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:10,1');
 });
