@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Template Mo">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sen:wght@600&display=swap" rel="stylesheet">
     <title>FlashQR</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">
@@ -25,6 +26,7 @@
         .background-header .logo,
         .background-header .main-nav .nav li a {
             color: white !important;
+            font-family: "Sen", sans-serif;
         }
 
         @media only screen and (max-width: 767px) {
@@ -33,6 +35,7 @@
             .background-header .logo,
             .background-header .main-nav .nav li a {
                 color: black !important;
+                font-family: "Sen", sans-serif;
             }
 
             #about {
@@ -45,7 +48,7 @@
         }
 
         body {
-            /* background-image: url("/logo.png"); */
+            font-family: "Sen", sans-serif;
         }
     </style>
 
@@ -109,12 +112,12 @@
             <div class="row">
                 <div class="col-lg-12">
                     <center>
-                        <h1 style="font-family: 'Roboto', sans-serif;">WELCOME</h1>
+                        <h1 style=" font-family: 'Sen', sans-serif;">WELCOME</h1>
                         <br>
                         <img src="/logo.png" alt="" srcset="">
                         <br>
                         <br>
-                        <h1 style="font-family: 'Roboto', sans-serif;">FlashQR</h1>
+                        <h1 style=" font-family: 'Sen', sans-serif;">FlashQR</h1>
                         <br>
                         <h4>Web Based QR Recognition</h4>
                     </center>

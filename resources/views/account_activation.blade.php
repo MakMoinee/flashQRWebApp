@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Template Mo">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-
+    
+    <link href="https://fonts.googleapis.com/css2?family=Sen:wght@600&display=swap" rel="stylesheet">
     <title>Account Activation - FlashQR</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">
@@ -26,6 +26,7 @@
         .background-header .logo,
         .background-header .main-nav .nav li a {
             color: white !important;
+            font-family: "Sen", sans-serif;
         }
 
         @media only screen and (max-width: 767px) {
@@ -40,7 +41,7 @@
                 margin-top: 150px !important;
             }
 
-            #logoDiv{
+            #logoDiv {
                 margin-top: 20px !important;
             }
         }
@@ -56,6 +57,10 @@
         .least {
             width: 250px !important;
             margin-bottom: 15px;
+        }
+
+        body {
+            font-family: "Sen", sans-serif;
         }
     </style>
 
@@ -118,7 +123,8 @@
                                 id="" placeholder="Student Number">
                             <input required class="form-control least" type="password" name="password" id=""
                                 placeholder="Password">
-                            <button class="btn btn-warning least" type="submit" name="btnLogin" value="yes">Login</button>
+                            <button class="btn btn-warning least" type="submit" name="btnLogin"
+                                value="yes">Login</button>
                             <h6 class="least">
                                 <center>OR</center>
                             </h6>
