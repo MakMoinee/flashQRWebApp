@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AdminPersonalDetailsController extends Controller
+class AdminFlashCardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,8 +24,9 @@ class AdminPersonalDetailsController extends Controller
             $currentYear = date('Y');
             $years = range(1990, $currentYear);
 
-            return view('admin.profiles', ['yrs' => $years, 'currentUser' => $user]);
+            return view('admin.flashcard', ['yrs' => $years, 'currentUser' => $user]);
         }
+
         return redirect("/");
     }
 

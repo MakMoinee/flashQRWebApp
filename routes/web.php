@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAccountActivationController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminFlashCardController;
 use App\Http\Controllers\AdminPersonalDetailsController;
 use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
@@ -29,4 +30,5 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:10,1');
     Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:10,1');
     Route::resource("/profiles", AdminPersonalDetailsController::class)->middleware('throttle:10,1');
+    Route::resource("/flashcard", AdminFlashCardController::class)->middleware('throttle:10,1');
 });
