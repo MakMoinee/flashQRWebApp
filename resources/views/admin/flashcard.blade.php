@@ -203,8 +203,8 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <span style="font-size:25px;">Flash Cards</span>
-                                <button style="float: right;font-size:15px;"
-                                    class="btn btn-warning text-white">Add</button>
+                                <button style="float: right;font-size:15px;" class="btn btn-warning text-white"
+                                    data-coreui-target="#addFlashCardModal" data-coreui-toggle="modal">Add</button>
                             </div>
                             <div class="card-body">
                                 <br>
@@ -646,6 +646,52 @@
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
     <script></script>
+
+    <div class="modal fade " id="addFlashCardModal" tabindex="-1" role="dialog"
+        aria-labelledby="addFlashCardModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row ">
+                        <form action="{{ route('flashcard.store') }}" method="POST" enctype="multipart/form-data"
+                            autocomplete="off">
+                            @method('post')
+                            @csrf
+
+                            <div class="form-group text-center">
+                                <h5>CREATE FLASH CARD</h5>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="flashCardName">Flash Card Name:</label>
+                                <input required type="text" class="form-control" name="flashCardName"
+                                    id="">
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="categoryName">Category Name:</label>
+                                <select class="form-control" name="category" id="">
+                                    <option value="">Select Category</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="description">Description:</label>
+                                <input required class="form-control" type="text" name="description"
+                                    id="">
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                    <button type="submit" class="btn btn-warning" name="btnDeactivateUser" value="yes"
+                        style="color:white !important;">Proceed Creation</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     @if (session()->pull('successLogin'))
         <script>

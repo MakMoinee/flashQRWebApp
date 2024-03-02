@@ -45,6 +45,7 @@ class AdminAccountActivationController extends Controller
 
             return view('admin.activation', ['searchKey' => $search, 'users' => $tmpUsers, 'activeCount' => $activeCount, 'inactiveCount' => $inActiveCount, 'total' => $activeCount + $inActiveCount]);
         }
+        return redirect("/");
     }
 
     /**
