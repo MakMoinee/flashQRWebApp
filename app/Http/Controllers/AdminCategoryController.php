@@ -132,7 +132,92 @@ class AdminCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+            if ($accountType != 1) {
+                return redirect("/");
+            }
+
+            if ($request->btnUpdateCategory) {
+                $origCategoryName = $request->updateOrigCategoryName;
+                $updateCategoryName = $request->updateCategoryName;
+                if ($origCategoryName == $updateCategoryName) {
+
+                    $files = $request->file("updateImagePath");
+                    $fileName = "";
+
+                    if ($files) {
+                        $mimeType = $files->getMimeType();
+                        if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/categories';
+                            $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
+                            $isFile = $files->move($destinationPath,  $fileName);
+                            chmod($destinationPath, 0755);
+
+                            if ($fileName != "") {
+                                try {
+                                    $originalDirectoryPath = $request->updateOrigImagePath;
+                                    if ($originalDirectoryPath) {
+                                        $destinationPath2 = $_SERVER['DOCUMENT_ROOT'] . $originalDirectoryPath;
+                                        File::delete($destinationPath2);
+                                    }
+                                } catch (Exception $e1) {
+                                }
+
+                                $updateCount = DB::table('categories')->where('categoryID', '=', $id)->update([
+                                    'categoryName' => $request->updateCategoryName,
+                                    'imagePath' => '/data/categories/' . $fileName,
+                                ]);
+                                if ($updateCount > 0) {
+                                    session()->put('successUpdateCategory', true);
+                                } else {
+                                    session()->put('errorUpdateCategory', true);
+                                }
+                            }
+                        }
+                    } else {
+                        $updateCount = DB::table('categories')->where('categoryID', '=', $id)->update([
+                            'categoryName' => $request->updateCategoryName,
+                        ]);
+
+                        if ($updateCount > 0) {
+                            session()->put('successUpdateCategory', true);
+                        } else {
+                            session()->put('errorUpdateCategory', true);
+                        }
+                    }
+                } else {
+                    $data = json_decode(DB::table('categories')->where('categoryName', '=', $request->updateCategoryName)->get(), true);
+                    if (count($data) > 0) {
+                        session()->put('categoryNameExist', true);
+                    } else {
+
+                        $files = $request->file("updateImagePath");
+                        $fileName = "";
+
+                        if ($files) {
+                        } else {
+                            $updateCount = DB::table('categories')->where('categoryID', '=', $id)->update([
+                                'categoryName' => $request->updateCategoryName,
+                            ]);
+
+                            if ($updateCount > 0) {
+                                session()->put('successUpdateCategory', true);
+                            } else {
+                                session()->put('errorUpdateCategory', true);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            return redirect("/category");
+        }
+        return redirect("/");
     }
 
     /**

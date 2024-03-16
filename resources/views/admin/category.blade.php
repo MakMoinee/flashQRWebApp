@@ -266,7 +266,10 @@
 
                                                     </td>
                                                     <td>
-                                                        <button class="btn" style="cursor: pointer;">
+                                                        <button data-coreui-toggle="modal"
+                                                            data-coreui-target="#updateCategoryModal" class="btn"
+                                                            style="cursor: pointer;"
+                                                            onclick="triggerUpdate({{ $item['categoryID'] }},'{{ $item['imagePath'] }}','{{ $item['categoryName'] }}')">
                                                             <img src="/edit.svg" alt="" srcset="">
                                                         </button>
                                                         <button data-coreui-toggle="modal"
@@ -346,6 +349,52 @@
         </div>
     </div>
 
+    <div class="modal fade " id="updateCategoryModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row ">
+                        <form id="updateCategory" action="" method="POST" enctype="multipart/form-data"
+                            autocomplete="off">
+                            @method('put')
+                            @csrf
+
+                            <div class="form-group text-center">
+                                <h5 class="colorDefault">UPDATE CATEGORY</h5>
+                            </div>
+
+                            <div class="form-group">
+                                <a onclick="document.getElementById('updateMFile').click();">
+                                    <center>
+                                        <img id="updatePhoto" src="" alt="" srcset=""
+                                            style="width: 200px; height: 200px;">
+                                    </center>
+                                </a>
+                                <input id="updateMFile" type="file" style="display: none;" name="updateImagePath"
+                                    onchange="previewUpdateImage(event)">
+                                <input type="hidden" name="updateOrigCategoryName" id="updateOrigCategoryName">
+                                <input type="hidden" name="updateOrigImagePath" id="updateOrigImagePath">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="updateCategoryName" class="colorDefault">Category Name:</label>
+                                <input required type="text" class="form-control" name="updateCategoryName"
+                                    id="updateCategoryName">
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                    <button type="submit" class="btn btn-warning" name="btnUpdateCategory" value="yes"
+                        style="color:white !important;">Proceed Update</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade " id="deleteCategoryModal" tabindex="-1" role="dialog"
         aria-labelledby="deleteCategoryLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -379,6 +428,20 @@
     </div>
 
     <script>
+        function previewUpdateImage(event) {
+            var files = event.currentTarget.files;
+            if (files && files[0]) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('updatePhoto');
+                    if (output) {
+                        output.src = reader.result;
+                    }
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        }
+
         function previewImage(event) {
             var files = event.currentTarget.files;
             if (files && files[0]) {
@@ -396,6 +459,19 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Your other JavaScript code here
         });
+
+        function triggerUpdate(id, imagePath, categoryName) {
+            let form = document.getElementById('updateCategory');
+            form.action = `/category/${id}`;
+            let img = document.getElementById('updatePhoto');
+            img.src = imagePath;
+            let c = document.getElementById('updateCategoryName');
+            c.value = categoryName;
+            let d = document.getElementById('updateOrigCategoryName');
+            d.value = categoryName;
+            let f = document.getElementById('updateOrigImagePath');
+            f.value = imagePath;
+        }
 
         function triggerDelete(e, i) {
             let form = document.getElementById('deleteCategory');
@@ -419,6 +495,20 @@
         </script>
         {{ session()->forget('successDeleteCategory') }}
     @endif
+    @if (session()->pull('successUpdateCategory'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Updated Category',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successUpdateCategory') }}
+    @endif
     @if (session()->pull('successAddCategory'))
         <script>
             setTimeout(() => {
@@ -432,6 +522,20 @@
             }, 500);
         </script>
         {{ session()->forget('successAddCategory') }}
+    @endif
+    @if (session()->pull('errorUpdateCategory'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Update Category',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorUpdateCategory') }}
     @endif
     @if (session()->pull('errorAddCategory'))
         <script>
