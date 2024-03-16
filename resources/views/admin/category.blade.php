@@ -51,6 +51,10 @@
             background: rgb(0, 145, 248) !important;
             color: white;
         }
+
+        .colorDefault {
+            color: rgb(0, 145, 248) !important;
+        }
     </style>
 </head>
 
@@ -660,7 +664,7 @@
                             @csrf
 
                             <div class="form-group text-center">
-                                <h5>CREATE CATEGORY</h5>
+                                <h5 class="colorDefault">CREATE CATEGORY</h5>
                             </div>
 
                             <div class="form-group">
@@ -670,12 +674,12 @@
                                             style="width: 200px; height: 200px;">
                                     </center>
                                 </a>
-                                <input id="mFile" type="file" style="display: none;" name=""
+                                <input id="mFile" type="file" style="display: none;" name="imagePath"
                                     onchange="previewImage(event)">
                             </div>
 
                             <div class="form-group">
-                                <label for="flashCardName">Category Name:</label>
+                                <label for="flashCardName" class="colorDefault">Category Name:</label>
                                 <input required type="text" class="form-control" name="categoryName"
                                     id="">
                             </div>
@@ -712,19 +716,47 @@
         });
     </script>
 
-    @if (session()->pull('successLogin'))
+    @if (session()->pull('successAddCategory'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Login Successfully',
+                    title: 'Successfully Added Category',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLogin') }}
+        {{ session()->forget('successAddCategory') }}
+    @endif
+    @if (session()->pull('errorAddCategory'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Add Category',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorAddCategory') }}
+    @endif
+    @if (session()->pull('errorMimeTypeInvalid'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'File Format Not Valid, Only Image Types Are Accepted',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorMimeTypeInvalid') }}
     @endif
 </body>
 
