@@ -15,5 +15,7 @@ class Category extends Model
         'categoryID',
         "categoryName",
         "imagePath",
+        "accountID",
+        "createdBy",
     ];
 }
