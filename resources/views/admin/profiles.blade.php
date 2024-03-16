@@ -85,6 +85,10 @@
                                 <li class="nav-divider"></li>
                                 <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/category">
+                                        <img class="nav-icon" src="/category.svg" alt="" srcset=""> Category</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/flashcard">
                                         <img class="nav-icon" src="/card.svg" alt="" srcset=""> Flash
                                         Card</a>

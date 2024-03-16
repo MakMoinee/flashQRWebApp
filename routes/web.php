@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminAccountActivationController;
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminFlashCardController;
 use App\Http\Controllers\AdminPersonalDetailsController;
@@ -31,4 +32,5 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:10,1');
     Route::resource("/profiles", AdminPersonalDetailsController::class)->middleware('throttle:10,1');
     Route::resource("/flashcard", AdminFlashCardController::class)->middleware('throttle:10,1');
+    Route::resource("/category",AdminCategoryController::class)->middleware('throttle:10,1');
 });
