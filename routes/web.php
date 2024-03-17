@@ -24,15 +24,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['general'])->group(function () {
-    Route::get('/', [WelcomeController::class, 'index'])->middleware('throttle:10,1');
-    Route::get('/logout', [LogoutController::class, 'index'])->middleware('throttle:10,1');
+    Route::get('/', [WelcomeController::class, 'index'])->middleware('throttle:20,1');
+    Route::get('/logout', [LogoutController::class, 'index'])->middleware('throttle:20,1');
 
-    Route::resource("/create", CreateAccountController::class)->middleware('throttle:10,1');
-    Route::resource("/login", LoginController::class)->middleware('throttle:10,1');
-    Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:10,1');
-    Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:10,1');
-    Route::resource("/profiles", AdminPersonalDetailsController::class)->middleware('throttle:10,1');
-    Route::resource("/flashcard", AdminFlashCardController::class)->middleware('throttle:10,1');
-    Route::resource("/category", AdminCategoryController::class)->middleware('throttle:10,1');
-    Route::get('/generate-qrcode/{category}/{flashcard}', [QRCodeController::class, 'generateQRCode'])->middleware('throttle:10,1')->name('generate.qrcode');
+    Route::resource("/create", CreateAccountController::class)->middleware('throttle:20,1');
+    Route::resource("/login", LoginController::class)->middleware('throttle:20,1');
+    Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:20,1');
+    Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:20,1');
+    Route::resource("/profiles", AdminPersonalDetailsController::class)->middleware('throttle:20,1');
+    Route::resource("/flashcard", AdminFlashCardController::class)->middleware('throttle:20,1');
+    Route::resource("/category", AdminCategoryController::class)->middleware('throttle:20,1');
+    Route::get('/generate-qrcode/{category}/{flashcard}', [QRCodeController::class, 'generateQRCode'])->middleware('throttle:20,1')->name('generate.qrcode');
 });
