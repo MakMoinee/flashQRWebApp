@@ -29,7 +29,7 @@
     <script src="./assets/files/667090843876081" async=""></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-         .sidebar {
+        .sidebar {
             --cui-sidebar-bg: rgb(0, 145, 248) !important;
             color: white;
         }
@@ -50,10 +50,6 @@
         .card-header {
             background: rgb(0, 145, 248) !important;
             color: white;
-        }
-
-        .colorDefault {
-            color: rgb(0, 145, 248) !important;
         }
     </style>
 </head>
@@ -83,15 +79,17 @@
                                     </a>
                                 </li>
                                 <li class="nav-title">Administrative</li>
-                                <li class="nav-item"><a class="nav-link " href="/activations">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/activations">
                                         <img class="nav-icon" src="/activate.svg" alt="" srcset=""> Account
-                                        Activation</a></li>
+                                        Activation</a>
+                                </li>
                                 <li class="nav-title">Account Management</li>
-                                <li class="nav-item"><a class="nav-link active" href="/profiles">
+                                <li class="nav-item"><a class="nav-link" href="/activations">
                                         <img class="nav-icon" src="/personal.svg" alt="" srcset="">
                                         Personal Details</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="/password">
+                                <li class="nav-item"><a class="nav-link" href="/activations">
                                         <img class="nav-icon" src="/password.svg" alt="" srcset="">
                                         Password and Security</a>
                                 </li>
@@ -113,12 +111,12 @@
                                         Quiz</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/generateqr">
+                                    <a class="nav-link active" href="/generateqr">
                                         <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
                                         QR</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/scanqr">
+                                    <a class="nav-link active" href="/scanqr">
                                         <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
@@ -207,7 +205,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Personal Details</span></li>
+                        <li class="breadcrumb-item active"><span>Generate QR Code</span></li>
                     </ol>
                 </nav>
             </div>
@@ -215,133 +213,66 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
 
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <img style="float: left;" src="/profile.png" width="120" height="120"
-                                    class="img-responsive" alt="" srcset="">
-                                <h2 style="float:left;margin-left: 30px; margin-top: 40px;">Upload A New Photo</h2>
-                                <button style="float: right; margin-top: 40px;"
-                                    class="btn btn-warning text-white">Update</button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <span style="font-size:25px;">GENERATE QR CODE</span>
                             </div>
-                        </div>
+                            <div class="card-body">
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
+                                            <tr class="align-middle">
+                                                <th class="text-center">
+                                                    <svg class="icon">
+                                                        <use
+                                                            xlink:href="vendors/@coreui/icons/svg/free.svg#cil-people">
+                                                        </use>
+                                                    </svg>
+                                                </th>
+                                                <th>Category Name</th>
+                                                <th class="text-center">Flash Card Name</th>
+                                                <th>Date</th>
+                                                <th class="text-center">QR</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($qr as $item)
+                                                <tr class="align-middle">
+                                                    <td class="text-center">
 
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h3 style="color: rgb(0, 145, 248)">PERSONAL DETAILS</h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <label for="lastName">LAST NAME</label>
-                                <br>
-                                <input type="text" class="form-control" name="lastName" id=""
-                                    value="{{ $currentUser['lastName'] }}">
-                            </div>
-                            <div class="col-lg-4">
-                                <label for="firstName">FIRST NAME</label>
-                                <br>
-                                <input type="text" class="form-control" name="firstName" id=""
-                                    value="{{ $currentUser['firstName'] }}">
-                            </div>
-                            <div class="col-lg-4">
-                                <label for="middleName">MIDDLE NAME</label>
-                                <br>
-                                <input type="text" class="form-control" name="middleName" id=""
-                                    value="{{ $currentUser['middleName'] }}">
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-lg-6">
-                                <label for="birthDate">BIRTH DATE</label>
-                                <div class="row mt-1">
-                                    <div class="col-lg-12">
-                                        <input required class="form-control" type="number" name="day"
-                                            id="" placeholder="Day"
-                                            style="width: 125px !important; float: left;" min="1"
-                                            max="31">
-                                        <select required class="form-control" name="month" id=""
-                                            style="width: 135px !important; float: left;">
-                                            <option value="">Mon</option>
-                                            <option value="1">Jan</option>
-                                            <option value="2">Feb</option>
-                                            <option value="3">Mar</option>
-                                            <option value="4">Apr</option>
-                                            <option value="5">May</option>
-                                            <option value="6">Jun</option>
-                                            <option value="7">Jul</option>
-                                            <option value="8">Aug</option>
-                                            <option value="9">Sep</option>
-                                            <option value="10">Oct</option>
-                                            <option value="11">Nov</option>
-                                            <option value="12">Dec</option>
-                                        </select>
-                                        <select required class="form-control" name="year" id=""
-                                            style="width: 135px !important; float: left;">
-                                            <option value="">Year</option>
-                                            @foreach ($yrs as $item)
-                                                <option value="{{ $item }}">{{ $item }}</option>
+                                                    </td>
+                                                    <td>
+                                                        {{ $item['categoryName'] }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $item['flashCardName'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-warning text-white"
+                                                            data-coreui-target="#generateQRModal"
+                                                            data-coreui-toggle="modal"
+                                                            onclick="triggerGenerate({{ $item['flashCardID'] }})">
+                                                            Generate QR
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
                                             @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-5" style="float: left;margin-right: 20px;">
-                                            <label for="studentNumber">STUDENT NUMBER</label>
-                                            <input type="text" class="form-control" name="" id=""
-                                                value="{{ $currentUser['studentNumber'] }}" title="Student Number">
-                                        </div>
-                                        <div class="col-lg-5" style="float: left; ">
-                                            <label for="level">LEVEL</label>
-                                            <input type="text" class="form-control" name="" id=""
-                                                value="{{ $currentUser['level'] }}" title="Level">
-                                        </div>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <label for="guardian">GUARDIAN</label>
-                                <br>
-                                <input type="text" class="form-control" name="guardian" id=""
-                                    value="{{ $currentUser['guardian'] }}">
-                            </div>
-                            <div class="col-lg-4">
-
-                            </div>
-                            <div class="col-lg-4">
-
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-lg-4">
-                                <label for="contactNumber">CONTACT NUMBER</label>
-                                <br>
-                                <input type="text" class="form-control" name="contactNumber" id=""
-                                    value="{{ $currentUser['contactNumber'] }}">
-                            </div>
-                            <div class="col-lg-4">
-
-                            </div>
-                            <div class="col-lg-4">
-                                <button style="float: right;margin-top: 20px;" type="submit"
-                                    class="btn btn-warning text-white">Submit Changes</button>
-                            </div>
-                        </div>
-
                     </div>
+
                 </div>
 
             </div>
@@ -357,86 +288,212 @@
     <script src="./assets/files/coreui.bundle.min.js.download"></script>
     <script src="./assets/files/simplebar.min.js.download"></script>
 
-    <script src="./assets/files/chart.min.js.download"></script>
-    <script src="./assets/files/coreui-chartjs.js.download"></script>
     <script src="./assets/files/coreui-utils.js.download"></script>
-    <script src="./assets/files/main.js.download"></script>
     <script></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script>
+        function triggerGenerate(flashCardID) {
+            let img = document.getElementById('addPhoto');
+            img.src = `/generate-qrcode/${flashCardID}`;
 
-    @if (session()->pull('successActivate'))
+        }
+
+        function downloadQRCode() {
+            // Get the iframe element
+            var iframe = document.getElementById('addPhoto');
+
+            // Open a new window to print the content of the iframe
+            var win = window.open('', '_blank');
+            win.document.write(iframe.contentDocument.documentElement.innerHTML);
+            win.document.close();
+
+            // Wait for the content of the new window to fully load
+            win.addEventListener('load', function() {
+                // Capture the printed content using html2canvas
+                html2canvas(win.document.body, {
+                    logging: false, // Disable logging (optional)
+                    scale: 2, // Increase scale for higher quality (optional)
+                }).then(function(canvas) {
+                    // Convert the canvas content to a data URL representing a PNG image
+                    var dataURL = canvas.toDataURL('image/png');
+
+                    // Convert the data URL to a Blob
+                    var blob = dataURLtoBlob(dataURL);
+
+                    // Create a URL for the Blob
+                    var url = URL.createObjectURL(blob);
+
+                    // Create an anchor element to trigger the download
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'qr_code.png';
+
+                    // Simulate a click on the anchor element to initiate the download
+                    a.click();
+
+                    // Cleanup: Revoke the URL and close the window after printing
+                    URL.revokeObjectURL(url);
+                    win.close();
+                });
+            });
+        }
+
+        // Convert data URL to Blob
+        function dataURLtoBlob(dataURL) {
+            var parts = dataURL.split(';base64,');
+            var contentType = parts[0].split(':')[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+            var uInt8Array = new Uint8Array(rawLength);
+
+            for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+
+            return new Blob([uInt8Array], {
+                type: contentType
+            });
+        }
+    </script>
+    <div class="modal fade " id="generateQRModal" tabindex="-1" role="dialog"
+        aria-labelledby="generateQRModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row ">
+                        <div class="form-group text-center">
+                            <h5 style="color: rgb(0, 145, 248) !important">GENERATE QR</h5>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="form-group text-center">
+                            <center>
+                                <iframe id="addPhoto" allowfullscreen src="" alt="" width="250"
+                                    height="250" frameborder="0" scrolling="no"
+                                    style="overflow: hidden; margin-left: 20px;"></iframe>
+                            </center>
+                        </div>
+                        <br>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary" id="downloadQRButton"
+                                onclick="downloadQRCode()">DOWNLOAD</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @if (session()->pull('successDeleteFlashCard'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Activated User',
+                    title: 'Successfully Deleted Flash Card',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successActivate') }}
+        {{ session()->forget('successDeleteFlashCard') }}
     @endif
 
-    @if (session()->pull('errorActivate'))
+    @if (session()->pull('successAddFlashCard'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Added Flash Card',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successAddFlashCard') }}
+    @endif
+
+    @if (session()->pull('successUpdateFlashCard'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Updated Flash Card',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successUpdateFlashCard') }}
+    @endif
+
+    @if (session()->pull('errorUpdateFlashCard'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Activate User, Please Try Again Later',
+                    title: 'Failed To Update Flash Card, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorActivate') }}
+        {{ session()->forget('errorUpdateFlashCard') }}
     @endif
 
-    @if (session()->pull('successDeactivate'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Successfully Deactivated User',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('successDeactivate') }}
-    @endif
-
-    @if (session()->pull('errorDeactivate'))
+    @if (session()->pull('errorFlashCardExist'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Deactivate User, Please Try Again Later',
+                    title: 'Failed To Update Flash Card, Flash Card Name And Category Already Exist',
                     showConfirmButton: false,
-                    timer: 800
+                    timer: 1000
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorDeactivate') }}
+        {{ session()->forget('errorFlashCardExist') }}
     @endif
 
-    @if (session()->pull('successLogin'))
+    @if (session()->pull('errorDeleteFlashCard'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
-                    title: 'Login Successfully',
+                    icon: 'error',
+                    title: 'Failed To Delete Flash Card, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLogin') }}
+        {{ session()->forget('errorDeleteFlashCard') }}
     @endif
+
+    @if (session()->pull('errorAddFlashCard'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Add Flash Card, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorAddFlashCard') }}
+    @endif
+
 </body>
 
 </html>

@@ -99,7 +99,10 @@
                                         <img class="nav-icon" src="/card.svg" alt="" srcset=""> Flash
                                         Card</a>
                                 </li>
-                                <li class="nav-item">
+<li class="nav-item">
+                                    <a class="nav-link" href="/quiz">
+                                        <img class="nav-icon" src="/quiz.svg" alt="" srcset=""> Quiz</a>
+                                </li>                                <li class="nav-item">
                                     <a class="nav-link" href="/generateqr">
                                         <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
                                         QR</a>

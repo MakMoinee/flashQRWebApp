@@ -106,8 +106,18 @@
                                         Card</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/quiz">
+                                        <img class="nav-icon" src="/quiz.svg" alt="" srcset="">
+                                        Quiz</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/generateqr">
                                         <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
+                                        QR</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/scanqr">
+                                        <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
                                 <li class="nav-title">Record Management</li>
@@ -237,8 +247,7 @@
                                                 <tr class="align-middle">
                                                     <td class="text-center">
                                                         <div class="avatar avatar-md"><img class="avatar-img"
-                                                                src="{{ $item['imagePath'] }}"
-                                                                alt=""><span
+                                                                src="{{ $item['imagePath'] }}" alt=""><span
                                                                 class="avatar-status bg-success"></span>
                                                         </div>
                                                     </td>
@@ -570,7 +579,7 @@
             }
         }
 
-        function previewUpdateImage(event){
+        function previewUpdateImage(event) {
             var files = event.currentTarget.files;
             if (files && files[0]) {
                 var reader = new FileReader();

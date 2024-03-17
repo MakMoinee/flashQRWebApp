@@ -92,7 +92,8 @@
                                 <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/category">
-                                        <img class="nav-icon" src="/category.svg" alt="" srcset=""> Category</a>
+                                        <img class="nav-icon" src="/category.svg" alt="" srcset="">
+                                        Category</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/flashcard">
@@ -100,8 +101,18 @@
                                         Card</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/quiz">
+                                        <img class="nav-icon" src="/quiz.svg" alt="" srcset="">
+                                        Quiz</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/generateqr">
                                         <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
+                                        QR</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/scanqr">
+                                        <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
                                 <li class="nav-title">Record Management</li>

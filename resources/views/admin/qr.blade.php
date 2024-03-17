@@ -106,8 +106,18 @@
                                         Card</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/quiz">
+                                        <img class="nav-icon" src="/quiz.svg" alt="" srcset="">
+                                        Quiz</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link active" href="/generateqr">
                                         <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
+                                        QR</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/scanqr">
+                                        <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
                                 <li class="nav-title">Record Management</li>

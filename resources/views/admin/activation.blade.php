@@ -29,9 +29,13 @@
     <script src="./assets/files/667090843876081" async=""></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .sidebar {
+         .sidebar {
             --cui-sidebar-bg: rgb(0, 145, 248) !important;
             color: white;
+        }
+
+        .sidebar-nav .nav-link {
+            color: rgb(255, 255, 255) !important;
         }
 
         .sidebar-nav .nav-link.active {
@@ -41,6 +45,15 @@
 
         body {
             font-family: "Sen", sans-serif;
+        }
+
+        .card-header {
+            background: rgb(0, 145, 248) !important;
+            color: white;
+        }
+
+        .colorDefault {
+            color: rgb(0, 145, 248) !important;
         }
     </style>
 </head>
@@ -86,7 +99,8 @@
                                 <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/category">
-                                        <img class="nav-icon" src="/category.svg" alt="" srcset=""> Category</a>
+                                        <img class="nav-icon" src="/category.svg" alt="" srcset="">
+                                        Category</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/flashcard">
@@ -94,18 +108,30 @@
                                         Card</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/quiz">
+                                        <img class="nav-icon" src="/quiz.svg" alt="" srcset="">
+                                        Quiz</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/generateqr">
                                         <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
+                                        QR</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/scanqr">
+                                        <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
                                 <li class="nav-title">Record Management</li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/user_records">
-                                        <img class="nav-icon" src="/userrecords.svg" alt="" srcset=""> User Records</a>
+                                        <img class="nav-icon" src="/userrecords.svg" alt="" srcset="">
+                                        User Records</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/history">
-                                        <img class="nav-icon" src="/history.svg" alt="" srcset=""> History Records</a>
+                                        <img class="nav-icon" src="/history.svg" alt="" srcset="">
+                                        History Records</a>
                                 </li>
 
                             </div>
