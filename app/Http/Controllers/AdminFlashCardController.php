@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\FlashCard;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class AdminFlashCardController extends Controller
 {
@@ -131,14 +133,117 @@ class AdminFlashCardController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+
+            if ($accountType != 1) {
+                return redirect("/");
+            }
+
+            if ($request->btnUpdateFlashCard) {
+                $data = json_decode(DB::table('flash_cards')->where('flashCardName', '=', $request->updateFlashCardName)->where('categoryID', '=', $request->updateCategory)->where('flashCardID', '<>', $id)->get(), true);
+                if (count($data) > 0) {
+                    session()->put("errorFlashCardExist", true);
+                } else {
+                    $files = $request->file('updateImagePath');
+                    $fileName = "";
+
+                    if ($files) {
+                        try {
+                            $originalDirectoryPath = $request->origImagePath;
+                            if ($originalDirectoryPath) {
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . $originalDirectoryPath;
+                                File::delete($destinationPath);
+                            }
+                        } catch (Exception $e1) {
+                        }
+
+                        $mimeType = $files->getMimeType();
+                        if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/flashcards';
+                            $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
+                            $isFile = $files->move($destinationPath,  $fileName);
+                            chmod($destinationPath, 0755);
+
+                            if ($fileName != "") {
+                                $fileName = "/data/flashcards/" . $fileName;
+
+                                $updateCount = DB::table('flash_cards')->where('flashCardID', '=', $id)->update([
+                                    'flashCardName' => $request->updateFlashCardName,
+                                    'categoryID' => $request->updateCategory,
+                                    'description' => $request->description,
+                                    'imagePath' => $fileName
+                                ]);
+
+                                if ($updateCount > 0) {
+                                    session()->put("successUpdateFlashCard", true);
+                                } else {
+                                    session()->put("errorUpdateFlashCard", true);
+                                }
+                            }
+                        }
+                    } else {
+                        $updateCount = DB::table('flash_cards')->where('flashCardID', '=', $id)->update([
+                            'flashCardName' => $request->updateFlashCardName,
+                            'categoryID' => $request->updateCategory,
+                            'description' => $request->description
+                        ]);
+
+                        if ($updateCount > 0) {
+                            session()->put("successUpdateFlashCard", true);
+                        } else {
+                            session()->put("errorUpdateFlashCard", true);
+                        }
+                    }
+                }
+            }
+
+            return redirect("/flashcard");
+        }
+        return redirect("/");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+
+            if ($accountType != 1) {
+                return redirect("/");
+            }
+
+            if ($request->btnDeleteFlashCard) {
+                $data = json_decode(DB::table('flash_cards')->where('flashCardID', '=', $id)->get(), true);
+                if (count($data) > 0) {
+                    try {
+                        $originalDirectoryPath = $request->imagePath;
+                        if ($originalDirectoryPath) {
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . $originalDirectoryPath;
+                            File::delete($destinationPath);
+                        }
+                    } catch (Exception $e1) {
+                    }
+
+                    $deleteCount = DB::table('flash_cards')->where('flashCardID', '=', $id)->delete();
+                    if ($deleteCount > 0) {
+                        session()->put("successDeleteFlashCard", true);
+                    } else {
+                        session()->put("errorDeleteFlashCard", true);
+                    }
+                }
+            }
+
+            return redirect("/flashcard");
+        }
+        return redirect("/");
     }
 }

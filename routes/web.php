@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminPersonalDetailsController;
 use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +33,6 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:10,1');
     Route::resource("/profiles", AdminPersonalDetailsController::class)->middleware('throttle:10,1');
     Route::resource("/flashcard", AdminFlashCardController::class)->middleware('throttle:10,1');
-    Route::resource("/category",AdminCategoryController::class)->middleware('throttle:10,1');
+    Route::resource("/category", AdminCategoryController::class)->middleware('throttle:10,1');
+    Route::get('/generate-qrcode/{category}/{flashcard}', [QRCodeController::class, 'generateQRCode'])->middleware('throttle:10,1')->name('generate.qrcode');
 });

@@ -238,7 +238,7 @@
                                                     <td class="text-center">
                                                         <div class="avatar avatar-md"><img class="avatar-img"
                                                                 src="{{ $item['imagePath'] }}"
-                                                                alt="user@email.com"><span
+                                                                alt=""><span
                                                                 class="avatar-status bg-success"></span>
                                                         </div>
                                                     </td>
@@ -258,10 +258,14 @@
                                                         {{ $item['createdBy'] }}
                                                     </td>
                                                     <td>
-                                                        <button class="btn">
+                                                        <button class="btn" data-coreui-toggle="modal"
+                                                            data-coreui-target="#updateFlashCardModal"
+                                                            onclick="triggerUpdate({{ $item['flashCardID'] }},'{{ $item['imagePath'] }}','{{ $item['flashCardName'] }}','{{ $item['categoryID'] }}','{{ $item['description'] }}')">
                                                             <img src="/edit.svg" alt="" srcset="">
                                                         </button>
-                                                        <button class="btn">
+                                                        <button class="btn" data-coreui-toggle="modal"
+                                                            data-coreui-target="#deleteFlashCardModal"
+                                                            onclick="triggerDelete({{ $item['flashCardID'] }},'{{ $item['imagePath'] }}')">
                                                             <img src="/fail.svg" alt="" srcset="">
                                                         </button>
                                                     </td>
@@ -331,7 +335,8 @@
                                 <select required class="form-control" name="category" id="">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $item)
-                                        <option value="{{ $item['categoryID'] }}">{{ $item['categoryName'] }}</option>
+                                        <option value="{{ $item['categoryID'] }}">{{ $item['categoryName'] }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -354,6 +359,112 @@
         </div>
     </div>
 
+    <div class="modal fade " id="updateFlashCardModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateFlashCardModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row ">
+                        <form id="updateFormFlashCard" action="" method="POST" enctype="multipart/form-data"
+                            autocomplete="off">
+                            @method('put')
+                            @csrf
+
+                            <div class="form-group text-center">
+                                <h5>UPDATE FLASH CARD</h5>
+                            </div>
+                            <div class="form-group">
+                                <a onclick="document.getElementById('updateFile').click();">
+                                    <center>
+                                        <img id="updatePhoto" src="" alt="" srcset=""
+                                            style="width: 200px; height: 200px;">
+                                    </center>
+                                </a>
+                                <input id="updateFile" type="file" style="display: none;" name="updateImagePath"
+                                    onchange="previewUpdateImage(event)">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="updateFlashCardName">Flash Card Name:</label>
+                                <input required type="text" class="form-control" name="updateFlashCardName"
+                                    id="updateFlashCardName">
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="categoryName">Category Name:</label>
+                                <select required class="form-control" name="updateCategory" id="updateCategory">
+                                    <option value="">Select Category</option>
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item['categoryID'] }}">{{ $item['categoryName'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="description">Description:</label>
+                                <input required class="form-control" type="text" name="description"
+                                    id="updateDesc">
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                    <button type="submit" class="btn btn-warning" name="btnUpdateFlashCard" value="yes"
+                        style="color:white !important;">Proceed Update</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="deleteFlashCardModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteFlashCardModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row ">
+                        <form id="deleteFormFlashCard" action="" method="POST" enctype="multipart/form-data"
+                            autocomplete="off">
+                            @method('delete')
+                            @csrf
+
+                            <div class="form-group text-center">
+                                <h5>DELETE FLASH CARD</h5>
+                            </div>
+                            <div class="form-group text-center">
+                                <h6>Are You Sure You Want To Delete This Flash Card?</h6>
+                                <input type="hidden" id="deleteImagePath" name="deleteImagePath">
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                    <button type="submit" class="btn btn-danger" name="btnDeleteFlashCard" value="yes"
+                        style="color:white !important;">Proceed Deletion</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @if (session()->pull('successDeleteFlashCard'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Deleted Flash Card',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successDeleteFlashCard') }}
+    @endif
+
     @if (session()->pull('successAddFlashCard'))
         <script>
             setTimeout(() => {
@@ -367,6 +478,66 @@
             }, 500);
         </script>
         {{ session()->forget('successAddFlashCard') }}
+    @endif
+
+    @if (session()->pull('successUpdateFlashCard'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Updated Flash Card',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successUpdateFlashCard') }}
+    @endif
+
+    @if (session()->pull('errorUpdateFlashCard'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Update Flash Card, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorUpdateFlashCard') }}
+    @endif
+
+    @if (session()->pull('errorFlashCardExist'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Update Flash Card, Flash Card Name And Category Already Exist',
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorFlashCardExist') }}
+    @endif
+
+    @if (session()->pull('errorDeleteFlashCard'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Delete Flash Card, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorDeleteFlashCard') }}
     @endif
 
     @if (session()->pull('errorAddFlashCard'))
@@ -397,6 +568,46 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
+        }
+
+        function previewUpdateImage(event){
+            var files = event.currentTarget.files;
+            if (files && files[0]) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('updatePhoto');
+                    if (output) {
+                        output.src = reader.result;
+                    }
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        }
+
+        function triggerDelete(id, imagePath) {
+            let form = document.getElementById('deleteFormFlashCard');
+            form.action = `/flashcard/${id}`;
+
+            let img = document.getElementById('deleteImagePath');
+            img.value = imagePath;
+        }
+
+        function triggerUpdate(id, imagePath, flashCardName, category, desc) {
+            let form = document.getElementById('updateFormFlashCard');
+            form.action = `/flashcard/${id}`;
+
+            let img = document.getElementById('updatePhoto');
+            img.src = imagePath;
+
+            let fName = document.getElementById('updateFlashCardName');
+            fName.value = flashCardName;
+
+            let description = document.getElementById('updateDesc');
+            description.value = desc;
+
+            let c = document.getElementById('updateCategory');
+            c.value = category;
+
         }
     </script>
 </body>
