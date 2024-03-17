@@ -106,17 +106,17 @@
                                         Card</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/quiz">
+                                    <a class="nav-link active" href="/quiz">
                                         <img class="nav-icon" src="/quiz.svg" alt="" srcset="">
                                         Quiz</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/generateqr">
+                                    <a class="nav-link" href="/generateqr">
                                         <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
                                         QR</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/scanqr">
+                                    <a class="nav-link" href="/scanqr">
                                         <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
@@ -205,7 +205,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Generate QR Code</span></li>
+                        <li class="breadcrumb-item active"><span>Quiz</span></li>
                     </ol>
                 </nav>
             </div>
@@ -217,7 +217,9 @@
                     <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <span style="font-size:25px;">GENERATE QR CODE</span>
+                                <span style="font-size:25px;">QUIZZES</span>
+                                <button style="float: right;font-size:15px;" class="btn btn-warning text-white"
+                                    data-coreui-target="#addQuizModal" data-coreui-toggle="modal">Add</button>
                             </div>
                             <div class="card-body">
                                 <br>
@@ -240,32 +242,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($qr as $item)
-                                                <tr class="align-middle">
-                                                    <td class="text-center">
 
-                                                    </td>
-                                                    <td>
-                                                        {{ $item['categoryName'] }}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {{ $item['flashCardName'] }}
-                                                    </td>
-                                                    <td>
-                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-warning text-white"
-                                                            data-coreui-target="#generateQRModal"
-                                                            data-coreui-toggle="modal"
-                                                            onclick="triggerGenerate({{ $item['flashCardID'] }})">
-                                                            Generate QR
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

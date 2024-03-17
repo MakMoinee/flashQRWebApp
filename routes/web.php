@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminFlashCardController;
 use App\Http\Controllers\AdminGenerateQrController;
 use App\Http\Controllers\AdminPersonalDetailsController;
+use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -36,6 +37,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/flashcard", AdminFlashCardController::class)->middleware('throttle:20,1');
     Route::resource("/category", AdminCategoryController::class)->middleware('throttle:20,1');
     Route::resource("/generateqr", AdminGenerateQrController::class)->middleware('throttle:20,1');
+    Route::resource("/quiz", AdminQuizController::class)->middleware('throttle:20,1');
 });
 
 
