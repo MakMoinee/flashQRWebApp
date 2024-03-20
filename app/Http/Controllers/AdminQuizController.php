@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FlashCard;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminQuizController extends Controller
 {
@@ -20,8 +23,11 @@ class AdminQuizController extends Controller
                 return redirect("/");
             }
 
+            $flashCards = FlashCard::all();
+            $quizzes = json_decode(DB::table('vwquizzes')->get(), true);
 
-            return view("admin.quiz");
+
+            return view("admin.quiz", ['flashCards' => $flashCards, 'quizzes' => $quizzes]);
         }
         return redirect("/");
     }
@@ -39,7 +45,31 @@ class AdminQuizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+            if ($accountType != 1) {
+                return redirect("/");
+            }
+
+            if ($request->btnCreateQuiz) {
+                $newQuiz = new Quiz();
+                $newQuiz->flashCardID = $request->flashCard;
+                $newQuiz->question = $request->question;
+                $newQuiz->keyAnswer = boolval($request->keyAnswer);
+                $isSave = $newQuiz->save();
+                if ($isSave) {
+                    session()->put('successSaveQuiz', true);
+                } else {
+                    session()->put('errorSaveQuiz', true);
+                }
+            }
+
+            return redirect("/quiz");
+        }
+        return redirect("/");
     }
 
     /**

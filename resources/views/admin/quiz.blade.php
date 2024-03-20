@@ -228,20 +228,50 @@
                                         <thead class="table-light fw-semibold">
                                             <tr class="align-middle">
                                                 <th class="text-center">
-                                                    <svg class="icon">
-                                                        <use
-                                                            xlink:href="vendors/@coreui/icons/svg/free.svg#cil-people">
-                                                        </use>
-                                                    </svg>
+                                                    Quiz ID
                                                 </th>
-                                                <th>Category Name</th>
-                                                <th class="text-center">Flash Card Name</th>
-                                                <th>Date</th>
-                                                <th class="text-center">QR</th>
-                                                <th></th>
+                                                <th>Question</th>
+                                                <th class="text-center">Category Name</th>
+                                                <th>Flash Card Name</th>
+                                                <th class="text-center">Date</th>
+                                                <th>Action</th>
+                                                <th class="text-center"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($quizzes as $item)
+                                                <tr class="align-middle">
+                                                    <td class="text-center">
+                                                        {{ $item['quizID'] }}
+                                                    </td>
+                                                    <td>
+                                                        @if (strlen($item['question']) > 10)
+                                                            {{ substr($item['question'], 0, 10) }}...
+                                                        @else
+                                                            {{ $item['question'] }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $item['categoryName'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $item['flashCardName'] }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn" data-coreui-target="#updateQuizModal"
+                                                            data-coreui-toggle="modal"
+                                                            onclick="triggerUpdate({{ $item['quizID'] }},'{{ $item['question'] }}',{{ $item['flashCardID'] }},{{ $item['keyAnswer'] }})">
+                                                            <img src="/edit.svg" alt="" srcset="">
+                                                        </button>
+                                                        <button class="btn">
+                                                            <img src="/fail.svg" alt="" srcset="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>
@@ -269,98 +299,133 @@
     <script></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <script>
-        function triggerGenerate(flashCardID) {
-            let img = document.getElementById('addPhoto');
-            img.src = `/generate-qrcode/${flashCardID}`;
+        function triggerUpdate(quizID, question, flashCardID, keyAnswer) {
+            let form = document.getElementById('updateQuizForm');
+            form.action = `/quiz/${quizID}`;
 
-        }
+            let f = document.getElementById('updateFlashCard');
+            f.value = `${flashCardID}`;
 
-        function downloadQRCode() {
-            // Get the iframe element
-            var iframe = document.getElementById('addPhoto');
+            let q = document.getElementById('updateQuestion');
+            q.value = question;
 
-            // Open a new window to print the content of the iframe
-            var win = window.open('', '_blank');
-            win.document.write(iframe.contentDocument.documentElement.innerHTML);
-            win.document.close();
 
-            // Wait for the content of the new window to fully load
-            win.addEventListener('load', function() {
-                // Capture the printed content using html2canvas
-                html2canvas(win.document.body, {
-                    logging: false, // Disable logging (optional)
-                    scale: 2, // Increase scale for higher quality (optional)
-                }).then(function(canvas) {
-                    // Convert the canvas content to a data URL representing a PNG image
-                    var dataURL = canvas.toDataURL('image/png');
-
-                    // Convert the data URL to a Blob
-                    var blob = dataURLtoBlob(dataURL);
-
-                    // Create a URL for the Blob
-                    var url = URL.createObjectURL(blob);
-
-                    // Create an anchor element to trigger the download
-                    var a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'qr_code.png';
-
-                    // Simulate a click on the anchor element to initiate the download
-                    a.click();
-
-                    // Cleanup: Revoke the URL and close the window after printing
-                    URL.revokeObjectURL(url);
-                    win.close();
-                });
-            });
-        }
-
-        // Convert data URL to Blob
-        function dataURLtoBlob(dataURL) {
-            var parts = dataURL.split(';base64,');
-            var contentType = parts[0].split(':')[1];
-            var raw = window.atob(parts[1]);
-            var rawLength = raw.length;
-            var uInt8Array = new Uint8Array(rawLength);
-
-            for (var i = 0; i < rawLength; ++i) {
-                uInt8Array[i] = raw.charCodeAt(i);
+            let k = document.getElementById('updateKeyAnswer');
+            if (keyAnswer) {
+                k.value = "true";
+            } else {
+                k.value = "false";
             }
 
-            return new Blob([uInt8Array], {
-                type: contentType
-            });
         }
     </script>
-    <div class="modal fade " id="generateQRModal" tabindex="-1" role="dialog"
-        aria-labelledby="generateQRModalLabel" aria-hidden="true">
+
+    <div class="modal fade " id="addQuizModal" tabindex="-1" role="dialog" aria-labelledby="addQuizModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row ">
-                        <div class="form-group text-center">
-                            <h5 style="color: rgb(0, 145, 248) !important">GENERATE QR</h5>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="form-group text-center">
-                            <center>
-                                <iframe id="addPhoto" allowfullscreen src="" alt="" width="250"
-                                    height="250" frameborder="0" scrolling="no"
-                                    style="overflow: hidden; margin-left: 20px;"></iframe>
-                            </center>
-                        </div>
-                        <br>
-                        <div class="form-group text-center">
-                            <button class="btn btn-primary" id="downloadQRButton"
-                                onclick="downloadQRCode()">DOWNLOAD</button>
-                        </div>
+                        <form action="{{ route('quiz.store') }}" method="POST" enctype="multipart/form-data"
+                            autocomplete="off">
+                            @method('post')
+                            @csrf
+
+                            <div class="form-group text-center">
+                                <h5>ADD QUIZ</h5>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="flashCardName">Flash Card Name:</label>
+                                <br>
+                                <select class="form-control" name="flashCard" id="">
+                                    <option value="">Select Flash Card</option>
+                                    @foreach ($flashCards as $item)
+                                        <option value="{{ $item['flashCardID'] }}">{{ $item['flashCardName'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="question">Question:</label>
+                                <br>
+                                <textarea style="height: 200px;" class="form-control" type="text" name="question" id=""></textarea>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="keyAnswer">Key Answer:</label>
+                                <select required class="form-control" name="keyAnswer" id="">
+                                    <option value="">Select Answer</option>
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
                         style="color:white !important;">Close</button>
+                    <button type="submit" class="btn btn-warning" name="btnCreateQuiz" value="yes"
+                        style="color:white !important;">Proceed Creation</button>
                 </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="updateQuizModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateQuizModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row ">
+                        <form id="updateQuizForm" action="" method="POST" enctype="multipart/form-data"
+                            autocomplete="off">
+                            @method('put')
+                            @csrf
+
+                            <div class="form-group text-center">
+                                <h5>UPDATE QUIZ</h5>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="flashCardName">Flash Card Name:</label>
+                                <br>
+                                <select id="updateFlashCard" class="form-control" name="flashCard" id="">
+                                    <option value="" >Select Flash Card</option>
+                                    @foreach ($flashCards as $item)
+                                        <option value="{{ $item['flashCardID'] }}">{{ $item['flashCardName'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="question">Question:</label>
+                                <br>
+                                <textarea id="updateQuestion" style="height: 200px;" class="form-control" type="text" name="question"
+                                    id=""></textarea>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="keyAnswer">Key Answer:</label>
+                                <select id="updateKeyAnswer" required class="form-control" name="keyAnswer"
+                                    id="">
+                                    <option value="">Select Answer</option>
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                    <button type="submit" class="btn btn-warning" name="btnUpdateQuiz" value="yes"
+                        style="color:white !important;">Proceed Update</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -381,19 +446,19 @@
         {{ session()->forget('successDeleteFlashCard') }}
     @endif
 
-    @if (session()->pull('successAddFlashCard'))
+    @if (session()->pull('successSaveQuiz'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Added Flash Card',
+                    title: 'Successfully Added Quiz',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successAddFlashCard') }}
+        {{ session()->forget('successSaveQuiz') }}
     @endif
 
     @if (session()->pull('successUpdateFlashCard'))
@@ -456,19 +521,19 @@
         {{ session()->forget('errorDeleteFlashCard') }}
     @endif
 
-    @if (session()->pull('errorAddFlashCard'))
+    @if (session()->pull('errorSaveQuiz'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Add Flash Card, Please Try Again Later',
+                    title: 'Failed To Add Quiz, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorAddFlashCard') }}
+        {{ session()->forget('errorSaveQuiz') }}
     @endif
 
 </body>
