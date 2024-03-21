@@ -93,14 +93,68 @@ class AdminQuizController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+            if ($accountType != 1) {
+                return redirect("/");
+            }
+
+            if ($request->btnUpdateQuiz) {
+                $data = json_decode(DB::table('quizzes')->where('quizID', '=', $id)->get(), true);
+                if (count($data) > 0) {
+                    $updateCount = DB::table('quizzes')->where('quizID', '=', $id)->update([
+                        "question" => $request->question,
+                        "keyAnswer" => filter_var($request->keyAnswer, FILTER_VALIDATE_BOOLEAN),
+                        "flashCardID" => $request->flashCard
+                    ]);
+                    if ($updateCount > 0) {
+                        session()->put("successUpdateQuiz", true);
+                    } else {
+                        session()->put("errorUpdateQuiz", true);
+                    }
+                } else {
+                    session()->put("errorUpdateQuiz", true);
+                }
+            }
+
+            return redirect("/quiz");
+        }
+        return redirect("/");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+            if ($accountType != 1) {
+                return redirect("/");
+            }
+
+            if ($request->btnDeleteQuiz) {
+                $data = json_decode(DB::table('quizzes')->where('quizID', '=', $id)->get(), true);
+                if (count($data) > 0) {
+                    $deleteCount = DB::table('quizzes')->where('quizID', '=', $id)->delete();
+                    if ($deleteCount > 0) {
+                        session()->put("successDeleteQuiz", true);
+                    } else {
+                        session()->put("errorDeleteQuiz", true);
+                    }
+                } else {
+                    session()->put("errorDeleteQuiz", true);
+                }
+            }
+
+            return redirect("/quiz");
+        }
+        return redirect("/");
     }
 }

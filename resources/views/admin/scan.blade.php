@@ -52,6 +52,9 @@
             color: white;
         }
     </style>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
+
 </head>
 
 <body>
@@ -68,8 +71,7 @@
                     <div class="simplebar-height-auto-observer"></div>
                 </div>
                 <div class="simplebar-mask">
-                    <div class="simplebar-offset" style="right:
-              0px; bottom: 0px;">
+                    <div class="simplebar-offset" style="right:0px; bottom: 0px;">
                         <div class="simplebar-content-wrapper" tabindex="0" role="region"
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
@@ -106,7 +108,7 @@
                                         Card</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/quiz">
+                                    <a class="nav-link" href="/quiz">
                                         <img class="nav-icon" src="/quiz.svg" alt="" srcset="">
                                         Quiz</a>
                                 </li>
@@ -116,7 +118,7 @@
                                         QR</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/scanqr">
+                                    <a class="nav-link active" href="/scanqr">
                                         <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
@@ -205,7 +207,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Quiz</span></li>
+                        <li class="breadcrumb-item active"><span>SCAN QR</span></li>
                     </ol>
                 </nav>
             </div>
@@ -217,67 +219,11 @@
                     <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <span style="font-size:25px;">QUIZZES</span>
-                                <button style="float: right;font-size:15px;" class="btn btn-warning text-white"
-                                    data-coreui-target="#addQuizModal" data-coreui-toggle="modal">Add</button>
+                                <span style="font-size:25px;">SCAN QR</span>
                             </div>
                             <div class="card-body">
-                                <br>
-                                <div class="table-responsive">
-                                    <table class="table border mb-0">
-                                        <thead class="table-light fw-semibold">
-                                            <tr class="align-middle">
-                                                <th class="text-center">
-                                                    Quiz ID
-                                                </th>
-                                                <th>Question</th>
-                                                <th class="text-center">Category Name</th>
-                                                <th>Flash Card Name</th>
-                                                <th class="text-center">Date</th>
-                                                <th>Action</th>
-                                                <th class="text-center"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($quizzes as $item)
-                                                <tr class="align-middle">
-                                                    <td class="text-center">
-                                                        {{ $item['quizID'] }}
-                                                    </td>
-                                                    <td>
-                                                        @if (strlen($item['question']) > 10)
-                                                            {{ substr($item['question'], 0, 10) }}...
-                                                        @else
-                                                            {{ $item['question'] }}
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {{ $item['categoryName'] }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $item['flashCardName'] }}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn" data-coreui-target="#updateQuizModal"
-                                                            data-coreui-toggle="modal"
-                                                            onclick="triggerUpdate({{ $item['quizID'] }},'{{ $item['question'] }}',{{ $item['flashCardID'] }},{{ $item['keyAnswer'] }})">
-                                                            <img src="/edit.svg" alt="" srcset="">
-                                                        </button>
-                                                        <button class="btn" data-coreui-toggle="modal"
-                                                            data-coreui-target="#deleteQuizModal"
-                                                            onclick="triggerDelete({{ $item['quizID'] }})">
-                                                            <img src="/fail.svg" alt="" srcset="">
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <div id="output"></div>
+                                <button id="startScan" class="btn btn-primary">Start Scan</button>
                             </div>
                         </div>
                     </div>
@@ -300,176 +246,52 @@
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
     <script>
-        function triggerUpdate(quizID, question, flashCardID, keyAnswer) {
-            let form = document.getElementById('updateQuizForm');
-            form.action = `/quiz/${quizID}`;
-
-            let f = document.getElementById('updateFlashCard');
-            f.value = `${flashCardID}`;
-
-            let q = document.getElementById('updateQuestion');
-            q.value = question;
-
-
-            let k = document.getElementById('updateKeyAnswer');
-            if (keyAnswer) {
-                k.value = "true";
-            } else {
-                k.value = "false";
-            }
-
+        // Function to handle successful QR code scan
+        function onScanSuccess(qrCodeMessage) {
+            // Display the scanned QR code message
+            document.getElementById('output').innerText = qrCodeMessage;
         }
 
-        function triggerDelete(quizID) {
-            let form = document.getElementById('deleteQuizForm');
-            form.action = `/quiz/${quizID}`;
+        // Function to handle errors during QR code scanning
+        function onScanError(error) {
+            // Log the error to console
+            console.error(error);
         }
+
+        // Function to request camera access
+        function requestCameraAccess() {
+            navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                .then(function(stream) {
+                    const scanner = new Instascan.Scanner({
+                        video: document.getElementById('preview')
+                    });
+
+                    // Add a listener to scan QR codes
+                    scanner.addListener('scan', onScanSuccess);
+
+                    // Start scanning
+                    Instascan.Camera.getCameras().then(function(cameras) {
+                        if (cameras.length > 0) {
+                            scanner.start(cameras[0]);
+                        } else {
+                            console.error('No cameras found.');
+                        }
+                    }).catch(function(e) {
+                        console.error(e);
+                    });
+                })
+                .catch(function(err) {
+                    console.error('Error accessing camera:', err);
+                });
+        }
+
+        // Add click event listener to the start scan button
+        document.getElementById('startScan').addEventListener('click', requestCameraAccess);
     </script>
-
-    <div class="modal fade " id="addQuizModal" tabindex="-1" role="dialog" aria-labelledby="addQuizModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row ">
-                        <form action="{{ route('quiz.store') }}" method="POST" enctype="multipart/form-data"
-                            autocomplete="off">
-                            @method('post')
-                            @csrf
-
-                            <div class="form-group text-center">
-                                <h5>ADD QUIZ</h5>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="flashCardName">Flash Card Name:</label>
-                                <br>
-                                <select class="form-control" name="flashCard" id="">
-                                    <option value="">Select Flash Card</option>
-                                    @foreach ($flashCards as $item)
-                                        <option value="{{ $item['flashCardID'] }}">{{ $item['flashCardName'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <label for="question">Question:</label>
-                                <br>
-                                <textarea style="height: 200px;" class="form-control" type="text" name="question" id=""></textarea>
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <label for="keyAnswer">Key Answer:</label>
-                                <select required class="form-control" name="keyAnswer" id="">
-                                    <option value="">Select Answer</option>
-                                    <option value="true">True</option>
-                                    <option value="false">False</option>
-                                </select>
-                            </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
-                        style="color:white !important;">Close</button>
-                    <button type="submit" class="btn btn-warning" name="btnCreateQuiz" value="yes"
-                        style="color:white !important;">Proceed Creation</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade " id="updateQuizModal" tabindex="-1" role="dialog"
-        aria-labelledby="updateQuizModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row ">
-                        <form id="updateQuizForm" action="" method="POST" enctype="multipart/form-data"
-                            autocomplete="off">
-                            @method('put')
-                            @csrf
-
-                            <div class="form-group text-center">
-                                <h5>UPDATE QUIZ</h5>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="flashCardName">Flash Card Name:</label>
-                                <br>
-                                <select id="updateFlashCard" class="form-control" name="flashCard" id="">
-                                    <option value="">Select Flash Card</option>
-                                    @foreach ($flashCards as $item)
-                                        <option value="{{ $item['flashCardID'] }}">{{ $item['flashCardName'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <label for="question">Question:</label>
-                                <br>
-                                <textarea id="updateQuestion" style="height: 200px;" class="form-control" type="text" name="question"
-                                    id=""></textarea>
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <label for="keyAnswer">Key Answer:</label>
-                                <select id="updateKeyAnswer" required class="form-control" name="keyAnswer"
-                                    id="">
-                                    <option value="">Select Answer</option>
-                                    <option value="true">True</option>
-                                    <option value="false">False</option>
-                                </select>
-                            </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
-                        style="color:white !important;">Close</button>
-                    <button type="submit" class="btn btn-warning" name="btnUpdateQuiz" value="yes"
-                        style="color:white !important;">Proceed Update</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade " id="deleteQuizModal" tabindex="-1" role="dialog"
-        aria-labelledby="deleteQuizModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row ">
-                        <form id="deleteQuizForm" action="" method="POST" enctype="multipart/form-data"
-                            autocomplete="off">
-                            @method('delete')
-                            @csrf
-
-                            <div class="form-group text-center">
-                                <h5>DELETE QUIZ</h5>
-                            </div>
-
-                            <div class="form-group text-center">
-                                <h6>
-                                    Are You Sure You Want To Delete This Quiz?
-                                </h6>
-                            </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
-                        style="color:white !important;">Close</button>
-                    <button type="submit" class="btn btn-danger" name="btnDeleteQuiz" value="yes"
-                        style="color:white !important;">Proceed Delete</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 
     @if (session()->pull('successDeleteQuiz'))
         <script>

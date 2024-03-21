@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminFlashCardController;
 use App\Http\Controllers\AdminGenerateQrController;
 use App\Http\Controllers\AdminPersonalDetailsController;
 use App\Http\Controllers\AdminQuizController;
+use App\Http\Controllers\AdminScanController;
 use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -28,7 +29,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['general'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index'])->middleware('throttle:20,1');
     Route::get('/logout', [LogoutController::class, 'index'])->middleware('throttle:20,1');
-
     Route::resource("/create", CreateAccountController::class)->middleware('throttle:20,1');
     Route::resource("/login", LoginController::class)->middleware('throttle:20,1');
     Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:20,1');
@@ -38,6 +38,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/category", AdminCategoryController::class)->middleware('throttle:20,1');
     Route::resource("/generateqr", AdminGenerateQrController::class)->middleware('throttle:20,1');
     Route::resource("/quiz", AdminQuizController::class)->middleware('throttle:20,1');
+    Route::resource("/scanqr", AdminScanController::class)->middleware('throttle:20,1');
 });
 
 
