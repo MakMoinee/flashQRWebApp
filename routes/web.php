@@ -5,9 +5,11 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminFlashCardController;
 use App\Http\Controllers\AdminGenerateQrController;
+use App\Http\Controllers\AdminHistoryRecordsController;
 use App\Http\Controllers\AdminPersonalDetailsController;
 use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\AdminScanController;
+use App\Http\Controllers\AdminUserRecordsController;
 use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -39,6 +41,8 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/generateqr", AdminGenerateQrController::class)->middleware('throttle:20,1');
     Route::resource("/quiz", AdminQuizController::class)->middleware('throttle:20,1');
     Route::resource("/scanqr", AdminScanController::class)->middleware('throttle:20,1');
+    Route::resource("/user_records", AdminUserRecordsController::class)->middleware('throttle:20,1');
+    Route::resource("/history", AdminHistoryRecordsController::class)->middleware('throttle:20,1');
 });
 
 
