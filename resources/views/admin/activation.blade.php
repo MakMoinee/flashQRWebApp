@@ -338,7 +338,7 @@
                                                         role="dialog"
                                                         aria-labelledby="viewUsersModalLabel{{ $item['accountID'] }}"
                                                         aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-body">
                                                                     <div class="row">

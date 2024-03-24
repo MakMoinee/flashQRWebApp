@@ -59,6 +59,8 @@ class LoginController extends Controller
                     $accountType = $user['accountType'];
                     if ($accountType == 1) {
                         return redirect("/admin_dashboard");
+                    } else if ($accountType == 2) {
+                        return redirect("/student_dashboard");
                     }
                 } else {
                     session()->put("errorNotActivated", true);

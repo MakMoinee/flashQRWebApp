@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 21/03/2024 23:14:53
+ Date: 25/03/2024 02:00:44
 */
 
 SET NAMES utf8mb4;
@@ -37,12 +37,13 @@ CREATE TABLE `accounts`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`accountID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES (1, 1, 'admin', '$2y$12$BSLOjBgSShBHksp9ocMuGuczmGxqJ3CScDztu2O/bmcqgUn27JIZK', 'Admin', 'Admin', 'Admin', 'None', '2024-03-20', 'None', 'None', 'true', '2024-03-20 13:27:36', '2024-03-20 13:27:36');
+INSERT INTO `accounts` VALUES (1, 1, 'admin', '$2y$12$EQxD.anzMclN9MSmhWzAheIFcmFT/G4QukoDvv.26ztn1gaI6VHSu', 'Admin', 'Admin', 'Admin', 'None', '2024-03-24', 'None', 'None', 'true', '2024-03-24 17:43:28', '2024-03-24 17:43:28');
+INSERT INTO `accounts` VALUES (2, 2, '0123456', '$2y$12$87FQzSR5FvZoqTD6a8DQ3evc.Swz5h2BHEX3tuM2cQ6TcQzlhBedG', 'Dela Cruz', 'John', 'Santos', '1st Year', '1998-10-13', 'Salomi', '09090464399', '1', '2024-03-24 17:49:47', '2024-03-24 17:49:47');
 
 -- ----------------------------
 -- Table structure for categories
@@ -57,12 +58,11 @@ CREATE TABLE `categories`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`categoryID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of categories
 -- ----------------------------
-INSERT INTO `categories` VALUES (1, 'Peanut', 1, 'Admin,Admin Admin', '/data/categories/1710941303.jpg', '2024-03-20 13:28:23', '2024-03-20 13:28:23');
 
 -- ----------------------------
 -- Table structure for failed_jobs
@@ -99,12 +99,11 @@ CREATE TABLE `flash_cards`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`flashCardID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of flash_cards
 -- ----------------------------
-INSERT INTO `flash_cards` VALUES (1, 'FC Peanut', 1, '/data/flashcards/1710941331.jpg', 'Sample', 1, 'Admin,Admin Admin', '2024-03-20 13:28:51', '2024-03-20 13:28:51');
 
 -- ----------------------------
 -- Table structure for migrations
@@ -115,7 +114,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -127,6 +126,7 @@ INSERT INTO `migrations` VALUES (4, '2024_01_17_074844_create_accounts_table', 1
 INSERT INTO `migrations` VALUES (5, '2024_03_16_075003_create_categories_table', 1);
 INSERT INTO `migrations` VALUES (6, '2024_03_16_102700_create_flash_cards_table', 1);
 INSERT INTO `migrations` VALUES (7, '2024_03_20_053105_create_quizzes_table', 1);
+INSERT INTO `migrations` VALUES (8, '2024_03_24_173545_create_user_approved_logs_table', 1);
 
 -- ----------------------------
 -- Table structure for password_reset_tokens
@@ -179,12 +179,30 @@ CREATE TABLE `quizzes`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`quizID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of quizzes
 -- ----------------------------
-INSERT INTO `quizzes` VALUES (1, 1, 'Sample Question', 0, '2024-03-20 13:29:23', '2024-03-20 13:29:23');
+
+-- ----------------------------
+-- Table structure for user_approved_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `user_approved_logs`;
+CREATE TABLE `user_approved_logs`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `accountID` int NOT NULL,
+  `approver` int NOT NULL,
+  `isActivated` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_approved_logs
+-- ----------------------------
+INSERT INTO `user_approved_logs` VALUES (1, 2, 1, '1', '2024-03-24 17:50:51', '2024-03-24 17:50:51');
 
 -- ----------------------------
 -- View structure for vwcategories

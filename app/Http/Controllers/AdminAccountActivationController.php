@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accounts;
+use App\Models\UserApprovedLog;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
@@ -89,6 +90,7 @@ class AdminAccountActivationController extends Controller
             $user = session()->pull('users');
             session()->put('users', $user);
             $accountType = $user['accountType'];
+            $accountID = $user['accountID'];
 
 
             if ($accountType != 1) {
@@ -101,6 +103,11 @@ class AdminAccountActivationController extends Controller
                 ]);
                 if ($isUpdate > 0) {
                     session()->put("successActivate", true);
+                    $newLog = new UserApprovedLog();
+                    $newLog->accountID = $id;
+                    $newLog->approver = $accountID;
+                    $newLog->isActivated = true;
+                    $newLog->save();
                 } else {
                     session()->put("errorActivate", true);
                 }
@@ -111,6 +118,12 @@ class AdminAccountActivationController extends Controller
                 ]);
                 if ($isUpdate > 0) {
                     session()->put("successDeactivate", true);
+                    session()->put("successActivate", true);
+                    $newLog = new UserApprovedLog();
+                    $newLog->accountID = $id;
+                    $newLog->approver = $accountID;
+                    $newLog->isActivated = false;
+                    $newLog->save();
                 } else {
                     session()->put("errorDeactivate", true);
                 }

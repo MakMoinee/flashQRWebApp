@@ -120,7 +120,7 @@
                                 <select required class="form-control" name="accountType" id=""
                                     aria-placeholder="Account Type">
                                     <option value="">Account Type</option>
-                                    <option value="1">User</option>
+                                    <option value="2">User</option>
                                 </select>
                                 <br>
                                 <input required class="form-control" required type="text" name="studentNumber"

@@ -14,6 +14,7 @@ use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\QRCodeController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/create", CreateAccountController::class)->middleware('throttle:20,1');
     Route::resource("/login", LoginController::class)->middleware('throttle:20,1');
     Route::resource("/admin_dashboard", AdminDashboardController::class)->middleware('throttle:20,1');
+    Route::resource("/student_dashboard", UserDashboardController::class)->middleware('throttle:20,1');
     Route::resource("/activations", AdminAccountActivationController::class)->middleware('throttle:20,1');
     Route::resource("/profiles", AdminPersonalDetailsController::class)->middleware('throttle:20,1');
     Route::resource("/flashcard", AdminFlashCardController::class)->middleware('throttle:20,1');

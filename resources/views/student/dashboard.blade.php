@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,
       shrink-to-fit=no">
-    <title>Admin - FlashQR</title>
+    <title>Student - FlashQR</title>
     <link rel="manifest" href="https://coreui.io/demos/bootstrap/4.2/free/assets/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
@@ -30,7 +30,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .sidebar {
-            --cui-sidebar-bg: rgb(0, 145, 248) !important;
+            --cui-sidebar-bg: rgb(0, 116, 248) !important;
             color: white;
         }
 
@@ -46,14 +46,7 @@
         body {
             font-family: "Sen", sans-serif;
         }
-
-        .card-header {
-            background: rgb(0, 145, 248) !important;
-            color: white;
-        }
     </style>
-
-
 </head>
 
 <body>
@@ -70,60 +63,35 @@
                     <div class="simplebar-height-auto-observer"></div>
                 </div>
                 <div class="simplebar-mask">
-                    <div class="simplebar-offset" style="right:0px; bottom: 0px;">
+                    <div class="simplebar-offset" style="right:
+              0px; bottom: 0px;">
                         <div class="simplebar-content-wrapper" tabindex="0" role="region"
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
                                 <li class="nav-item">
-                                    <a class="nav-link " href="/admin_dashboard">
+                                    <a class="nav-link active" href="/student_dashboard">
                                         <img class="nav-icon" src="/home.svg" alt="" srcset="">Home
                                     </a>
                                 </li>
-                                <li class="nav-title">Administrative</li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/activations">
-                                        <img class="nav-icon" src="/activate.svg" alt="" srcset=""> Account
-                                        Activation</a>
-                                </li>
                                 <li class="nav-title">Account Management</li>
-                                <li class="nav-item"><a class="nav-link" href="/activations">
+                                <li class="nav-item"><a class="nav-link" href="/profiles">
                                         <img class="nav-icon" src="/personal.svg" alt="" srcset="">
                                         Personal Details</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="/activations">
+                                <li class="nav-item"><a class="nav-link" href="/passwords">
                                         <img class="nav-icon" src="/password.svg" alt="" srcset="">
                                         Password and Security</a>
                                 </li>
                                 <li class="nav-divider"></li>
                                 <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/category">
-                                        <img class="nav-icon" src="/category.svg" alt="" srcset="">
-                                        Category</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/flashcard">
-                                        <img class="nav-icon" src="/card.svg" alt="" srcset=""> Flash
-                                        Card</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/quiz">
-                                        <img class="nav-icon" src="/quiz.svg" alt="" srcset="">
-                                        Quiz</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/generateqr">
-                                        <img class="nav-icon" src="/qr.svg" alt="" srcset=""> Generate
-                                        QR</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " href="/scanqr">
+                                    <a class="nav-link" href="/scanqr">
                                         <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
                                 <li class="nav-title">Record Management</li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/user_records">
+                                    <a class="nav-link" href="/user_records">
                                         <img class="nav-icon" src="/userrecords.svg" alt="" srcset="">
                                         User Records</a>
                                 </li>
@@ -206,7 +174,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>User Records</span></li>
+                        <li class="breadcrumb-item active"><span>Dashboard</span></li>
                     </ol>
                 </nav>
             </div>
@@ -215,32 +183,23 @@
             <div class="container-lg">
 
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <span style="font-size:25px;">USER RECORDS</span>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <center>
+                                    <h1 style=" font-family: 'Sen', sans-serif;">WELCOME</h1>
+                                    <br>
+                                    <img src="/logo.png" alt="" srcset="">
+                                    <br>
+                                    <br>
+                                    <h1 style=" font-family: 'Sen', sans-serif;">FlashQR</h1>
+                                    <br>
+                                    <h4>Web Based QR Recognition</h4>
+                                </center>
                             </div>
-                            <div class="card-body">
-                                <table class="table border mb-0">
-                                    <thead class="table-light fw-semibold">
-                                        <tr class="align-middle">
-                                            <th class="text-center">Account ID</th>
-                                            <th>Name</th>
-                                            <th class="text-center">Role</th>
-                                            <th>Approved By</th>
-                                            <th class="text-center">Date</th>
-                                            <th>Action</th>
-                                            <th class="text-center"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
+
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -256,116 +215,26 @@
     <script src="./assets/files/coreui.bundle.min.js.download"></script>
     <script src="./assets/files/simplebar.min.js.download"></script>
 
+    <script src="./assets/files/chart.min.js.download"></script>
+    <script src="./assets/files/coreui-chartjs.js.download"></script>
     <script src="./assets/files/coreui-utils.js.download"></script>
+    <script src="./assets/files/main.js.download"></script>
     <script></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
-
-    @if (session()->pull('successDeleteQuiz'))
+    @if (session()->pull('successLogin'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Deleted Quiz',
+                    title: 'Login Successfully',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successDeleteQuiz') }}
+        {{ session()->forget('successLogin') }}
     @endif
-
-    @if (session()->pull('successSaveQuiz'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Successfully Added Quiz',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('successSaveQuiz') }}
-    @endif
-
-    @if (session()->pull('successUpdateQuiz'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Successfully Updated Quiz',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('successUpdateQuiz') }}
-    @endif
-
-    @if (session()->pull('errorUpdateQuiz'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Failed To Update Quiz, Please Try Again Later',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('errorUpdateQuiz') }}
-    @endif
-
-    @if (session()->pull('errorFlashCardExist'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Failed To Update Flash Card, Flash Card Name And Category Already Exist',
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('errorFlashCardExist') }}
-    @endif
-
-    @if (session()->pull('errorDeleteQuiz'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Failed To Delete Quiz, Please Try Again Later',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('errorDeleteQuiz') }}
-    @endif
-
-    @if (session()->pull('errorSaveQuiz'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Failed To Add Quiz, Please Try Again Later',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('errorSaveQuiz') }}
-    @endif
-
 </body>
 
 </html>
