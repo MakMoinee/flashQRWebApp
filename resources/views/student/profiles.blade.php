@@ -69,12 +69,12 @@
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/student_dashboard">
+                                    <a class="nav-link " href="/student_dashboard">
                                         <img class="nav-icon" src="/home.svg" alt="" srcset="">Home
                                     </a>
                                 </li>
                                 <li class="nav-title">Account Management</li>
-                                <li class="nav-item"><a class="nav-link" href="/my_profile">
+                                <li class="nav-item"><a class="nav-link active" href="/my_profile">
                                         <img class="nav-icon" src="/personal.svg" alt="" srcset="">
                                         Personal Details</a>
                                 </li>
@@ -182,24 +182,148 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
 
-                <div class="row">
-                    <div class="card mb-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <img style="float: left;" src="/profile.png" width="120" height="120"
+                                    class="img-responsive" alt="" srcset="">
+                                <h2 style="float:left;margin-left: 30px; margin-top: 40px;">Upload A New Photo</h2>
+                                <button style="float: right; margin-top: 40px;"
+                                    class="btn btn-warning text-white">Update</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <form action="/my_profile/{{ $currentUser['accountID'] }}" method="post"
+                        enctype="multipart/form-data">
+                        @method('put')
+                        @csrf
                         <div class="card-body">
                             <div class="row">
-                                <center>
-                                    <h1 style=" font-family: 'Sen', sans-serif;">WELCOME</h1>
+                                <div class="col-lg-12">
+                                    <h3 style="color: rgb(0, 145, 248)">PERSONAL DETAILS</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label for="lastName">LAST NAME</label>
                                     <br>
-                                    <img src="/logo.png" alt="" srcset="">
+                                    <input required type="text" class="form-control" name="lastName"
+                                        id="" value="{{ $currentUser['lastName'] }}">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="firstName">FIRST NAME</label>
                                     <br>
+                                    <input required type="text" class="form-control" name="firstName"
+                                        id="" value="{{ $currentUser['firstName'] }}">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="middleName">MIDDLE NAME</label>
                                     <br>
-                                    <h1 style=" font-family: 'Sen', sans-serif;">FlashQR</h1>
+                                    <input required type="text" class="form-control" name="middleName"
+                                        id="" value="{{ $currentUser['middleName'] }}">
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-lg-6">
+                                    <label for="birthDate">BIRTH DATE</label>
+                                    <div class="row mt-1">
+                                        <div class="col-lg-12">
+                                            <input required class="form-control" type="number" name="day"
+                                                id="" placeholder="Day"
+                                                style="width: 125px !important; float: left;" min="1"
+                                                max="31" value="{{ $birthDay }}">
+                                            <select required class="form-control" name="month" id=""
+                                                style="width: 135px !important; float: left;">
+                                                <option value="">Mon</option>
+                                                @for ($i = 1; $i <= $months; $i++)
+                                                    @if ($birthMonth == $i)
+                                                        <option value="{{ $i }}" selected>
+                                                            {{ $monthText[$i - 1] }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $i }}">{{ $monthText[$i - 1] }}
+                                                        </option>
+                                                    @endif
+                                                @endfor
+                                            </select>
+                                            <select required class="form-control" name="year" id=""
+                                                style="width: 135px !important; float: left;">
+                                                <option value="">Year</option>
+                                                @foreach ($yrs as $item)
+                                                    @if ($birthYear == $item)
+                                                        <option value="{{ $item }}" selected>
+                                                            {{ $item }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $item }}">{{ $item }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="col-lg-5" style="float: left;margin-right: 20px;">
+                                                <label for="studentNumber">STUDENT NUMBER</label>
+                                                <input disabled required type="text" class="form-control"
+                                                    name="studentNumber" id=""
+                                                    value="{{ $currentUser['studentNumber'] }}"
+                                                    title="Student Number">
+                                            </div>
+                                            <div class="col-lg-5" style="float: left; ">
+                                                <label for="level">LEVEL</label>
+                                                <input required type="text" class="form-control" name="level"
+                                                    id="" value="{{ $currentUser['level'] }}"
+                                                    title="Level">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label for="guardian">GUARDIAN</label>
                                     <br>
-                                    <h4>Web Based QR Recognition</h4>
-                                </center>
+                                    <input required type="text" class="form-control" name="guardian"
+                                        id="" value="{{ $currentUser['guardian'] }}">
+                                </div>
+                                <div class="col-lg-4">
+
+                                </div>
+                                <div class="col-lg-4">
+
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-4">
+                                    <label for="contactNumber">CONTACT NUMBER</label>
+                                    <br>
+                                    <input required type="text" class="form-control" name="contactNumber"
+                                        id="" value="{{ $currentUser['contactNumber'] }}">
+                                </div>
+                                <div class="col-lg-4">
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <button style="float: right;margin-top: 20px;" type="submit"
+                                        class="btn btn-warning text-white" name="btnUpdateProfile"
+                                        value="yes">Submit Changes</button>
+                                </div>
                             </div>
 
                         </div>
-                    </div>
+                    </form>
+
                 </div>
 
             </div>
@@ -220,20 +344,33 @@
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
     <script></script>
-
-    @if (session()->pull('successLogin'))
+    @if (session()->pull('errorUpdateProfile'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
-                    title: 'Login Successfully',
+                    icon: 'error',
+                    title: 'Failed To Update Profile, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLogin') }}
+        {{ session()->forget('errorUpdateProfile') }}
+    @endif
+    @if (session()->pull('successUpdate'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Updated Profile',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successUpdate') }}
     @endif
 </body>
 
