@@ -49,9 +49,9 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/user_records", AdminUserRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/history", AdminHistoryRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_profile", UserProfileController::class)->middleware('throttle:20,1');
-    Route::resource("/user_scanqr", UserScanQRController::class)->middleware('throttle:20,1');
 });
 
+Route::resource("/user_scanqr", UserScanQRController::class)->middleware('throttle:20,1');
 Route::resource("/this/qr", SampleQrController::class);
 
 Route::get('/generate-qrcode/{flashCardID}', [QRCodeController::class, 'generateQRCode'])->name('generate.qrcode');

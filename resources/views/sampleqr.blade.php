@@ -2,18 +2,24 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>QR Scanner</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
 </head>
+
 <body>
     <h1>QR Scanner</h1>
-    <video id="qr-video" width="300" height="300" style="display:none"></video>
-    <canvas id="qr-canvas" width="300" height="300" style="display:none"></canvas>
+    <video id="qr-video" width="800" height="800"></video>
+    <canvas id="qr-canvas" width="800" height="800" style="display:none"></canvas>
     <div id="output"></div>
     <script>
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+        navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "environment"
+            }
+        }).then(function(stream) {
             var video = document.getElementById('qr-video');
             video.srcObject = stream;
             video.setAttribute('playsinline', true);
@@ -37,13 +43,15 @@
 
                 if (code) {
                     // Send the QR data to the server
-                    $.post('/this/qr', { qr_data: code.data }, function(response) {
-                        $('#output').html('<p>Scanned Data: ' + response.data + '</p>');
-                    });
+                    // $.post('/this/qr', { qr_data: code.data }, function(response) {
+                    //     $('#output').html('<p>Scanned Data: ' + response.data + '</p>');
+                    // });
+                    alert(code.data)
                 }
             }
             requestAnimationFrame(tick);
         }
     </script>
 </body>
+
 </html>

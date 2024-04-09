@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
         "/generate-qrcode/{category}/{flashcard}",
-        "/this/qr"
+        "/this/qr",
+        "/user_scanqr"
     ];
 }
