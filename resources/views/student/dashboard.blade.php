@@ -85,7 +85,7 @@
                                 <li class="nav-divider"></li>
                                 <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/scanqr">
+                                    <a class="nav-link" href="/user_scanqr">
                                         <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
