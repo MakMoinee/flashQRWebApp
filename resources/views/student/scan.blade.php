@@ -106,7 +106,9 @@
         }
     </style>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
-    <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+    {{-- <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script> --}}
+    <script type="text/javascript" src="/assets/js/llqrcode.js"></script>
+    <script type="text/javascript" src="/assets/js/webqr.js"></script>
 </head>
 
 <body>
@@ -248,10 +250,15 @@
                             <div class="card-header">
                                 <span style="font-size:25px;">SCAN QR</span>
                             </div>
-                            <div class="card-body">
-                                <video id="qr-video" width="300" height="300"></video>
+                            <div class="card-body" id="mainbody">
+                                {{-- <video id="qr-video" width="300" height="300"></video> --}}
                                 <canvas id="qr-canvas" width="300" height="300" style="display:none"></canvas>
-                                <div id="output" style="width: 100%"></div>
+                                <div id="outdiv" style="width: 100%"></div>
+                                <div id="result" style="width: 100%"></div>
+                                <img class="selector" id="qrimg" src="cam.png" onclick="setimg()"
+                                    align="right" style="opacity: 0.2;">
+                                <img class="selector" id="webcamimg" src="vid.png" onclick="setwebcam()"
+                                    align="left" style="opacity: 1;">
                                 <button id="startScan" onclick="requestCameraAccess()" class="btn btn-primary">Start
                                     Scan</button>
                             </div>
@@ -279,7 +286,7 @@
     <script src="./assets/files/main.js.download"></script>
 
     {{-- <script src="/assets/js/scanScript.js"></script> --}}
-    <script>
+    {{-- <script>
         // Function to handle successful QR code scan
         function onScanSuccess(qrCodeMessage) {
             // Display the scanned QR code message
@@ -326,10 +333,16 @@
                     // $.post('/this/qr', { qr_data: code.data }, function(response) {
                     //     $('#output').html('<p>Scanned Data: ' + response.data + '</p>');
                     // });
-                    alert(code.data)
+                    alert(code.data);
                 }
             }
             requestAnimationFrame(tick);
+        }
+    </script> --}}
+
+    <script type="text/javascript">
+        function requestCameraAccess() {
+            load();
         }
     </script>
 
