@@ -51,3 +51,7 @@ Route::middleware(['general'])->group(function () {
 
 
 Route::get('/generate-qrcode/{flashCardID}', [QRCodeController::class, 'generateQRCode'])->name('generate.qrcode');
+
+Route::fallback(function () {
+    return view('errors.error404');
+});

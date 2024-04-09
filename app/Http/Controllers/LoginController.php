@@ -21,6 +21,10 @@ class LoginController extends Controller
             if ($accountType == 1) {
                 return redirect("/admin_dashboard");
             }
+
+            if ($accountType == 2) {
+                return redirect("/student_dashboard");
+            }
         }
         return view('login');
     }
