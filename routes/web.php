@@ -14,6 +14,7 @@ use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\QRCodeController;
+use App\Http\Controllers\SampleQrController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserScanQRController;
@@ -51,6 +52,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/user_scanqr", UserScanQRController::class)->middleware('throttle:20,1');
 });
 
+Route::resource("/this/qr", SampleQrController::class);
 
 Route::get('/generate-qrcode/{flashCardID}', [QRCodeController::class, 'generateQRCode'])->name('generate.qrcode');
 
