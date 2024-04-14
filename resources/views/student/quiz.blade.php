@@ -186,6 +186,13 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Flash Card: <b>{{ $flashCardName }}</b> </h3>
+                        <h3>Category Name: <b>{{ $categoryName }}</b> </h3> <br>
+                    </div>
+                </div>
+
                 @foreach ($quiz as $item)
                     <div class="row">
                         <div class="col-md-12">

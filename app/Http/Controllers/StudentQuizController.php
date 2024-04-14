@@ -35,8 +35,10 @@ class StudentQuizController extends Controller
                 }
 
 
-                $queryData = json_decode(DB::table('quizzes')->where('flashCardID', '=', $flashID)->get(), true);
+                $queryData = json_decode(DB::table('vwquizzes')->where('flashCardID', '=', $flashID)->get(), true);
                 $quizArr = array();
+                $flashCardName = "";
+                $categoryName = "";
                 if (count($queryData) > 0) {
                     shuffle($queryData);
                     $count = 0;
@@ -44,6 +46,8 @@ class StudentQuizController extends Controller
                     foreach ($queryData as $q) {
                         $count++;
                         $q['sequence'] = $count;
+                        $flashCardName = $q['flashCardName'];
+                        $categoryName = $q['categoryName'];
                         array_push($quizArr, $q);
                     }
                     session()->put("successRetrieveQuiz", true);
@@ -51,7 +55,12 @@ class StudentQuizController extends Controller
                     session()->put("errorRetrieveQuiz", true);
                 }
 
-                return view('student.quiz', ['quiz' => $quizArr, 'count' => count($quizArr)]);
+                return view('student.quiz', [
+                    'quiz' => $quizArr,
+                    'count' => count($quizArr),
+                    'flashCardName' => $flashCardName,
+                    'categoryName' => $categoryName,
+                ]);
             }
         }
 
