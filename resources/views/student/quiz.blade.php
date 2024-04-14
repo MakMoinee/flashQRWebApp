@@ -188,8 +188,11 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Flash Card: <b>{{ $flashCardName }}</b> </h3>
-                        <h3>Category Name: <b>{{ $categoryName }}</b> </h3> <br>
+                        @if ($flashCardName)
+                            <h3>Flash Card: <b>{{ $flashCardName }}</b> </h3>
+                            <h3>Category Name: <b>{{ $categoryName }}</b> </h3> <br>
+                        @endif
+
                     </div>
                 </div>
 
