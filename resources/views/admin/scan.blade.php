@@ -280,7 +280,14 @@
                                 <span style="font-size:25px;">SCAN QR</span>
                             </div>
                             <div class="card-body">
-                                <div id="output"></div>
+                                <form action="/user_scanqr" enctype="multipart/form-data">
+                                    @csrf
+                                    <div id="output">
+                                        <input type="hidden" name="qrCode" id="qrData">
+                                        <button id="proceedScan" style="display: none" type="submit" name="btnScan"
+                                            value="yes"></button>
+                                    </div>
+                                </form>
                                 <button id="startScan" class="btn btn-primary">Start Scan</button>
                             </div>
                         </div>
@@ -366,8 +373,18 @@
     <script>
         // Function to handle successful QR code scan
         function onScanSuccess(qrCodeMessage) {
+
+            if (qrCodeMessage) {
+                let qrData = document.getElementById('qrData');
+                qrData.value = qrCodeMessage;
+                let proceedScan = document.getElementById('proceedScan');
+                proceedScan.click();
+                // document.getElementById('output').innerText = qrCodeMessage;
+            } else {
+                alert('qrCode is empty');
+            }
             // Display the scanned QR code message
-            document.getElementById('output').innerText = qrCodeMessage;
+
         }
 
         // Function to handle errors during QR code scanning

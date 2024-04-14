@@ -39,7 +39,33 @@ class UserScanQRController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+
+            if ($accountType != 2) {
+                return redirect("/");
+            }
+
+            if ($request->btnScan) {
+                $splitText = explode('-', $request->qrCode);
+                if (count($splitText) > 0) {
+                    $hashID = $splitText[0];
+                    if ($hashID) {
+                        return redirect("/student_quiz?qid=" . $hashID . "");
+                    } else {
+                        session()->put('errorQrCode', true);
+                    }
+                } else {
+                    session()->put('errorQrCode', true);
+                }
+            }
+
+            return redirect("/user_scanqr");
+        }
+        return redirect("/");
     }
 
     /**

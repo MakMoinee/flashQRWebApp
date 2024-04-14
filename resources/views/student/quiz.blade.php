@@ -47,68 +47,11 @@
             font-family: "Sen", sans-serif;
         }
 
-        .result {
-            background-color: green;
-            color: #fff;
-            padding: 20px;
-        }
-
-        .row {
-            display: flex;
-        }
-
-        #reader {
-            background: black;
-            width: 500px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            /* Green */
-            border: none;
+        .card-header {
+            background: rgb(0, 145, 248) !important;
             color: white;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 6px;
-        }
-
-        a#reader__dashboard_section_swaplink {
-            background-color: blue;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 6px;
-        }
-
-        span a {
-            display: none
-        }
-
-        #reader__camera_selection {
-            background: blueviolet;
-            color: aliceblue;
-        }
-
-        #reader__dashboard_section_csr span {
-            color: red
         }
     </style>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
-    {{-- <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script> --}}
-    <script type="text/javascript" src="/assets/js/llqrcode.js"></script>
-    <script type="text/javascript" src="/assets/js/webqr.js"></script>
 </head>
 
 <body>
@@ -125,8 +68,7 @@
                     <div class="simplebar-height-auto-observer"></div>
                 </div>
                 <div class="simplebar-mask">
-                    <div class="simplebar-offset" style="right:
-              0px; bottom: 0px;">
+                    <div class="simplebar-offset" style="right:0px; bottom: 0px;">
                         <div class="simplebar-content-wrapper" tabindex="0" role="region"
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
@@ -147,7 +89,7 @@
                                 <li class="nav-divider"></li>
                                 <li class="nav-title">QR Integration</li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/user_scanqr">
+                                    <a class="nav-link" href="/user_scanqr">
                                         <img class="nav-icon" src="/scan.svg" alt="" srcset=""> Scan
                                         QR</a>
                                 </li>
@@ -236,7 +178,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Scan QR</span></li>
+                        <li class="breadcrumb-item active"><span>Quiz</span></li>
                     </ol>
                 </nav>
             </div>
@@ -244,40 +186,39 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <span style="font-size:25px;">SCAN QR</span>
-                            </div>
-                            <div class="card-body" id="mainbody">
-                                {{-- <video id="qr-video" width="300" height="300"></video> --}}
-                                <canvas id="qr-canvas" width="300" height="300" style="display:none"></canvas>
-                                <div id="outdiv" style="width: 100%"></div>
-                                <form method="POST" action="/user_scanqr" enctype="multipart/form-data">
-                                    @csrf
-                                    <div id="result" style="width: 100%">
+                @foreach ($quiz as $item)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <span style="font-size:25px;">Quiz {{ $item['sequence'] }} Of {{ $count }}
+                                    </span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>{{ $item['question'] }}</h3>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-2" style="float: left;">
+                                                <a href="#"><img src="/checkCircle.svg" alt=""
+                                                        srcset=""></a>
+                                            </div>
+                                            <div class="col-md-2" style="float: left;">
+                                                <a href="#"><img src="/cancel.svg" alt=""
+                                                        srcset=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    </div>
-                                    <div>
-                                        <input type="hidden" name="qrCode" id="qrData">
-                                        <button id="proceedScan" style="display: none" type="submit" name="btnScan"
-                                            value="yes"></button>
-                                    </div>
-                                </form>
-                                {{-- <img class="selector" id="qrimg" src="cam.png" onclick="setimg()"
-                                    align="right" style="opacity: 0.2;">
-                                <img class="selector" id="webcamimg" src="vid.png" onclick="setwebcam()"
-                                    align="left" style="opacity: 1;"> --}}
-                                <button id="startScan" onclick="requestCameraAccess()" class="btn btn-primary">Start
-                                    Scan</button>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-
-                </div>
-
+                @endforeach
 
             </div>
         </div>
@@ -292,86 +233,44 @@
     <script src="./assets/files/coreui.bundle.min.js.download"></script>
     <script src="./assets/files/simplebar.min.js.download"></script>
 
+    <script src="./assets/files/chart.min.js.download"></script>
+    <script src="./assets/files/coreui-chartjs.js.download"></script>
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
+    <script></script>
 
-    {{-- <script src="/assets/js/scanScript.js"></script> --}}
-    {{-- <script>
-        // Function to handle successful QR code scan
-        function onScanSuccess(qrCodeMessage) {
-            // Display the scanned QR code message
-            document.getElementById('output').innerText = qrCodeMessage;
-        }
-
-        // Function to handle errors during QR code scanning
-        function onScanError(error) {
-            // Log the error to console
-            console.error(error);
-        }
-
-        // Function to request camera access
-        function requestCameraAccess() {
-            navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: "environment"
-                }
-            }).then(function(stream) {
-                var video = document.getElementById('qr-video');
-                video.srcObject = stream;
-                video.setAttribute('playsinline', true);
-                video.play();
-                requestAnimationFrame(tick);
-            });
-        }
-
-        function tick() {
-            var video = document.getElementById('qr-video');
-            var canvas = document.getElementById('qr-canvas');
-            var context = canvas.getContext('2d');
-
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                canvas.height = video.videoHeight;
-                canvas.width = video.videoWidth;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                var code = jsQR(imageData.data, imageData.width, imageData.height, {
-                    inversionAttempts: "dontInvert",
-                });
-
-                if (code) {
-                    // Send the QR data to the server
-                    // $.post('/this/qr', { qr_data: code.data }, function(response) {
-                    //     $('#output').html('<p>Scanned Data: ' + response.data + '</p>');
-                    // });
-                    alert(code.data);
-                }
-            }
-            requestAnimationFrame(tick);
-        }
-    </script> --}}
-
-    <script type="text/javascript">
-        let qrData = document.getElementById("qrData");
-        let proceedScan = document.getElementById("proceedScan");
-
-        function requestCameraAccess() {
-            load();
-        }
-    </script>
-
-    @if (session()->pull('errorQrCode'))
+    @if (session()->pull('successRetrieveQuiz'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
-                    icon: 'error',
-                    title: 'Qr Code Error, Please Try Again Later',
+                    icon: 'success',
+                    title: 'Successfully Scanned QR',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorQrCode') }}
+        {{ session()->forget('successRetrieveQuiz') }}
+    @endif
+
+    @if (session()->pull('errorRetrieveQuiz'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Scanned QR Doesn\'t Have Any Quiz Linked, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+
+            setTimeout(() => {
+                window.location = '/user_scanqr';
+            }, 1200);
+        </script>
+        {{ session()->forget('errorRetrieveQuiz') }}
     @endif
 </body>
 
