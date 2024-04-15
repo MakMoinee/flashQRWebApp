@@ -95,7 +95,7 @@
                                 </li>
                                 <li class="nav-title">Record Management</li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/user_records">
+                                    <a class="nav-link" href="/my_records">
                                         <img class="nav-icon" src="/userrecords.svg" alt="" srcset="">
                                         User Records</a>
                                 </li>
