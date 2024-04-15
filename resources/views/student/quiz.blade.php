@@ -188,47 +188,69 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        @if ($flashCardName)
-                            <h3>Flash Card: <b>{{ $flashCardName }}</b> </h3>
-                            <h3>Category Name: <b>{{ $categoryName }}</b> </h3> <br>
-                        @endif
-
-                    </div>
-                </div>
-
-                @foreach ($quiz as $item)
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <span style="font-size:25px;">Quiz {{ $item['sequence'] }} Of {{ $count }}
-                                    </span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h3>{{ $item['question'] }}</h3>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="col-md-2" style="float: left;">
-                                                <a href="#"><img src="/checkCircle.svg" alt=""
-                                                        srcset=""></a>
-                                            </div>
-                                            <div class="col-md-2" style="float: left;">
-                                                <a href="#"><img src="/cancel.svg" alt=""
-                                                        srcset=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                        <div class="card mb-14">
+                            <div class="card-body">
+                                @if ($flashCardName)
+                                    @if ($imagePath)
+                                        <img id="imgLogo" style="width: 100%;height:350px;margin-bottom: 30px;"
+                                            src="{{ $imagePath }}" alt="" srcset="">
+                                    @endif
+                                    <h3>Flash Card: <b>{{ $flashCardName }}</b> </h3>
+                                    <h3>Category Name: <b>{{ $categoryName }}</b> </h3>
+                                    <h5 id="fDesc">Description: <b>{{ $description }}</b> </h5>
+                                @endif
+                                <button id="btnProceedQuiz" class="btn btn-primary mt-3"
+                                    onclick="hideHeader()">Proceed Quiz</button>
+                                <br>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                </div>
+                <br>
+                <div id="quizdiv" style="display: none;">
+                    @foreach ($quiz as $item)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <span style="font-size:25px;">Quiz {{ $item['sequence'] }} Of
+                                            {{ $count }}
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h3>{{ $item['question'] }}</h3>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-2" style="float: left;">
+                                                    <button class="btn"
+                                                        onclick="storeAnswer({{ $item['sequence'] }},1,{{ $item['quizID'] }},{{ $item['flashCardID'] }})"><img
+                                                            src="/checkCircle.svg" alt=""
+                                                            srcset=""></button>
+                                                </div>
+                                                <div class="col-md-2" style="float: left;">
+                                                    <button class="btn"
+                                                        onclick="storeAnswer({{ $item['sequence'] }},0,{{ $item['quizID'] }},{{ $item['flashCardID'] }})"><img
+                                                            src="/cancel.svg" alt="" srcset=""></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    <br>
+                    <button data-coreui-toggle="modal" data-coreui-target="#finishQuizModal" class="btn btn-primary"
+                        onclick="printAnswer()">Finish Quiz</button>
+                    <br>
+                </div>
 
             </div>
         </div>
@@ -240,6 +262,40 @@
         </footer>
     </div>
 
+    <div class="modal fade " id="finishQuizModal" tabindex="-1" role="dialog"
+        aria-labelledby="finishQuizModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row ">
+                        <form action="{{ route('student_quiz.store') }}" method="POST"
+                            enctype="multipart/form-data" autocomplete="off">
+                            @method('post')
+                            @csrf
+
+                            <div class="form-group">
+                                <h3>COMPLETE QUIZ</h3>
+                            </div>
+                            <div class="form-group">
+                                <h5>Are You Sure You Want To Finish This Quiz?</h5>
+                                <input id="myQuiz" type="hidden" name="list" value="">
+                                <input id="myCards" type="hidden" name="cards" value="">
+                                <input id="myAnswer" type="hidden" name="answer" value="">
+                            </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                    <button type="submit" class="btn btn-warning" name="btnCompleteQuiz" value="yes"
+                        style="color:white !important;">Proceed Complete Quiz</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="./assets/files/coreui.bundle.min.js.download"></script>
     <script src="./assets/files/simplebar.min.js.download"></script>
 
@@ -247,7 +303,48 @@
     <script src="./assets/files/coreui-chartjs.js.download"></script>
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
-    <script></script>
+    <script>
+        let answerArray = [];
+        let quizArray = [];
+        let flashArray = [];
+
+        function hideHeader() {
+
+            let btnProceedQuiz = document.getElementById('btnProceedQuiz');
+            let quizdiv = document.getElementById('quizdiv');
+            let fDesc = document.getElementById('fDesc');
+            let imgLogo = document.getElementById('imgLogo');
+
+            quizdiv.removeAttribute("style");
+
+            btnProceedQuiz.removeAttribute("style");
+            btnProceedQuiz.setAttribute("style", "display:none;");
+
+            fDesc.removeAttribute("style");
+            fDesc.setAttribute("style", "display:none;");
+
+            imgLogo.removeAttribute("style");
+            imgLogo.setAttribute("style", "display:none;");
+
+        }
+
+        function storeAnswer(index, value, quizID, flashCardID) {
+            answerArray[index - 1] = value;
+            quizArray[index - 1] = quizID;
+            flashArray[index - 1] = flashCardID;
+        }
+
+        function printAnswer() {
+            let myCards = document.getElementById('myCards');
+            let myQuiz = document.getElementById('myQuiz');
+            let myAnswer = document.getElementById('myAnswer');
+            myAnswer.value = answerArray;
+            myQuiz.value = quizArray;
+            myCards.value = flashArray;
+        }
+    </script>
+
+
 
     @if (session()->pull('successRetrieveQuiz'))
         <script>

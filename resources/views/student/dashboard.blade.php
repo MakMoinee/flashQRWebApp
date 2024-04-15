@@ -221,6 +221,50 @@
     <script src="./assets/files/main.js.download"></script>
     <script></script>
 
+    @if (session()->pull('successQuiz'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Completed Quiz',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successQuiz') }}
+    @endif
+
+    @if (session()->pull('errorExistAnswer'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'You Have Already Answered The Quiz Linked To That Qr Code',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorExistAnswer') }}
+    @endif
+    @if (session()->pull('errorQuiz'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Complete Quiz, Please Try Scanning Again',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorQuiz') }}
+    @endif
+
     @if (session()->pull('successLogin'))
         <script>
             setTimeout(() => {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,11 +35,20 @@ class StudentQuizController extends Controller
                     }
                 }
 
-
-                $queryData = json_decode(DB::table('vwquizzes')->where('flashCardID', '=', $flashID)->get(), true);
+                //check if user already answered the quiz
+                $queryData = json_decode(DB::table('answers')->where('flashCardID', '=', $flashID)->where('accountID', '=', $user['accountID'])->get(), true);
                 $quizArr = array();
                 $flashCardName = "";
                 $categoryName = "";
+                $description = "";
+                $imagePath = "";
+                if (count($queryData) > 0) {
+                    session()->put("errorExistAnswer", true);
+                    return redirect("/");
+                }
+
+                $queryData = json_decode(DB::table('vwquizzes')->where('flashCardID', '=', $flashID)->get(), true);
+
                 if (count($queryData) > 0) {
                     shuffle($queryData);
                     $count = 0;
@@ -48,6 +58,8 @@ class StudentQuizController extends Controller
                         $q['sequence'] = $count;
                         $flashCardName = $q['flashCardName'];
                         $categoryName = $q['categoryName'];
+                        $description = $q['description'];
+                        $imagePath = $q['imagePath'];
                         array_push($quizArr, $q);
                     }
                     session()->put("successRetrieveQuiz", true);
@@ -60,6 +72,8 @@ class StudentQuizController extends Controller
                     'count' => count($quizArr),
                     'flashCardName' => $flashCardName,
                     'categoryName' => $categoryName,
+                    'description' => $description,
+                    'imagePath' => $imagePath,
                 ]);
             }
         }
@@ -80,7 +94,54 @@ class StudentQuizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+
+            if ($accountType != 2) {
+                return redirect("/");
+            }
+
+            if ($request->btnCompleteQuiz) {
+                $list = explode(",", $request->list);
+                $answer = explode(",", $request->answer);
+                $cards = explode(",", $request->cards);
+
+                if (count($list) > 0) {
+                    if (count($answer) > 0) {
+                        $index = 0;
+                        $saveCount = 0;
+                        foreach ($list as $q) {
+                            $newAnswer = new Answers();
+                            $newAnswer->accountID = $user['accountID'];
+                            $newAnswer->quizID = $q;
+                            $newAnswer->answer = boolval($answer[$index]);
+                            $newAnswer->flashCardID = boolval($cards[$index]);
+                            $isSave = $newAnswer->save();
+                            if ($isSave) {
+                                $saveCount++;
+                            }
+                            $index++;
+                        }
+
+                        if ($index == $saveCount) {
+                            session()->put("successQuiz", true);
+                        } else {
+                            dd([$index, $saveCount]);
+                            foreach ($list as $q) {
+                                DB::table('answers')->where('quizID', '=', $q)->delete();
+                            }
+
+                            session()->put("errorQuiz", true);
+                        }
+                    }
+                }
+            }
+        }
+        return redirect("/");
     }
 
     /**
