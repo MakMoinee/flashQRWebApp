@@ -23,6 +23,7 @@ class UserDashboardController extends Controller
 
             return view('student.dashboard');
         }
+        return redirect("/");
     }
 
     /**

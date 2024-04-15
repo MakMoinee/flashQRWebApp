@@ -11,7 +11,19 @@ class UserRecordsController extends Controller
      */
     public function index()
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+           
+
+            if ($accountType != 2) {
+                return redirect("/");
+            }
+
+            return view('student.records');
+        }
+        return redirect("/");
     }
 
     /**
