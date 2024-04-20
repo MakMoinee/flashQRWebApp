@@ -51,6 +51,10 @@
             background: rgb(0, 145, 248) !important;
             color: white;
         }
+
+        .colorBlue {
+            color: rgb(0, 145, 248) !important;
+        }
     </style>
 
 
@@ -234,7 +238,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        @foreach ($users as $item)
+                                            <tr class="align-middle">
+                                                <td class="text-center">
+                                                    {{ $item->accountID }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->lastName }}, {{ $item->firstName }}
+                                                    {{ $item->middleName }}
+                                                </td>
+                                                <td class="text-center">
+                                                    @if ($item->accountType == 1)
+                                                        Admin
+                                                    @else
+                                                        Student
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{ $approver[$item->approver] }}
+
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                </td>
+                                                <td>
+                                                    <button onclick="showRecord({{ $item->accountID }})"
+                                                        class="btn" data-coreui-toggle="modal"
+                                                        data-coreui-target="#viewModal"><img src="/view.svg"
+                                                            alt="" srcset=""></button>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -259,6 +294,196 @@
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+
+
+                        <div class="form-group text-center">
+                            <h5>VIEW USER RECORD</h5>
+                        </div>
+                        {{-- Tab Layout --}}
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a style="cursor: pointer" class="nav-link active" id="interactive-tab"
+                                    data-toggle="tab" role="tab" aria-controls="interactive"
+                                    aria-selected="true">Interactive Activity</a>
+                            </li>
+                            <li class="nav-item">
+                                <a style="cursor: pointer" class="nav-link" id="account-tab" data-toggle="tab"
+                                    role="tab" aria-controls="account" aria-selected="false">Account</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="interactive" role="tabpanel"
+                                aria-labelledby="interactive-tab">
+                                {{-- Interactive Activity Content --}}
+                                <!-- Add your content for Interactive Activity here -->
+                                <div class="form-group">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <table id="resultsTable" class="table border mb-0">
+                                                        <thead class="table-light fw-semibold">
+                                                            <tr class="align-middle">
+                                                                <th class="text-center">Flash Card Name</th>
+                                                                <th>Score</th>
+                                                                <th class="text-center">Date</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+                                {{-- Account Content --}}
+                                <!-- Add your content for Account here -->
+                                <div class="form-group">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <form action="/user_records" method="post"
+                                                        enctype="multipart/form-data" autocomplete="off">
+                                                        @csrf
+                                                        <div class="row">
+                                                            <h3 class="colorBlue">CHANGE ACCOUNT INFO</h3>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4"
+                                                                    style="float: left;margin-left: 20px;">
+                                                                    <div class="form-group">
+                                                                        <label for="newPassword">New Password:</label>
+                                                                        <input required class="form-control" required
+                                                                            type="password" name="newPassword"
+                                                                            id="">
+                                                                        <input type="hidden" name="accountID"
+                                                                            id="myAccountID">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4"
+                                                                    style="float: left; margin-left: 20px;">
+                                                                    <div class="form-group">
+                                                                        <label for="confirmPass">Confirm New
+                                                                            Password:</label>
+                                                                        <input required class="form-control" required
+                                                                            type="password" name="confirmPass"
+                                                                            id="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="submit" class="btn btn-warning"
+                                                                    name="btnAdminUpdatePassword"
+                                                                    value="yes
+                                                                ">Save
+                                                                    Changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- End of Tab Layout --}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let results = @json($results);
+
+        function showRecord(id) {
+            let data = results[id];
+            let tableBody = document.querySelector('#resultsTable tbody');
+            let myAccountID = document.getElementById('myAccountID');
+            myAccountID.value = id;
+
+            if (data) {
+                // Sort the data array by quizID
+                data.sort((a, b) => a.quizID - b.quizID);
+
+                // Clear existing rows from the table body
+                tableBody.innerHTML = '';
+
+                data.forEach(element => {
+                    let row = document.createElement('tr');
+
+                    let flashCardNameCell = document.createElement('td');
+                    flashCardNameCell.textContent = element.flashCardName;
+                    flashCardNameCell.classList.add('text-center');
+                    row.appendChild(flashCardNameCell);
+
+                    let scoreCell = document.createElement('td');
+                    scoreCell.textContent = element.score;
+                    row.appendChild(scoreCell);
+
+                    let dateCell = document.createElement('td');
+                    dateCell.textContent = element.created_at;
+                    dateCell.classList.add('text-center');
+                    row.appendChild(dateCell);
+
+                    let actionCell = document.createElement('td');
+                    row.appendChild(actionCell);
+
+                    // Append the row to the table body
+                    tableBody.appendChild(row);
+                });
+
+            }
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var interactiveTab = document.getElementById("interactive-tab");
+            var accountTab = document.getElementById("account-tab");
+            var interactivePane = document.getElementById("interactive");
+            var accountPane = document.getElementById("account");
+
+            accountTab.addEventListener("click", function() {
+                interactiveTab.classList.remove("active");
+                interactivePane.classList.remove("show", "active");
+                accountTab.classList.add("active");
+                accountPane.classList.add("show", "active");
+            });
+
+            interactiveTab.addEventListener("click", function() {
+                accountTab.classList.remove("active");
+                accountPane.classList.remove("show", "active");
+                interactiveTab.classList.add("active");
+                interactivePane.classList.add("show", "active");
+            });
+        });
+    </script>
 
 
     @if (session()->pull('successDeleteQuiz'))
@@ -291,19 +516,19 @@
         {{ session()->forget('successSaveQuiz') }}
     @endif
 
-    @if (session()->pull('successUpdateQuiz'))
+    @if (session()->pull('successAdminUpdatePassword'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Updated Quiz',
+                    title: 'Successfully Updated User Password',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successUpdateQuiz') }}
+        {{ session()->forget('successAdminUpdatePassword') }}
     @endif
 
     @if (session()->pull('errorUpdateQuiz'))
@@ -336,34 +561,34 @@
         {{ session()->forget('errorFlashCardExist') }}
     @endif
 
-    @if (session()->pull('errorDeleteQuiz'))
+    @if (session()->pull('adminNewPasswordNotMatch'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Delete Quiz, Please Try Again Later',
+                    title: 'Passwords Don\'t Match, Please Try Again',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorDeleteQuiz') }}
+        {{ session()->forget('adminNewPasswordNotMatch') }}
     @endif
 
-    @if (session()->pull('errorSaveQuiz'))
+    @if (session()->pull('errorAdminUpdatePassword'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Add Quiz, Please Try Again Later',
+                    title: 'Failed To Update User Password, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorSaveQuiz') }}
+        {{ session()->forget('errorAdminUpdatePassword') }}
     @endif
 
 </body>
