@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminFlashCardController;
 use App\Http\Controllers\AdminGenerateQrController;
 use App\Http\Controllers\AdminHistoryRecordsController;
+use App\Http\Controllers\AdminPasswordController;
 use App\Http\Controllers\AdminPersonalDetailsController;
 use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\AdminScanController;
@@ -59,6 +60,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/my_history", HistoryRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_records", UserRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_password", UserPasswordController::class)->middleware('throttle:20,1');
+    Route::resource("/passwords", AdminPasswordController::class)->middleware('throttle:20,1');
     Route::get('/privacy_policy', [PrivacyPolicyController::class, 'index'])->middleware('throttle:20,1');
     Route::get('/about', [AboutController::class, 'index'])->middleware('throttle:20,1');
 });
