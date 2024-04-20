@@ -50,6 +50,10 @@
         body {
             font-family: "Sen", sans-serif;
         }
+
+        .active {
+            color: yellow !important;
+        }
     </style>
 
 </head>
@@ -78,7 +82,7 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="/">Home</a></li>
                             <li class="submenu">
                                 <a href="javascript:;">Administrative</a>
                                 <ul>
@@ -88,7 +92,8 @@
                                 </ul>
                             </li>
                             <li class="scroll-to-section"><a href="/about">About</a></li>
-                            <li class="scroll-to-section"><a href="/privacy_policy">Privacy Policy</a></li>
+                            <li class="scroll-to-section"><a href="/privacy_policy" class="active">Privacy Policy</a>
+                            </li>
 
                         </ul>
                         <a class='menu-trigger'>
@@ -109,18 +114,8 @@
     <section class="section" id="about">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <center>
-                        <h1 style=" font-family: 'Sen', sans-serif;">WELCOME</h1>
-                        <br>
-                        <img src="/logo.png" alt="" srcset="">
-                        <br>
-                        <br>
-                        <h1 style=" font-family: 'Sen', sans-serif;">FlashQR</h1>
-                        <br>
-                        <h4>Web Based QR Recognition</h4>
-                    </center>
-                </div>
+                <iframe src="https://www.freeprivacypolicy.com/live/759c0496-2942-4bf1-b972-0145bce8f3c8" width="100%"
+                    height="800px"></iframe>
             </div>
             <div class="row">
                 <div class="col-lg-12">

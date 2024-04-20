@@ -14,6 +14,7 @@ use App\Http\Controllers\CreateAccountController;
 use App\Http\Controllers\HistoryRecordsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\SampleQrController;
 use App\Http\Controllers\StudentQuizController;
@@ -57,6 +58,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/my_history", HistoryRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_records", UserRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_password", UserPasswordController::class)->middleware('throttle:20,1');
+    Route::get('/privacy_policy', [PrivacyPolicyController::class, 'index'])->middleware('throttle:20,1');
 });
 
 Route::resource("/user_scanqr", UserScanQRController::class)->middleware('throttle:20,1');

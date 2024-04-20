@@ -91,8 +91,16 @@
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="/" class="">Home</a></li>
-                            <li class="scroll-to-section"><a href="#services">About</a></li>
-                            <li class="scroll-to-section"><a href="#frequently-question">Privacy Policy</a></li>
+                            <li class="submenu" >
+                                <a href="javascript:;">Administrative</a>
+                                <ul>
+                                    <li><a href="/create" style="color: black !important;" >Create Account</a></li>
+                                    {{-- <li><a href="/login" style="color: black !important;">Acount Activation</a></li> --}}
+                                    <li><a href="/login" style="color: black !important;">Authentication</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="/about">About</a></li>
+                            <li class="scroll-to-section"><a href="/privacy_policy">Privacy Policy</a></li>
 
                         </ul>
                         <a class='menu-trigger'>
