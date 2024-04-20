@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminAccountActivationController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminDashboardController;
@@ -59,6 +60,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/my_records", UserRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_password", UserPasswordController::class)->middleware('throttle:20,1');
     Route::get('/privacy_policy', [PrivacyPolicyController::class, 'index'])->middleware('throttle:20,1');
+    Route::get('/about', [AboutController::class, 'index'])->middleware('throttle:20,1');
 });
 
 Route::resource("/user_scanqr", UserScanQRController::class)->middleware('throttle:20,1');

@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 25/03/2024 02:00:44
+ Date: 21/04/2024 05:26:50
 */
 
 SET NAMES utf8mb4;
@@ -37,13 +37,30 @@ CREATE TABLE `accounts`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`accountID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES (1, 1, 'admin', '$2y$12$EQxD.anzMclN9MSmhWzAheIFcmFT/G4QukoDvv.26ztn1gaI6VHSu', 'Admin', 'Admin', 'Admin', 'None', '2024-03-24', 'None', 'None', 'true', '2024-03-24 17:43:28', '2024-03-24 17:43:28');
-INSERT INTO `accounts` VALUES (2, 2, '0123456', '$2y$12$87FQzSR5FvZoqTD6a8DQ3evc.Swz5h2BHEX3tuM2cQ6TcQzlhBedG', 'Dela Cruz', 'John', 'Santos', '1st Year', '1998-10-13', 'Salomi', '09090464399', '1', '2024-03-24 17:49:47', '2024-03-24 17:49:47');
+
+-- ----------------------------
+-- Table structure for answers
+-- ----------------------------
+DROP TABLE IF EXISTS `answers`;
+CREATE TABLE `answers`  (
+  `answerID` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `accountID` int NOT NULL,
+  `quizID` int NOT NULL,
+  `flashCardID` int NOT NULL,
+  `answer` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`answerID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of answers
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for categories
@@ -114,7 +131,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -127,6 +144,8 @@ INSERT INTO `migrations` VALUES (5, '2024_03_16_075003_create_categories_table',
 INSERT INTO `migrations` VALUES (6, '2024_03_16_102700_create_flash_cards_table', 1);
 INSERT INTO `migrations` VALUES (7, '2024_03_20_053105_create_quizzes_table', 1);
 INSERT INTO `migrations` VALUES (8, '2024_03_24_173545_create_user_approved_logs_table', 1);
+INSERT INTO `migrations` VALUES (9, '2024_04_15_150018_create_answers_table', 1);
+INSERT INTO `migrations` VALUES (10, '2024_04_20_073106_create_user_histories_table', 1);
 
 -- ----------------------------
 -- Table structure for password_reset_tokens
@@ -197,12 +216,29 @@ CREATE TABLE `user_approved_logs`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_approved_logs
 -- ----------------------------
-INSERT INTO `user_approved_logs` VALUES (1, 2, 1, '1', '2024-03-24 17:50:51', '2024-03-24 17:50:51');
+
+-- ----------------------------
+-- Table structure for user_histories
+-- ----------------------------
+DROP TABLE IF EXISTS `user_histories`;
+CREATE TABLE `user_histories`  (
+  `userHistoryID` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `accountID` int NOT NULL,
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`userHistoryID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_histories
+-- ----------------------------
 
 -- ----------------------------
 -- View structure for vwcategories
@@ -217,9 +253,27 @@ DROP VIEW IF EXISTS `vwflashcards`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwflashcards` AS select `flash_cards`.`flashCardID` AS `flashCardID`,`flash_cards`.`flashCardName` AS `flashCardName`,`flash_cards`.`categoryID` AS `categoryID`,`flash_cards`.`imagePath` AS `imagePath`,`flash_cards`.`description` AS `description`,`flash_cards`.`accountID` AS `accountID`,`flash_cards`.`createdBy` AS `createdBy`,`flash_cards`.`created_at` AS `created_at`,`flash_cards`.`updated_at` AS `updated_at`,`categories`.`categoryName` AS `categoryName` from (`flash_cards` join `categories` on((`flash_cards`.`categoryID` = `categories`.`categoryID`)));
 
 -- ----------------------------
+-- View structure for vwhistoryrecords
+-- ----------------------------
+DROP VIEW IF EXISTS `vwhistoryrecords`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwhistoryrecords` AS select `user_histories`.`userHistoryID` AS `userHistoryID`,`user_histories`.`action` AS `action`,`user_histories`.`description` AS `description`,`accounts`.`lastName` AS `lastName`,`accounts`.`firstName` AS `firstName`,`accounts`.`middleName` AS `middleName`,`user_histories`.`created_at` AS `created_at`,`user_histories`.`accountID` AS `accountID` from (`user_histories` join `accounts` on((`user_histories`.`accountID` = `accounts`.`accountID`)));
+
+-- ----------------------------
 -- View structure for vwquizzes
 -- ----------------------------
 DROP VIEW IF EXISTS `vwquizzes`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwquizzes` AS select `quizzes`.`quizID` AS `quizID`,`quizzes`.`flashCardID` AS `flashCardID`,`quizzes`.`question` AS `question`,`quizzes`.`keyAnswer` AS `keyAnswer`,`quizzes`.`created_at` AS `created_at`,`quizzes`.`updated_at` AS `updated_at`,`flash_cards`.`flashCardName` AS `flashCardName`,`categories`.`categoryName` AS `categoryName` from ((`quizzes` join `flash_cards` on((`quizzes`.`flashCardID` = `flash_cards`.`flashCardID`))) join `categories` on((`flash_cards`.`categoryID` = `categories`.`categoryID`)));
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwquizzes` AS select `quizzes`.`quizID` AS `quizID`,`quizzes`.`flashCardID` AS `flashCardID`,`quizzes`.`question` AS `question`,`quizzes`.`keyAnswer` AS `keyAnswer`,`quizzes`.`created_at` AS `created_at`,`quizzes`.`updated_at` AS `updated_at`,`flash_cards`.`flashCardName` AS `flashCardName`,`categories`.`categoryName` AS `categoryName`,`flash_cards`.`description` AS `description`,`flash_cards`.`imagePath` AS `imagePath` from ((`quizzes` join `flash_cards` on((`quizzes`.`flashCardID` = `flash_cards`.`flashCardID`))) join `categories` on((`flash_cards`.`categoryID` = `categories`.`categoryID`)));
+
+-- ----------------------------
+-- View structure for vwresults
+-- ----------------------------
+DROP VIEW IF EXISTS `vwresults`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwresults` AS select `quizzes`.`flashCardID` AS `flashCardID`,`answers`.`accountID` AS `accountID`,`flash_cards`.`flashCardName` AS `flashCardName`,max(`answers`.`created_at`) AS `created_at`,sum((case when (`quizzes`.`keyAnswer` = `answers`.`answer`) then 5 else 0 end)) AS `score` from ((`answers` join `quizzes` on((`answers`.`quizID` = `quizzes`.`quizID`))) join `flash_cards` on((`quizzes`.`flashCardID` = `flash_cards`.`flashCardID`))) group by `quizzes`.`flashCardID`,`answers`.`accountID`,`flash_cards`.`flashCardName`;
+
+-- ----------------------------
+-- View structure for vwusers
+-- ----------------------------
+DROP VIEW IF EXISTS `vwusers`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwusers` AS select `accounts`.`accountID` AS `accountID`,`accounts`.`accountType` AS `accountType`,`accounts`.`studentNumber` AS `studentNumber`,`accounts`.`lastName` AS `lastName`,`accounts`.`firstName` AS `firstName`,`accounts`.`middleName` AS `middleName`,`accounts`.`isActivated` AS `isActivated`,`accounts`.`created_at` AS `created_at`,`user_approved_logs`.`approver` AS `approver` from (`accounts` join `user_approved_logs` on((`accounts`.`accountID` = `user_approved_logs`.`accountID`)));
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@600&display=swap" rel="stylesheet">
-    <title>Privacy Policy</title>
+    <title>About</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/templatemo-art-factory.css">
@@ -91,8 +91,8 @@
                                     <li><a href="/login" style="color: black !important;">Authentication</a></li>
                                 </ul>
                             </li>
-                            <li class="scroll-to-section"><a href="/about">About</a></li>
-                            <li class="scroll-to-section"><a href="/privacy_policy" class="active">Privacy Policy</a>
+                            <li class="scroll-to-section"><a href="/about" class="active">About</a></li>
+                            <li class="scroll-to-section"><a href="/privacy_policy">Privacy Policy</a>
                             </li>
 
                         </ul>
@@ -114,8 +114,35 @@
     <section class="section" id="about">
         <div class="container">
             <div class="row">
-                <iframe src="https://www.freeprivacypolicy.com/live/759c0496-2942-4bf1-b972-0145bce8f3c8" width="100%"
-                    height="800px"></iframe>
+                <div class="container-fluid p-5">
+                    <div class="row gx-5">
+                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
+                            <div class="position-relative h-100">
+                                <img class="position-absolute w-100 h-100 rounded" src="about.jpg"
+                                    style="object-fit: cover;">
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="mb-4">
+                                <h5 class="text-primary text-uppercase">About Us</h5>
+                                <h1 class="display-3 text-uppercase mb-0">Welcome to FlashQR</h1>
+                            </div>
+                            <p class="mb-4">Your go-to web application designed to
+                                revolutionize the way educators engage with their students. At FlashQR, we believe in
+                                harnessing the power of technology to simplify teaching and enhance learning
+                                experiences.</p>
+                            <div class="rounded bg-dark p-5">
+                                <div class="row">
+                                    <p class="text-white mb-0">Gone are the days of static study materials. With
+                                        FlashQR, teachers can effortlessly convert their flashcards into interactive
+                                        QR codes, bringing learning to life in the digital age. Whether you're in
+                                        the classroom or conducting remote lessons, our user-friendly interface
+                                        empowers educators to create engaging content with just a few clicks.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
