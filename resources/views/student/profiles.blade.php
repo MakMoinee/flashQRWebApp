@@ -91,6 +91,11 @@
                                 </li>
                                 <li class="nav-title">Record Management</li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/my_records">
+                                        <img class="nav-icon" src="/userrecords.svg" alt="" srcset="">
+                                        User Records</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/my_history">
                                         <img class="nav-icon" src="/history.svg" alt="" srcset="">
                                         History Records</a>

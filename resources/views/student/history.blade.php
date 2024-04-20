@@ -47,8 +47,9 @@
             font-family: "Sen", sans-serif;
         }
 
-        .colorBlue {
-            color: rgb(0, 116, 248) !important;
+        .card-header {
+            background: rgb(0, 145, 248) !important;
+            color: white;
         }
     </style>
 </head>
@@ -82,7 +83,7 @@
                                         <img class="nav-icon" src="/personal.svg" alt="" srcset="">
                                         Personal Details</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link active" href="/my_password">
+                                <li class="nav-item"><a class="nav-link" href="/my_password">
                                         <img class="nav-icon" src="/password.svg" alt="" srcset="">
                                         Password and Security</a>
                                 </li>
@@ -100,7 +101,7 @@
                                         User Records</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/my_history">
+                                    <a class="nav-link active" href="/my_history">
                                         <img class="nav-icon" src="/history.svg" alt="" srcset="">
                                         History Records</a>
                                 </li>
@@ -178,7 +179,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Password And Security</span></li>
+                        <li class="breadcrumb-item active"><span>History Records</span></li>
                     </ol>
                 </nav>
             </div>
@@ -189,56 +190,53 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-4">
+                            <div class="card-header">
+                                <span style="font-size:25px;">History Records</span>
+                            </div>
                             <div class="card-body">
-                                <form action="/my_password" method="post" enctype="multipart/form-data"
-                                    autocomplete="off">
-                                    @csrf
-                                    <div class="row">
-                                        <h3 class="colorBlue">CHANGE ACCOUNT INFO</h3>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="username">Username:</label>
-                                                <input required disabled class="form-control" required type="text"
-                                                    name="username" id="" value="{{ $username }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="col-md-3" style="float: left;">
-                                                <div class="form-group">
-                                                    <label for="oldPassword">Old Password:</label>
-                                                    <input required class="form-control" required type="password"
-                                                        name="oldPassword" id="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3" style="float: left;margin-left: 20px;">
-                                                <div class="form-group">
-                                                    <label for="newPassword">New Password:</label>
-                                                    <input required class="form-control" required type="password"
-                                                        name="newPassword" id="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3" style="float: left; margin-left: 20px;">
-                                                <div class="form-group">
-                                                    <label for="confirmPass">Confirm New Password:</label>
-                                                    <input required class="form-control" required type="password"
-                                                        name="confirmPass" id="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="submit" class="btn btn-warning" name="btnUpdatePassword"
-                                                value="yes
-                                            ">Save
-                                                Changes</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
+                                            <tr class="align-middle">
+                                                <th class="text-center">
+                                                    <svg class="icon">
+                                                        <use
+                                                            xlink:href="vendors/@coreui/icons/svg/free.svg#cil-people">
+                                                        </use>
+                                                    </svg>
+                                                </th>
+                                                <th>Action</th>
+                                                <th class="text-center">Description</th>
+                                                <th>Name</th>
+                                                <th class="text-center">Date</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($history as $item)
+                                                <tr class="align-middle">
+                                                    <td class="text-center"></td>
+                                                    <td>
+                                                        {{ $item['action'] }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $item['description'] }}
+                                                    </td>
+                                                    <td
+                                                        title="{{ $item['lastName'] }}, {{ $item['firstName'] }}
+                                                    {{ $item['middleName'] }}">
+                                                        {{ $item['lastName'] }}, {{ $item['firstName'] }}
+                                                        {{ $item['middleName'] }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
 
                             </div>
                         </div>
@@ -264,63 +262,63 @@
     <script src="./assets/files/main.js.download"></script>
     <script></script>
 
-    @if (session()->pull('errorUpdatePassword'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Failed To Update Password, Please Try Again Later',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('errorUpdatePassword') }}
-    @endif
-
-    @if (session()->pull('oldPasswordNotMatch'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Old Password Not Matched, Please Try Again Later',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('oldPasswordNotMatch') }}
-    @endif
-    @if (session()->pull('newPasswordNotMatch'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'New Password Doesn\'t Match, Please Try Again Later',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('newPasswordNotMatch') }}
-    @endif
-
-    @if (session()->pull('successUpdatePassword'))
+    @if (session()->pull('successQuiz'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Updated Password',
+                    title: 'Successfully Completed Quiz',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successUpdatePassword') }}
+        {{ session()->forget('successQuiz') }}
+    @endif
+
+    @if (session()->pull('errorExistAnswer'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'You Have Already Answered The Quiz Linked To That Qr Code',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorExistAnswer') }}
+    @endif
+    @if (session()->pull('errorQuiz'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Complete Quiz, Please Try Scanning Again',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorQuiz') }}
+    @endif
+
+    @if (session()->pull('successLogin'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Login Successfully',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successLogin') }}
     @endif
 </body>
 

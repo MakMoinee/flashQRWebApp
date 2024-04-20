@@ -24,7 +24,7 @@ class HistoryRecordsController extends Controller
 
             $data = json_decode(DB::table('vwhistoryrecords')->where('accountID', '=', $user['accountID'])->get(), true);
 
-            return view('student.records', ['history' => $data]);
+            return view('student.history', ['history' => $data]);
         }
         return redirect("/");
     }

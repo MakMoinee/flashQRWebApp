@@ -55,6 +55,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/my_profile", UserProfileController::class)->middleware('throttle:20,1');
     Route::resource("/student_quiz", StudentQuizController::class)->middleware('throttle:20,1');
     Route::resource("/my_history", HistoryRecordsController::class)->middleware('throttle:20,1');
+    Route::resource("/my_records", UserRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_password", UserPasswordController::class)->middleware('throttle:20,1');
 });
 
