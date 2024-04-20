@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\AdminScanController;
 use App\Http\Controllers\AdminUserRecordsController;
 use App\Http\Controllers\CreateAccountController;
+use App\Http\Controllers\HistoryRecordsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\QRCodeController;
@@ -52,7 +53,7 @@ Route::middleware(['general'])->group(function () {
     Route::resource("/history", AdminHistoryRecordsController::class)->middleware('throttle:20,1');
     Route::resource("/my_profile", UserProfileController::class)->middleware('throttle:20,1');
     Route::resource("/student_quiz", StudentQuizController::class)->middleware('throttle:20,1');
-    Route::resource("/my_records", UserRecordsController::class)->middleware('throttle:20,1');
+    Route::resource("/my_history", HistoryRecordsController::class)->middleware('throttle:20,1');
 });
 
 Route::resource("/user_scanqr", UserScanQRController::class)->middleware('throttle:20,1');

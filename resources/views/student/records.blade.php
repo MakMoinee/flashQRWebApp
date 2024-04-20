@@ -91,12 +91,7 @@
                                 </li>
                                 <li class="nav-title">Record Management</li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/my_records">
-                                        <img class="nav-icon" src="/userrecords.svg" alt="" srcset="">
-                                        User Records</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/history">
+                                    <a class="nav-link active" href="/history">
                                         <img class="nav-icon" src="/history.svg" alt="" srcset="">
                                         History Records</a>
                                 </li>
@@ -184,6 +179,7 @@
 
                 <div class="row">
                     <div class="card mb-4">
+                        <div class="card-header"></div>
                         <div class="card-body">
                             <div class="row">
                             </div>
