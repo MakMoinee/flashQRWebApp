@@ -193,8 +193,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="username">Username:</label>
-                                                <input required disabled class="form-control" required type="text" name="username"
-                                                    id="" value="{{ $username }}">
+                                                <input required disabled class="form-control" required type="text"
+                                                    name="username" id="" value="{{ $username }}">
                                             </div>
                                         </div>
                                     </div>
@@ -227,7 +227,10 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-warning">Save Changes</button>
+                                            <button type="submit" class="btn btn-warning" name="btnUpdatePassword"
+                                                value="yes
+                                            ">Save
+                                                Changes</button>
                                         </div>
                                     </div>
                                 </form>
@@ -256,63 +259,63 @@
     <script src="./assets/files/main.js.download"></script>
     <script></script>
 
-    @if (session()->pull('successQuiz'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Successfully Completed Quiz',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('successQuiz') }}
-    @endif
-
-    @if (session()->pull('errorExistAnswer'))
+    @if (session()->pull('errorUpdatePassword'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'You Have Already Answered The Quiz Linked To That Qr Code',
+                    title: 'Failed To Update Password, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorExistAnswer') }}
+        {{ session()->forget('errorUpdatePassword') }}
     @endif
-    @if (session()->pull('errorQuiz'))
+
+    @if (session()->pull('oldPasswordNotMatch'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Complete Quiz, Please Try Scanning Again',
+                    title: 'Old Password Not Matched, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorQuiz') }}
+        {{ session()->forget('oldPasswordNotMatch') }}
+    @endif
+    @if (session()->pull('newPasswordNotMatch'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'New Password Doesn\'t Match, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('newPasswordNotMatch') }}
     @endif
 
-    @if (session()->pull('successLogin'))
+    @if (session()->pull('successUpdatePassword'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Login Successfully',
+                    title: 'Successfully Updated Password',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLogin') }}
+        {{ session()->forget('successUpdatePassword') }}
     @endif
 </body>
 

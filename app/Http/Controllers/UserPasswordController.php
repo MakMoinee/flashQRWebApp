@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accounts;
+use App\Models\User;
+use App\Models\UserHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserPasswordController extends Controller
 {
@@ -39,7 +44,51 @@ class UserPasswordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+
+            if ($accountType != 2) {
+                return redirect("/");
+            }
+
+            if ($request->btnUpdatePassword) {
+                if (password_verify($request->oldPassword, $user['password'])) {
+                    $newPassword = $request->newPassword;
+                    $confirmPass = $request->confirmPass;
+
+                    if ($newPassword == $confirmPass) {
+                        $newPass = Hash::make($newPassword);
+                        $updateCount = DB::table('accounts')->where('accountID', '=', $user['accountID'])->update([
+                            'password' => $newPass,
+                        ]);
+
+                        if ($updateCount > 0) {
+                            $user = session()->pull('users');
+                            $user['password'] = $newPass;
+                            session()->put('users', $user);
+                            session()->put('successUpdatePassword', true);
+                            $userHistory = new UserHistory();
+                            $userHistory->accountID = $user['accountID'];
+                            $userHistory->action = "Password Changed";
+                            $userHistory->description = "Successful";
+                            $userHistory->save();
+                        } else {
+                            session()->put('errorUpdatePassword', true);
+                        }
+                    } else {
+                        session()->put('newPasswordNotMatch', true);
+                    }
+                } else {
+                    session()->put('oldPasswordNotMatch', true);
+                }
+            }
+
+            return redirect("/my_password");
+        }
+        return redirect("/");
     }
 
     /**
