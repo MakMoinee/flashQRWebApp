@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answers;
+use App\Models\UserHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -128,6 +129,12 @@ class StudentQuizController extends Controller
                         }
 
                         if ($index == $saveCount) {
+                            $userHistory = new UserHistory();
+                            $userHistory->accountID = $user['accountID'];
+                            $userHistory->action = "Taken Quiz";
+                            $userHistory->description = $request->description;
+                            $userHistory->save();
+
                             session()->put("successQuiz", true);
                         } else {
                             dd([$index, $saveCount]);

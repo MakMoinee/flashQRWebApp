@@ -46,6 +46,11 @@
         body {
             font-family: "Sen", sans-serif;
         }
+
+        .card-header {
+            background: rgb(0, 145, 248) !important;
+            color: white;
+        }
     </style>
 </head>
 
@@ -78,7 +83,7 @@
                                         <img class="nav-icon" src="/personal.svg" alt="" srcset="">
                                         Personal Details</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="/passwords">
+                                <li class="nav-item"><a class="nav-link" href="/my_password">
                                         <img class="nav-icon" src="/password.svg" alt="" srcset="">
                                         Password and Security</a>
                                 </li>
@@ -91,7 +96,7 @@
                                 </li>
                                 <li class="nav-title">Record Management</li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/history">
+                                    <a class="nav-link active" href="/my_history">
                                         <img class="nav-icon" src="/history.svg" alt="" srcset="">
                                         History Records</a>
                                 </li>
@@ -169,7 +174,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>User Records</span></li>
+                        <li class="breadcrumb-item active"><span>History Records</span></li>
                     </ol>
                 </nav>
             </div>
@@ -178,12 +183,57 @@
             <div class="container-lg">
 
                 <div class="row">
-                    <div class="card mb-4">
-                        <div class="card-header"></div>
-                        <div class="card-body">
-                            <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <span style="font-size:25px;">History Records</span>
                             </div>
+                            <div class="card-body">
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
+                                            <tr class="align-middle">
+                                                <th class="text-center">
+                                                    <svg class="icon">
+                                                        <use
+                                                            xlink:href="vendors/@coreui/icons/svg/free.svg#cil-people">
+                                                        </use>
+                                                    </svg>
+                                                </th>
+                                                <th>Action</th>
+                                                <th class="text-center">Description</th>
+                                                <th>Name</th>
+                                                <th class="text-center">Date</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($history as $item)
+                                                <tr class="align-middle">
+                                                    <td class="text-center"></td>
+                                                    <td>
+                                                        {{ $item['action'] }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $item['description'] }}
+                                                    </td>
+                                                    <td
+                                                        title="{{ $item['lastName'] }}, {{ $item['firstName'] }}
+                                                    {{ $item['middleName'] }}">
+                                                        {{ $item['lastName'] }}, {{ $item['firstName'] }}
+                                                        {{ $item['middleName'] }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>

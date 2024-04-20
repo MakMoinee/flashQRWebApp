@@ -3,30 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class HistoryRecordsController extends Controller
+class UserPasswordController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        if (session()->exists('users')) {
-            $user = session()->pull('users');
-            session()->put('users', $user);
-            $accountType = $user['accountType'];
-
-
-            if ($accountType != 2) {
-                return redirect("/");
-            }
-
-            $data = json_decode(DB::table('vwhistoryrecords')->where('accountID', '=', $user['accountID'])->get(), true);
-
-            return view('student.records', ['history' => $data]);
-        }
-        return redirect("/");
+        //
     }
 
     /**

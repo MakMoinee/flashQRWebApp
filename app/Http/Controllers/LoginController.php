@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -64,6 +65,11 @@ class LoginController extends Controller
                     if ($accountType == 1) {
                         return redirect("/admin_dashboard");
                     } else if ($accountType == 2) {
+                        $userHistory = new UserHistory();
+                        $userHistory->accountID = $user['accountID'];
+                        $userHistory->action = "Login";
+                        $userHistory->description = "Successful";
+                        $userHistory->save();
                         return redirect("/student_dashboard");
                     }
                 } else {

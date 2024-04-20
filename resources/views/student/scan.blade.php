@@ -140,7 +140,7 @@
                                         <img class="nav-icon" src="/personal.svg" alt="" srcset="">
                                         Personal Details</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="/passwords">
+                                <li class="nav-item"><a class="nav-link" href="/my_password">
                                         <img class="nav-icon" src="/password.svg" alt="" srcset="">
                                         Password and Security</a>
                                 </li>
@@ -153,7 +153,7 @@
                                 </li>
                                 <li class="nav-title">Record Management</li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/history">
+                                    <a class="nav-link" href="/my_history">
                                         <img class="nav-icon" src="/history.svg" alt="" srcset="">
                                         History Records</a>
                                 </li>
