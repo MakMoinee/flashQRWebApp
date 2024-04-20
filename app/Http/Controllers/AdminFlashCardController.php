@@ -30,7 +30,9 @@ class AdminFlashCardController extends Controller
             $years = range(1990, $currentYear);
 
             $categories = Category::all();
-            $flashCards = json_decode(DB::table('vwflashcards')->get(), true);
+            $flashCards = DB::table('vwflashcards')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
 
             return view('admin.flashcard', ['yrs' => $years, 'currentUser' => $user, 'categories' => $categories, 'flashCards' => $flashCards]);
         }

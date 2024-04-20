@@ -218,13 +218,69 @@
                     <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <span style="font-size:25px;">HISTORY RECORDS</span>
+                                <span style="font-size:25px;">History Records</span>
                             </div>
                             <div class="card-body">
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
+                                            <tr class="align-middle">
+                                                <th class="text-center">
+                                                    <svg class="icon">
+                                                        <use
+                                                            xlink:href="vendors/@coreui/icons/svg/free.svg#cil-people">
+                                                        </use>
+                                                    </svg>
+                                                </th>
+                                                <th>Action</th>
+                                                <th class="text-center">Description</th>
+                                                <th>Name</th>
+                                                <th class="text-center">Date</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($history as $item)
+                                                <tr class="align-middle">
+                                                    <td class="text-center"></td>
+                                                    <td>{{ $item->action }}</td>
+                                                    <td class="text-center">{{ $item->description }}</td>
+                                                    <td
+                                                        title="{{ $item->lastName }}, {{ $item->firstName }} {{ $item->middleName }}">
+                                                        {{ $item->lastName }}, {{ $item->firstName }}
+                                                        {{ $item->middleName }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="pagination">
+                                            <ul class="pagination">
+                                                @for ($i = 1; $i <= $history->lastPage(); $i++)
+                                                    <li class="page-item ">
+                                                        <a class="page-link {{ $history->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $history->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endfor
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>

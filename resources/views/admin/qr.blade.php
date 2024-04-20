@@ -246,19 +246,19 @@
 
                                                     </td>
                                                     <td>
-                                                        {{ $item['categoryName'] }}
+                                                        {{ $item->categoryName }}
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ $item['flashCardName'] }}
+                                                        {{ $item->flashCardName }}
                                                     </td>
                                                     <td>
-                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                        {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-warning text-white"
                                                             data-coreui-target="#generateQRModal"
                                                             data-coreui-toggle="modal"
-                                                            onclick="triggerGenerate({{ $item['flashCardID'] }})">
+                                                            onclick="triggerGenerate({{ $item->flashCardID }})">
                                                             Generate QR
                                                         </button>
                                                     </td>
@@ -268,6 +268,22 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="pagination">
+                                            <ul class="pagination">
+                                                @for ($i = 1; $i <= $qr->lastPage(); $i++)
+                                                    <li class="page-item ">
+                                                        <a class="page-link {{ $qr->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $qr->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endfor
+                                            </ul>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

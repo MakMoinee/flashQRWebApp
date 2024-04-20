@@ -21,7 +21,9 @@ class AdminGenerateQrController extends Controller
                 return redirect("/");
             }
 
-            $qr = json_decode(DB::table('vwflashcards')->get(), true);
+            $qr = DB::table('vwflashcards')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
 
 
             return view("admin.qr", ['qr' => $qr]);

@@ -247,34 +247,34 @@
                                                 <tr class="align-middle">
                                                     <td class="text-center">
                                                         <div class="avatar avatar-md"><img class="avatar-img"
-                                                                src="{{ $item['imagePath'] }}" alt=""><span
+                                                                src="{{ $item->imagePath }}" alt=""><span
                                                                 class="avatar-status bg-success"></span>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div>{{ $item['flashCardName'] }}</div>
+                                                        <div>{{ $item->flashCardName }}</div>
                                                         <div class="small text-medium-emphasis">Created:
-                                                            {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                            {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ $item['categoryName'] }}
+                                                        {{ $item->categoryName }}
                                                     </td>
                                                     <td>
-                                                        {{ $item['description'] }}
+                                                        {{ $item->description }}
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ $item['createdBy'] }}
+                                                        {{ $item->createdBy }}
                                                     </td>
                                                     <td>
                                                         <button class="btn" data-coreui-toggle="modal"
                                                             data-coreui-target="#updateFlashCardModal"
-                                                            onclick="triggerUpdate({{ $item['flashCardID'] }},'{{ $item['imagePath'] }}','{{ $item['flashCardName'] }}','{{ $item['categoryID'] }}','{{ $item['description'] }}')">
+                                                            onclick="triggerUpdate({{ $item->flashCardID }},'{{ $item->imagePath }}','{{ $item->flashCardName }}','{{ $item->categoryID }}','{{ $item->description}}')">
                                                             <img src="/edit.svg" alt="" srcset="">
                                                         </button>
                                                         <button class="btn" data-coreui-toggle="modal"
                                                             data-coreui-target="#deleteFlashCardModal"
-                                                            onclick="triggerDelete({{ $item['flashCardID'] }},'{{ $item['imagePath'] }}')">
+                                                            onclick="triggerDelete({{ $item->flashCardID }},'{{ $item->imagePath }}')">
                                                             <img src="/fail.svg" alt="" srcset="">
                                                         </button>
                                                     </td>
@@ -282,6 +282,22 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="pagination">
+                                            <ul class="pagination">
+                                                @for ($i = 1; $i <= $flashCards->lastPage(); $i++)
+                                                    <li class="page-item ">
+                                                        <a class="page-link {{ $flashCards->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $flashCards->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endfor
+                                            </ul>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

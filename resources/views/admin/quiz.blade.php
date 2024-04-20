@@ -242,33 +242,33 @@
                                             @foreach ($quizzes as $item)
                                                 <tr class="align-middle">
                                                     <td class="text-center">
-                                                        {{ $item['quizID'] }}
+                                                        {{ $item->quizID }}
                                                     </td>
                                                     <td>
-                                                        @if (strlen($item['question']) > 10)
-                                                            {{ substr($item['question'], 0, 10) }}...
+                                                        @if (strlen($item->question) > 10)
+                                                            {{ substr($item->question, 0, 10) }}...
                                                         @else
-                                                            {{ $item['question'] }}
+                                                            {{ $item->question }}
                                                         @endif
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ $item['categoryName'] }}
+                                                        {{ $item->categoryName }}
                                                     </td>
                                                     <td>
-                                                        {{ $item['flashCardName'] }}
+                                                        {{ $item->flashCardName }}
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                        {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                                     </td>
                                                     <td>
                                                         <button class="btn" data-coreui-target="#updateQuizModal"
                                                             data-coreui-toggle="modal"
-                                                            onclick="triggerUpdate({{ $item['quizID'] }},'{{ $item['question'] }}',{{ $item['flashCardID'] }},{{ $item['keyAnswer'] }})">
+                                                            onclick="triggerUpdate({{ $item->quizID }},'{{ $item->question }}',{{ $item->flashCardID }},{{ $item->keyAnswer }})">
                                                             <img src="/edit.svg" alt="" srcset="">
                                                         </button>
                                                         <button class="btn" data-coreui-toggle="modal"
                                                             data-coreui-target="#deleteQuizModal"
-                                                            onclick="triggerDelete({{ $item['quizID'] }})">
+                                                            onclick="triggerDelete({{ $item->quizID }})">
                                                             <img src="/fail.svg" alt="" srcset="">
                                                         </button>
                                                     </td>
@@ -277,6 +277,22 @@
 
                                         </tbody>
                                     </table>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="pagination">
+                                            <ul class="pagination">
+                                                @for ($i = 1; $i <= $quizzes->lastPage(); $i++)
+                                                    <li class="page-item ">
+                                                        <a class="page-link {{ $quizzes->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $quizzes->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endfor
+                                            </ul>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -24,7 +24,9 @@ class AdminQuizController extends Controller
             }
 
             $flashCards = FlashCard::all();
-            $quizzes = json_decode(DB::table('vwquizzes')->get(), true);
+            $quizzes = DB::table('vwquizzes')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
 
 
             return view("admin.quiz", ['flashCards' => $flashCards, 'quizzes' => $quizzes]);

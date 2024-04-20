@@ -251,25 +251,25 @@
                                                 <tr class="align-middle">
                                                     <td class="text-center">
                                                         <div class="avatar avatar-md"><img class="avatar-img"
-                                                                src="{{ $item['imagePath'] }}"
+                                                                src="{{ $item->imagePath }}"
                                                                 alt="user@email.com"><span
                                                                 class="avatar-status bg-success"></span>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div>{{ $item['categoryName'] }}</div>
+                                                        <div>{{ $item->categoryName }}</div>
                                                         <div class="small text-medium-emphasis">Created:
-                                                            {{ (new DateTime($item['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                            {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ $item['accountID'] }}
+                                                        {{ $item->accountID }}
                                                     </td>
                                                     <td>
-                                                        {{ $item['createdBy'] }}
+                                                        {{ $item->createdBy }}
                                                     </td>
                                                     <td class="text-center">
-                                                        @if ($item['accountType'] == 1)
+                                                        @if ($item->accountType == 1)
                                                             Admin
                                                         @else
                                                         @endif
@@ -279,13 +279,13 @@
                                                         <button data-coreui-toggle="modal"
                                                             data-coreui-target="#updateCategoryModal" class="btn"
                                                             style="cursor: pointer;"
-                                                            onclick="triggerUpdate({{ $item['categoryID'] }},'{{ $item['imagePath'] }}','{{ $item['categoryName'] }}')">
+                                                            onclick="triggerUpdate({{ $item->categoryID }},'{{ $item->imagePath }}','{{ $item->categoryName }}')">
                                                             <img src="/edit.svg" alt="" srcset="">
                                                         </button>
                                                         <button data-coreui-toggle="modal"
                                                             data-coreui-target="#deleteCategoryModal" class="btn"
                                                             style="cursor: pointer;"
-                                                            onclick="triggerDelete({{ $item['categoryID'] }},'{{ $item['imagePath'] }}')">
+                                                            onclick="triggerDelete({{ $item->categoryID }},'{{ $item->imagePath }}')">
                                                             <img src="/fail.svg" alt="" srcset="">
                                                         </button>
                                                     </td>
@@ -293,6 +293,22 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="pagination">
+                                            <ul class="pagination">
+                                                @for ($i = 1; $i <= $categories->lastPage(); $i++)
+                                                    <li class="page-item ">
+                                                        <a class="page-link {{ $categories->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $categories->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endfor
+                                            </ul>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

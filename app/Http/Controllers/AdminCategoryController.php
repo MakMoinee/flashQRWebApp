@@ -24,7 +24,10 @@ class AdminCategoryController extends Controller
                 return redirect("/");
             }
 
-            $data = json_decode(DB::table('vwcategories')->get(), true);
+            $data = DB::table('vwcategories')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+
             return view("admin.category", ['categories' => $data]);
         }
         return redirect("/");

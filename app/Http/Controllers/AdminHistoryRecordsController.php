@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminHistoryRecordsController extends Controller
 {
@@ -20,7 +21,11 @@ class AdminHistoryRecordsController extends Controller
                 return redirect("/");
             }
 
-            return view('admin.history');
+            $data = DB::table('vwhistoryrecords')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+
+            return view('admin.history', ['history' => $data]);
         }
         return redirect("/");
     }
