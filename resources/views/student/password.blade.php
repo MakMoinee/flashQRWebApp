@@ -46,6 +46,10 @@
         body {
             font-family: "Sen", sans-serif;
         }
+
+        .colorBlue {
+            color: rgb(0, 116, 248) !important;
+        }
     </style>
 </head>
 
@@ -169,7 +173,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Dashboard</span></li>
+                        <li class="breadcrumb-item active"><span>Password And Security</span></li>
                     </ol>
                 </nav>
             </div>
@@ -178,21 +182,57 @@
             <div class="container-lg">
 
                 <div class="row">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row">
-                                <center>
-                                    <h1 style=" font-family: 'Sen', sans-serif;">WELCOME</h1>
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form action="/my_password" method="post" enctype="multipart/form-data"
+                                    autocomplete="off">
+                                    @csrf
+                                    <div class="row">
+                                        <h3 class="colorBlue">CHANGE ACCOUNT INFO</h3>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="username">Username:</label>
+                                                <input required disabled class="form-control" required type="text" name="username"
+                                                    id="" value="{{ $username }}">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <br>
-                                    <img src="/logo.png" alt="" srcset="">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3" style="float: left;">
+                                                <div class="form-group">
+                                                    <label for="oldPassword">Old Password:</label>
+                                                    <input required class="form-control" required type="password"
+                                                        name="oldPassword" id="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" style="float: left;margin-left: 20px;">
+                                                <div class="form-group">
+                                                    <label for="newPassword">New Password:</label>
+                                                    <input required class="form-control" required type="password"
+                                                        name="newPassword" id="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" style="float: left; margin-left: 20px;">
+                                                <div class="form-group">
+                                                    <label for="confirmPass">Confirm New Password:</label>
+                                                    <input required class="form-control" required type="password"
+                                                        name="confirmPass" id="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <br>
-                                    <br>
-                                    <h1 style=" font-family: 'Sen', sans-serif;">FlashQR</h1>
-                                    <br>
-                                    <h4>Web Based QR Recognition</h4>
-                                </center>
-                            </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-warning">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </form>
 
+                            </div>
                         </div>
                     </div>
                 </div>
