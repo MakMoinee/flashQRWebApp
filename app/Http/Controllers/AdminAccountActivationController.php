@@ -26,17 +26,22 @@ class AdminAccountActivationController extends Controller
             if ($accountType != 1) {
                 return redirect("/");
             }
+            if ($search!="") {
+                $paginatedAccounts = DB::table('accounts')
+                    ->where('lastName', 'LIKE', '%' . $search . '%')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            } else {
+                $paginatedAccounts = DB::table('accounts')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            }
 
             $mUsers = Accounts::all();
-            $tmpUsers = array();
             $mUsers = json_decode($mUsers, true);
             $inActiveCount = 0;
             $activeCount = 0;
             foreach ($mUsers as $u) {
-                $utcDateTime = new DateTime($u['created_at'], new DateTimeZone('UTC'));
-                $utcDateTime->setTimezone(new DateTimeZone('Asia/Manila'));
-                $u['created_at'] = $utcDateTime->format('Y-m-d h:i a');
-                array_push($tmpUsers, $u);
                 if ($u['isActivated']) {
                     $activeCount += 1;
                 } else {
@@ -44,7 +49,7 @@ class AdminAccountActivationController extends Controller
                 }
             }
 
-            return view('admin.activation', ['searchKey' => $search, 'users' => $tmpUsers, 'activeCount' => $activeCount, 'inactiveCount' => $inActiveCount, 'total' => $activeCount + $inActiveCount]);
+            return view('admin.activation', ['searchKey' => $search, 'users' => $paginatedAccounts, 'activeCount' => $activeCount, 'inactiveCount' => $inActiveCount, 'total' => $activeCount + $inActiveCount]);
         }
         return redirect("/");
     }

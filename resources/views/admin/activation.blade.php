@@ -29,7 +29,7 @@
     <script src="./assets/files/667090843876081" async=""></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-         .sidebar {
+        .sidebar {
             --cui-sidebar-bg: rgb(0, 145, 248) !important;
             color: white;
         }
@@ -256,48 +256,48 @@
                                     @foreach ($users as $item)
                                         <tr>
                                             <td>
-                                                {{ $item['studentNumber'] }}
+                                                {{ $item->studentNumber }}
                                             </td>
                                             <td>
-                                                {{ $item['lastName'] }}, {{ $item['firstName'] }}
-                                                {{ $item['middleName'] }}
+                                                {{ $item->lastName }}, {{ $item->firstName }}
+                                                {{ $item->middleName }}
                                             </td>
                                             <td>
-                                                {{ $item['level'] }}
+                                                {{ $item->level }}
                                             </td>
                                             <td>
-                                                {{ $item['created_at'] }}
+                                                {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                             </td>
                                             <td>
-                                                {{ $item['guardian'] }}
+                                                {{ $item->guardian }}
                                             </td>
                                             <td>
-                                                {{ $item['contactNumber'] }}
+                                                {{ $item->contactNumber }}
                                             </td>
                                             <td>
-                                                @if ($item['isActivated'])
+                                                @if ($item->isActivated)
                                                     <b class="btn btn-success text-white">Active</b>
                                                 @else
                                                     <b class="btn btn-danger text-white">Inactive</b>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($item['isActivated'])
+                                                @if ($item->isActivated)
                                                     <button class="btn"
-                                                        data-coreui-target="#deactivateUsersModal{{ $item['accountID'] }}"
+                                                        data-coreui-target="#deactivateUsersModal{{ $item->accountID }}"
                                                         data-coreui-toggle="modal"><img src="/fail.svg"
                                                             alt="" srcset=""></button>
                                                     <div class="modal fade "
-                                                        id="deactivateUsersModal{{ $item['accountID'] }}"
+                                                        id="deactivateUsersModal{{ $item->accountID }}"
                                                         tabindex="-1" role="dialog"
-                                                        aria-labelledby="deactivateUsersModal{{ $item['accountID'] }}"
+                                                        aria-labelledby="deactivateUsersModal{{ $item->accountID }}"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-body">
                                                                     <div class="row">
                                                                         <form
-                                                                            action="{{ route('activations.update', ['activation' => $item['accountID']]) }}"
+                                                                            action="{{ route('activations.update', ['activation' => $item->accountID]) }}"
                                                                             method="POST"
                                                                             enctype="multipart/form-data"
                                                                             autocomplete="off">
@@ -305,7 +305,7 @@
                                                                             @csrf
 
                                                                             <h5 class="modal-title"
-                                                                                id="deactivateUsersModal{{ $item['accountID'] }}">
+                                                                                id="deactivateUsersModal{{ $item->accountID }}">
                                                                                 Are You Sure You Want To Deactivate This
                                                                                 User?
                                                                             </h5>
@@ -326,19 +326,19 @@
                                                     </div>
                                                 @else
                                                     <button class="btn" data-coreui-toggle="modal"
-                                                        data-coreui-target="#viewUsersModal{{ $item['accountID'] }}"><img
+                                                        data-coreui-target="#viewUsersModal{{ $item->accountID }}"><img
                                                             src="/check.svg" alt="" srcset=""></button>
                                                     <div class="modal fade "
-                                                        id="viewUsersModal{{ $item['accountID'] }}" tabindex="-1"
+                                                        id="viewUsersModal{{ $item->accountID }}" tabindex="-1"
                                                         role="dialog"
-                                                        aria-labelledby="viewUsersModalLabel{{ $item['accountID'] }}"
+                                                        aria-labelledby="viewUsersModalLabel{{ $item->accountID }}"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-body">
                                                                     <div class="row">
                                                                         <form
-                                                                            action="{{ route('activations.update', ['activation' => $item['accountID']]) }}"
+                                                                            action="{{ route('activations.update', ['activation' => $item->accountID]) }}"
                                                                             method="POST"
                                                                             enctype="multipart/form-data"
                                                                             autocomplete="off">
@@ -346,7 +346,7 @@
                                                                             @csrf
 
                                                                             <h5 class="modal-title"
-                                                                                id="viewUsersModalLabel{{ $item['accountID'] }}">
+                                                                                id="viewUsersModalLabel{{ $item->accountID }}">
                                                                                 Are You Sure You Want To Activate This
                                                                                 User?
                                                                             </h5>
@@ -372,6 +372,22 @@
                                 </tbody>
                             </table>
 
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pagination">
+                                    <ul class="pagination">
+                                        @for ($i = 1; $i <= $users->lastPage(); $i++)
+                                            <li class="page-item ">
+                                                <a class="page-link {{ $users->currentPage() == $i ? 'active' : '' }}"
+                                                    href="{{ $users->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endfor
+                                    </ul>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

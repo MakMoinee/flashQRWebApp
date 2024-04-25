@@ -128,6 +128,7 @@
                                 <select required class="form-control" name="accountType" id=""
                                     aria-placeholder="Account Type">
                                     <option value="">Account Type</option>
+                                    <option value="1">Admin</option>
                                     <option value="2">User</option>
                                 </select>
                                 <br>
