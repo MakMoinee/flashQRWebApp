@@ -29,6 +29,7 @@ class AdminFlashCardController extends Controller
             $currentYear = date('Y');
             $years = range(1990, $currentYear);
 
+          
             $categories = Category::all();
             $flashCards = DB::table('vwflashcards')
                 ->orderBy('created_at', 'desc')
