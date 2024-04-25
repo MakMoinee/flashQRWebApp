@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AccountPhoto;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,13 +28,31 @@ class AdminPersonalDetailsController extends Controller
             $currentYear = date('Y');
             $years = range(1990, $currentYear);
 
+
+            $monthText = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            $birthMonth =  (new DateTime($user['birthDate']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('m');
+            $birthYear =  (new DateTime($user['birthDate']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y');
+            $birthDay =  (new DateTime($user['birthDate']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('d');
+
+
+
             $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
             $queryData = json_decode($queryData, true);
             $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
 
 
 
-            return view('admin.profiles', ['yrs' => $years, 'currentUser' => $user, 'profilePhoto' => $imgPhoto]);
+            return view('admin.profiles', [
+                'yrs' => $years,
+                'currentUser' => $user,
+                'profilePhoto' => $imgPhoto,
+                'months' => 12,
+                'monthText' => $monthText,
+                'birthMonth' => $birthMonth,
+                'birthYear' => $birthYear,
+                'birthDay' => $birthDay,
+            ]);
         }
         return redirect("/");
     }
@@ -127,7 +147,44 @@ class AdminPersonalDetailsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+
+            if ($accountType != 1) {
+                return redirect("/");
+            }
+
+            if ($request->btnUpdateProfileAdmin) {
+                $queryExistArr = json_decode(DB::table('accounts')->where('accountID', '=', $id)->get(), true);
+                if (count($queryExistArr) > 0) {
+                    $updateCount = DB::table('accounts')->where('accountID', '=', $id)->update([
+                        'firstName' => $request->firstName,
+                        'middleName' => $request->middleName,
+                        'lastName' => $request->lastName,
+                        'contactNumber' => $request->contactNumber,
+                        'guardian' => $request->guardian,
+                        'level' => $request->level,
+                        'birthDate' => $request->year . '-' . $request->month . '-' . $request->day,
+                    ]);
+                    if ($updateCount > 0) {
+                        session()->put('successUpdate', true);
+                        $user = json_decode(DB::table('accounts')->where('accountID', '=', $id)->get(), true);
+                        session()->put('users', $user[0]);
+                    } else {
+                        session()->put('errorUpdateProfile', true);
+                    }
+                } else {
+                    session()->put('errorUpdateProfile', true);
+                }
+            }
+
+            return redirect("/profiles");
+        }
+
+        return redirect("/");
     }
 
     /**
