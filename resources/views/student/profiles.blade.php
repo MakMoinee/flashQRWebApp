@@ -184,18 +184,33 @@
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <img style="float: left;" src="/profile.png" width="120" height="120"
-                                    class="img-responsive" alt="" srcset="">
-                                <h2 style="float:left;margin-left: 30px; margin-top: 40px;">Upload A New Photo</h2>
-                                <button style="float: right; margin-top: 40px;"
-                                    class="btn btn-warning text-white">Update</button>
-                            </div>
-                        </div>
+                        <form action="/my_profile" id="profileForm" method="post" enctype="multipart/form-data"
+                            onsubmit="return false;">
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <img id="myPhoto" style="float: left;" src="{{ $profilePhoto }}"
+                                        width="120" height="120" class="img-responsive" alt=""
+                                        srcset="">
+                                    <h2 style="float:left;margin-left: 30px; margin-top: 40px;">Upload A New Photo</h2>
+                                    <input id="mFile" required style="display: none;" type="file"
+                                        name="imgFile" accept=".jpg,.png,.jpeg" onchange="previewImage(event)">
 
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button id="btnUpdateProfile" style="float: left; margin-top: 40px;"
+                                        class="btn btn-warning text-white" name="btnUpdateProfile"
+                                        value="yes" onclick="updatePhoto()">Update</button>
+
+                        </form>
+                        <button onclick="cancel()" style="display: none;float: left; margin-top: 30px;"
+                            class="btn btn-danger text-white" id="btnCancel">Cancel</button>
                     </div>
                 </div>
+                <br>
                 <div class="card mb-4">
                     <form action="/my_profile/{{ $currentUser['accountID'] }}" method="post"
                         enctype="multipart/form-data">
@@ -343,7 +358,51 @@
     <script src="./assets/files/coreui-chartjs.js.download"></script>
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
-    <script></script>
+    <script>
+         function updatePhoto() {
+            let profileForm = document.getElementById('profileForm');
+            let btnUpdateProfilePhoto = document.getElementById('btnUpdateProfile');
+            if (btnUpdateProfilePhoto.innerHTML == "Save") {
+                profileForm.removeAttribute("onsubmit");
+            } else {
+                let mFile = document.getElementById('mFile');
+                mFile.click();
+            }
+
+        }
+
+        function cancel() {
+            let pic = '<?php echo $profilePhoto; ?>';
+            let profileForm = document.getElementById('profileForm');
+            profileForm.setAttribute("onsubmit", "return false;");
+            let btnUpdateProfilePhoto = document.getElementById('btnUpdateProfile');
+            btnUpdateProfilePhoto.innerHTML = "Update";
+            let btnCancel = document.getElementById('btnCancel');
+            btnCancel.setAttribute('style', 'display:none;')
+            let myPhoto = document.getElementById('myPhoto');
+            myPhoto.src = pic;
+        }
+
+        function previewImage(event) {
+            var files = event.currentTarget.files;
+            if (files && files[0]) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('myPhoto');
+                    if (output) {
+                        output.src = reader.result;
+                    }
+                };
+                reader.readAsDataURL(files[0]);
+                let btnUpdateProfilePhoto = document.getElementById('btnUpdateProfile');
+                btnUpdateProfilePhoto.innerHTML = "Save";
+
+                let btnCancel = document.getElementById('btnCancel');
+                btnCancel.removeAttribute("style");
+                btnCancel.setAttribute("style", "float: left; margin-top: 40px; margin-left:10px;");
+            }
+        }
+    </script>
     @if (session()->pull('errorUpdateProfile'))
         <script>
             setTimeout(() => {
@@ -371,6 +430,66 @@
             }, 500);
         </script>
         {{ session()->forget('successUpdate') }}
+    @endif
+    
+    @if (session()->pull('errorAddPhoto'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Add Photo, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorAddPhoto') }}
+    @endif
+
+    @if (session()->pull('errorUpdateProfile'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Update Profile, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorUpdateProfile') }}
+    @endif
+
+    @if (session()->pull('successUpdate'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Updated Profile',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successUpdate') }}
+    @endif
+
+    @if (session()->pull('successAddPhoto'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Added Photo',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successAddPhoto') }}
     @endif
 </body>
 

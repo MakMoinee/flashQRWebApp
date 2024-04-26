@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccountPhoto;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
@@ -65,7 +66,60 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull('users');
+            session()->put('users', $user);
+            $accountType = $user['accountType'];
+
+
+            if ($accountType != 2) {
+                return redirect("/");
+            }
+
+            if ($request->btnUpdateProfile) {
+                $files = $request->file('imgFile');
+                $fileName = "";
+                if ($files) {
+                    $mimeType = $files->getMimeType();
+                    if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
+                        $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/profiles';
+                        $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
+                        $isFile = $files->move($destinationPath,  $fileName);
+                        chmod($destinationPath, 0755);
+
+                        if ($fileName) {
+                            $query = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+                            $data = json_decode($query, true);
+                            if (count($data) > 0) {
+                                $photoID = $data[0]['photoID'];
+                                $updateCount = DB::table('account_photos')->where('photoID', '=', $photoID)->update([
+                                    'imagePath' => '/data/profiles/' . $fileName
+                                ]);
+                                if ($updateCount > 0) {
+                                    session()->put("successAddPhoto", true);
+                                } else {
+                                    session()->put("errorAddPhoto", true);
+                                }
+                            } else {
+                                $newPhoto = new AccountPhoto();
+                                $newPhoto->accountID = $user['accountID'];
+                                $newPhoto->imagePath = '/data/profiles/' . $fileName;
+                                $isSave = $newPhoto->save();
+                                if ($isSave) {
+                                    session()->put("successAddPhoto", true);
+                                } else {
+                                    session()->put("errorAddPhoto", true);
+                                }
+                            }
+                        }
+                    } else {
+                        session()->put("invalidMimeType", true);
+                    }
+                }
+            }
+            return redirect("/my_profile");
+        }
+        return redirect("/");
     }
 
     /**

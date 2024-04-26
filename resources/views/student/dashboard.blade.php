@@ -152,7 +152,7 @@
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="" role="button" aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-md"><img class="avatar-img"
-                                    src="{{ $profilePhoto }}
+                                    src="{{ $profilePhoto }}"
                                     alt="user@email.com">
                             </div>
                         </a>
