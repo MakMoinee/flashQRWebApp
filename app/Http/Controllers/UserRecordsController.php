@@ -62,7 +62,7 @@ class UserRecordsController extends Controller
 
             return view('student.records', [
                 'users' => $users,
-                'profilePhoto' => $imgPhoto, 'approver' => $data, 'results' => $arrResult
+                'profilePhoto' => $imgPhoto, 'approver' => $data, 'results' => $arrResult, 'userID' => $user['accountID']
             ]);
         }
         return redirect("/");

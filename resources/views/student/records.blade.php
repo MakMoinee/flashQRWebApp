@@ -191,61 +191,41 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <span style="font-size:25px;">USER RECORDS</span>
-                            </div>
-                            <div class="card-body">
-                                <table class="table border mb-0">
-                                    <thead class="table-light fw-semibold">
-                                        <tr class="align-middle">
-                                            <th class="text-center">Account ID</th>
-                                            <th>Name</th>
-                                            <th class="text-center">Role</th>
-                                            <th>Approved By</th>
-                                            <th class="text-center">Date</th>
-                                            <th>Action</th>
-                                            <th class="text-center"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($users as $item)
-                                            <tr class="align-middle">
-                                                <td class="text-center">
-                                                    {{ $item->accountID }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->lastName }}, {{ $item->firstName }}
-                                                    {{ $item->middleName }}
-                                                </td>
-                                                <td class="text-center">
-                                                    @if ($item->accountType == 1)
-                                                        Admin
-                                                    @else
-                                                        Student
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    {{ $approver[$item->approver] }}
 
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
-                                                </td>
-                                                <td>
-                                                    <button onclick="showRecord({{ $item->accountID }})"
-                                                        class="btn" data-coreui-toggle="modal"
-                                                        data-coreui-target="#viewModal"><img src="/view.svg"
-                                                            alt="" srcset=""></button>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <h5>Interactive Activity</h5>
+                        </div>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="interactive" role="tabpanel"
+                                aria-labelledby="interactive-tab">
+                                {{-- Interactive Activity Content --}}
+                                <!-- Add your content for Interactive Activity here -->
+                                <div class="form-group">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <table id="resultsTable" class="table border mb-0">
+                                                        <thead class="table-light fw-semibold">
+                                                            <tr class="align-middle">
+                                                                <th class="text-center">Flash Card Name</th>
+                                                                <th>Score</th>
+                                                                <th class="text-center">Date</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        {{-- End of Tab Layout --}}
                     </div>
 
                 </div>
@@ -269,68 +249,10 @@
     <script src="./assets/files/main.js.download"></script>
     <script></script>
 
-    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row">
-
-
-                        <div class="form-group text-center">
-                            <h5>VIEW USER RECORD</h5>
-                        </div>
-                        {{-- Tab Layout --}}
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a style="cursor: pointer" class="nav-link active" id="interactive-tab"
-                                    data-toggle="tab" role="tab" aria-controls="interactive"
-                                    aria-selected="true">Interactive Activity</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="interactive" role="tabpanel"
-                                aria-labelledby="interactive-tab">
-                                {{-- Interactive Activity Content --}}
-                                <!-- Add your content for Interactive Activity here -->
-                                <div class="form-group">
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card mb-4">
-                                                <div class="card-body">
-                                                    <table id="resultsTable" class="table border mb-0">
-                                                        <thead class="table-light fw-semibold">
-                                                            <tr class="align-middle">
-                                                                <th class="text-center">Flash Card Name</th>
-                                                                <th>Score</th>
-                                                                <th class="text-center">Date</th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- End of Tab Layout --}}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
-                        style="color:white !important;">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <script>
         let results = @json($results);
+        let accountID = parseInt('<?php echo $userID ?>');
 
         function showRecord(id) {
             let data = results[id];
@@ -369,6 +291,8 @@
 
             }
         }
+
+        showRecord(accountID);
     </script>
 
     @if (session()->pull('successQuiz'))
