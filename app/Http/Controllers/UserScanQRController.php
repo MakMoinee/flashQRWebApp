@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserScanQRController extends Controller
 {
@@ -21,7 +22,14 @@ class UserScanQRController extends Controller
                 return redirect("/");
             }
 
-            return view('student.scan');
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+            return view('student.scan', [
+                'profilePhoto' => $imgPhoto
+            ]);
         }
         return redirect("/");
     }

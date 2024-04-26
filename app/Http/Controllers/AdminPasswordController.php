@@ -22,7 +22,16 @@ class AdminPasswordController extends Controller
             if ($accountType != 1) {
                 return redirect("/");
             }
-            return view('admin.password', ['username' => $user['studentNumber']]);
+
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+            return view('admin.password', [
+                'username' => $user['studentNumber'],
+                'profilePhoto' => $imgPhoto
+            ]);
         }
         return redirect("/");
     }

@@ -28,7 +28,16 @@ class AdminCategoryController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-            return view("admin.category", ['categories' => $data]);
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+
+            return view("admin.category", [
+                'categories' => $data,
+                'profilePhoto' => $imgPhoto
+            ]);
         }
         return redirect("/");
     }

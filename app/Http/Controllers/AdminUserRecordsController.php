@@ -54,7 +54,16 @@ class AdminUserRecordsController extends Controller
                 $data[$a['accountID']] = $a['lastName'] . ', ' . $a['firstName'] . ' ' . $a['middleName'];
             }
 
-            return view('admin.user_records', ['users' => $users, 'approver' => $data, 'results' => $arrResult]);
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+
+            return view('admin.user_records', [
+                'users' => $users, 'approver' => $data, 'results' => $arrResult,
+                'profilePhoto' => $imgPhoto
+            ]);
         }
         return redirect("/");
     }
@@ -97,7 +106,7 @@ class AdminUserRecordsController extends Controller
                         $userHistory = new UserHistory();
                         $userHistory->accountID = $user['accountID'];
                         $userHistory->action = "Password Changed";
-                        $userHistory->description = "Successful, User: ". $accountID;
+                        $userHistory->description = "Successful, User: " . $accountID;
                         $userHistory->save();
                     } else {
                         session()->put('errorAdminUpdatePassword', true);

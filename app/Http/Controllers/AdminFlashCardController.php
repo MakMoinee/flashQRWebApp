@@ -29,13 +29,22 @@ class AdminFlashCardController extends Controller
             $currentYear = date('Y');
             $years = range(1990, $currentYear);
 
-          
+
             $categories = Category::all();
             $flashCards = DB::table('vwflashcards')
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-            return view('admin.flashcard', ['yrs' => $years, 'currentUser' => $user, 'categories' => $categories, 'flashCards' => $flashCards]);
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+
+            return view('admin.flashcard', [
+                'yrs' => $years, 'currentUser' => $user, 'categories' => $categories, 'flashCards' => $flashCards,
+                'profilePhoto' => $imgPhoto
+            ]);
         }
 
         return redirect("/");

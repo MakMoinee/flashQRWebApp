@@ -24,7 +24,15 @@ class HistoryRecordsController extends Controller
 
             $data = json_decode(DB::table('vwhistoryrecords')->where('accountID', '=', $user['accountID'])->get(), true);
 
-            return view('student.history', ['history' => $data]);
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+            return view('student.history', [
+                'history' => $data,
+                'profilePhoto' => $imgPhoto
+            ]);
         }
         return redirect("/");
     }

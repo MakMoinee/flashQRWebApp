@@ -55,7 +55,15 @@ class UserRecordsController extends Controller
                 $data[$a['accountID']] = $a['lastName'] . ', ' . $a['firstName'] . ' ' . $a['middleName'];
             }
 
-            return view('student.records', ['users' => $users, 'approver' => $data, 'results' => $arrResult]);
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+            return view('student.records', [
+                'users' => $users,
+                'profilePhoto' => $imgPhoto, 'approver' => $data, 'results' => $arrResult
+            ]);
         }
         return redirect("/");
     }

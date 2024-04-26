@@ -33,6 +33,11 @@ class UserProfileController extends Controller
             $birthYear =  (new DateTime($user['birthDate']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y');
             $birthDay =  (new DateTime($user['birthDate']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('d');
 
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
 
             return view('student.profiles', [
                 'yrs' => $years,
@@ -41,7 +46,8 @@ class UserProfileController extends Controller
                 'monthText' => $monthText,
                 'birthMonth' => $birthMonth,
                 'birthYear' => $birthYear,
-                'birthDay' => $birthDay
+                'birthDay' => $birthDay,
+                'profilePhoto' => $imgPhoto
             ]);
         }
     }

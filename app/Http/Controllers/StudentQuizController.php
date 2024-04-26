@@ -68,6 +68,11 @@ class StudentQuizController extends Controller
                     session()->put("errorRetrieveQuiz", true);
                 }
 
+                $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+                $queryData = json_decode($queryData, true);
+                $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
                 return view('student.quiz', [
                     'quiz' => $quizArr,
                     'count' => count($quizArr),
@@ -75,6 +80,7 @@ class StudentQuizController extends Controller
                     'categoryName' => $categoryName,
                     'description' => $description,
                     'imagePath' => $imagePath,
+                    'profilePhoto' => $imgPhoto
                 ]);
             }
         }

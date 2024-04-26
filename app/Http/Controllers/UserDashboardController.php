@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserDashboardController extends Controller
 {
@@ -15,13 +16,20 @@ class UserDashboardController extends Controller
             $user = session()->pull('users');
             session()->put('users', $user);
             $accountType = $user['accountType'];
-           
+
 
             if ($accountType != 2) {
                 return redirect("/");
             }
 
-            return view('student.dashboard');
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+            return view('student.dashboard', [
+                'profilePhoto' => $imgPhoto
+            ]);
         }
         return redirect("/");
     }

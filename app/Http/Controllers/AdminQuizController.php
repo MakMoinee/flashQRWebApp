@@ -28,8 +28,18 @@ class AdminQuizController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
 
-            return view("admin.quiz", ['flashCards' => $flashCards, 'quizzes' => $quizzes]);
+
+
+
+            return view("admin.quiz", [
+                'flashCards' => $flashCards, 
+                'quizzes' => $quizzes,
+                'profilePhoto' => $imgPhoto
+            ]);
         }
         return redirect("/");
     }

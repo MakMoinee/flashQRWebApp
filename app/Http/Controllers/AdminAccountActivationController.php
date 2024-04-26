@@ -26,7 +26,7 @@ class AdminAccountActivationController extends Controller
             if ($accountType != 1) {
                 return redirect("/");
             }
-            if ($search!="") {
+            if ($search != "") {
                 $paginatedAccounts = DB::table('accounts')
                     ->where('lastName', 'LIKE', '%' . $search . '%')
                     ->orderBy('created_at', 'desc')
@@ -49,7 +49,19 @@ class AdminAccountActivationController extends Controller
                 }
             }
 
-            return view('admin.activation', ['searchKey' => $search, 'users' => $paginatedAccounts, 'activeCount' => $activeCount, 'inactiveCount' => $inActiveCount, 'total' => $activeCount + $inActiveCount]);
+            $queryData = DB::table('account_photos')->where('accountID', '=', $user['accountID'])->get();
+            $queryData = json_decode($queryData, true);
+            $imgPhoto = count($queryData) > 0 ? $queryData[0]['imagePath'] : '/profile.png';
+
+
+            return view('admin.activation', [
+                'searchKey' => $search,
+                'profilePhoto' => $imgPhoto,
+                'users' => $paginatedAccounts,
+                'activeCount' => $activeCount,
+                'inactiveCount' => $inActiveCount,
+                'total' => $activeCount + $inActiveCount
+            ]);
         }
         return redirect("/");
     }

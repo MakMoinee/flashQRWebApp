@@ -177,7 +177,7 @@
                 <ul class="header-nav ms-3">
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="" role="button" aria-haspopup="true" aria-expanded="false">
-                            <div class="avatar avatar-md"><img class="avatar-img" src="/logo.png"
+                            <div class="avatar avatar-md"><img class="avatar-img" src="{{ $profilePhoto }}"
                                     alt="user@email.com"></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">
@@ -264,7 +264,7 @@
                                                     <td>
                                                         <button class="btn" data-coreui-toggle="modal"
                                                             data-coreui-target="#updateFlashCardModal"
-                                                            onclick="triggerUpdate({{ $item->flashCardID }},'{{ $item->imagePath }}','{{ $item->flashCardName }}','{{ $item->categoryID }}','{{ $item->description}}')">
+                                                            onclick="triggerUpdate({{ $item->flashCardID }},'{{ $item->imagePath }}','{{ $item->flashCardName }}','{{ $item->categoryID }}','{{ $item->description }}')">
                                                             <img src="/edit.svg" alt="" srcset="">
                                                         </button>
                                                         <button class="btn" data-coreui-toggle="modal"

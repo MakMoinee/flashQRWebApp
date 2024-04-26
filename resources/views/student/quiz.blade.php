@@ -155,7 +155,7 @@
                 <ul class="header-nav ms-3">
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="" role="button" aria-haspopup="true" aria-expanded="false">
-                            <div class="avatar avatar-md"><img class="avatar-img" src="/logo.png"
+                            <div class="avatar avatar-md"><img class="avatar-img" src="{{ $profilePhoto }}"
                                     alt="user@email.com"></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">
@@ -281,7 +281,8 @@
                                 <input id="myQuiz" type="hidden" name="list" value="">
                                 <input id="myCards" type="hidden" name="cards" value="">
                                 <input id="myAnswer" type="hidden" name="answer" value="">
-                                <input type="hidden" name="description" value="Flash Card={{$flashCardName}}, Category={{$categoryName}}">
+                                <input type="hidden" name="description"
+                                    value="Flash Card={{ $flashCardName }}, Category={{ $categoryName }}">
                             </div>
 
                     </div>

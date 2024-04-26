@@ -46,6 +46,7 @@
         body {
             font-family: "Sen", sans-serif;
         }
+
         .card-header {
             background: rgb(0, 145, 248) !important;
             color: white;
@@ -159,7 +160,7 @@
                 <ul class="header-nav ms-3">
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="" role="button" aria-haspopup="true" aria-expanded="false">
-                            <div class="avatar avatar-md"><img class="avatar-img" src="/logo.png"
+                            <div class="avatar avatar-md"><img class="avatar-img" src="{{ $profilePhoto }}"
                                     alt="user@email.com"></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">
@@ -368,7 +369,6 @@
 
             }
         }
-
     </script>
 
     @if (session()->pull('successQuiz'))
