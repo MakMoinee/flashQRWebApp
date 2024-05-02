@@ -253,7 +253,7 @@
                             <div class="card-body" id="mainbody">
                                 {{-- <video id="qr-video" width="300" height="300"></video> --}}
                                 <canvas id="qr-canvas" width="300" height="300" style="display:none"></canvas>
-                                <div id="outdiv" style="width: 100%"></div>
+                                <div id="outdiv"></div>
                                 <form method="POST" action="/user_scanqr" enctype="multipart/form-data">
                                     @csrf
                                     <div id="result" style="width: 100%">
