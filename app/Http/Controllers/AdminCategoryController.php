@@ -67,7 +67,7 @@ class AdminCategoryController extends Controller
             }
 
             if ($request->btnCreateCategory) {
-               
+
                 $query = DB::table('categories')->where('categoryName', '=', $request->categoryName)->get();
                 $data = json_decode($query, true);
                 if (count($data) > 0) {
@@ -76,34 +76,36 @@ class AdminCategoryController extends Controller
                     $files = $request->file("imagePath");
                     $fileName = "";
 
-                    dd($files);
-
                     if ($files) {
-                        $mimeType = $files->getMimeType();
-                        if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public" . '/data/categories';
-                            $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
-                            $isFile = $files->move($destinationPath,  $fileName);
-                            chmod($destinationPath, 0755);
+                        try {
+                            $mimeType = $files->getMimeType();
+                            if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public" . '/data/categories';
+                                $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
+                                $isFile = $files->move($destinationPath,  $fileName);
+                                chmod($destinationPath, 0755);
 
-                            if ($fileName != "") {
-                                $fileName = "/data/categories/" . $fileName;
-                                $category = new Category();
-                                $category->imagePath = $fileName;
-                                $category->accountID = $accountID;
-                                $category->createdBy = $fullName;
-                                $category->categoryName = $request->categoryName;
-                                $isSave = $category->save();
-                                if ($isSave) {
-                                    session()->put("successAddCategory", true);
+                                if ($fileName != "") {
+                                    $fileName = "/data/categories/" . $fileName;
+                                    $category = new Category();
+                                    $category->imagePath = $fileName;
+                                    $category->accountID = $accountID;
+                                    $category->createdBy = $fullName;
+                                    $category->categoryName = $request->categoryName;
+                                    $isSave = $category->save();
+                                    if ($isSave) {
+                                        session()->put("successAddCategory", true);
+                                    } else {
+                                        session()->put("errorAddCategory", true);
+                                    }
                                 } else {
                                     session()->put("errorAddCategory", true);
                                 }
                             } else {
-                                session()->put("errorAddCategory", true);
+                                session()->put("errorMimeTypeInvalid", true);
                             }
-                        } else {
-                            session()->put("errorMimeTypeInvalid", true);
+                        } catch (Exception $e) {
+                            session()->put("errorAddCategory", true);
                         }
                     } else {
                         $category = new Category();
