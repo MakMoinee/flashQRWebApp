@@ -67,7 +67,7 @@ class AdminCategoryController extends Controller
             }
 
             if ($request->btnCreateCategory) {
-                dd($request);
+               
                 $query = DB::table('categories')->where('categoryName', '=', $request->categoryName)->get();
                 $data = json_decode($query, true);
                 if (count($data) > 0) {
@@ -75,6 +75,8 @@ class AdminCategoryController extends Controller
                 } else {
                     $files = $request->file("imagePath");
                     $fileName = "";
+
+                    dd($files);
 
                     if ($files) {
                         $mimeType = $files->getMimeType();
