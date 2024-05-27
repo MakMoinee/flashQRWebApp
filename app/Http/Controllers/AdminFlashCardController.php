@@ -91,7 +91,7 @@ class AdminFlashCardController extends Controller
                     if ($files) {
                         $mimeType = $files->getMimeType();
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "public" . '/data/flashcards';
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . '/data/flashcards';
                             $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
                             $isFile = $files->move($destinationPath,  $fileName);
                             chmod($destinationPath, 0755);
@@ -167,7 +167,7 @@ class AdminFlashCardController extends Controller
                         try {
                             $originalDirectoryPath = $request->origImagePath;
                             if ($originalDirectoryPath) {
-                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "public" . $originalDirectoryPath;
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . $originalDirectoryPath;
                                 File::delete($destinationPath);
                             }
                         } catch (Exception $e1) {
@@ -175,7 +175,7 @@ class AdminFlashCardController extends Controller
 
                         $mimeType = $files->getMimeType();
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "public" . '/data/flashcards';
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . '/data/flashcards';
                             $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
                             $isFile = $files->move($destinationPath,  $fileName);
                             chmod($destinationPath, 0755);
@@ -239,7 +239,7 @@ class AdminFlashCardController extends Controller
                     try {
                         $originalDirectoryPath = $request->imagePath;
                         if ($originalDirectoryPath) {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "public" . $originalDirectoryPath;
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . $originalDirectoryPath;
                             File::delete($destinationPath);
                         }
                     } catch (Exception $e1) {
