@@ -78,7 +78,7 @@ class AdminCategoryController extends Controller
                     if ($files) {
                         $mimeType = $files->getMimeType();
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . '/data/categories';
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public" . '/data/categories';
                             $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
                             $isFile = $files->move($destinationPath,  $fileName);
                             chmod($destinationPath, 0755);
@@ -164,7 +164,7 @@ class AdminCategoryController extends Controller
                     if ($files) {
                         $mimeType = $files->getMimeType();
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . '/data/categories';
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public" . '/data/categories';
                             $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
                             $isFile = $files->move($destinationPath,  $fileName);
                             chmod($destinationPath, 0755);
@@ -173,7 +173,7 @@ class AdminCategoryController extends Controller
                                 try {
                                     $originalDirectoryPath = $request->updateOrigImagePath;
                                     if ($originalDirectoryPath) {
-                                        $destinationPath2 = $_SERVER['DOCUMENT_ROOT'] . "/public/" . $originalDirectoryPath;
+                                        $destinationPath2 = $_SERVER['DOCUMENT_ROOT'] . "/public" . $originalDirectoryPath;
                                         File::delete($destinationPath2);
                                     }
                                 } catch (Exception $e1) {
@@ -213,7 +213,7 @@ class AdminCategoryController extends Controller
                         if ($files) {
                             $mimeType = $files->getMimeType();
                             if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . '/data/categories';
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public" . '/data/categories';
                                 $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
                                 $isFile = $files->move($destinationPath,  $fileName);
                                 chmod($destinationPath, 0755);
@@ -222,7 +222,7 @@ class AdminCategoryController extends Controller
                                     try {
                                         $originalDirectoryPath = $request->updateOrigImagePath;
                                         if ($originalDirectoryPath) {
-                                            $destinationPath2 = $_SERVER['DOCUMENT_ROOT'] . "/public/" . $originalDirectoryPath;
+                                            $destinationPath2 = $_SERVER['DOCUMENT_ROOT'] . "/public" . $originalDirectoryPath;
                                             File::delete($destinationPath2);
                                         }
                                     } catch (Exception $e1) {
@@ -278,7 +278,7 @@ class AdminCategoryController extends Controller
                 try {
                     $originalDirectoryPath = $request->imagePath;
                     if ($originalDirectoryPath) {
-                        $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public/" . $originalDirectoryPath;
+                        $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public" . $originalDirectoryPath;
                         File::delete($destinationPath);
                     }
                 } catch (Exception $e1) {
