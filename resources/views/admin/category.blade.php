@@ -348,8 +348,8 @@
                                             style="width: 200px; height: 200px;">
                                     </center>
                                 </a>
-                                <input id="mFile" type="file" style="display: none;" name="imagePath"
-                                    onchange="previewImage(event)">
+                                <input required id="mFile" type="file" style="display: none;" name="imagePath"
+                                    onchange="previewImage(event)" accept=".jpg,.png,.jpeg">
                             </div>
 
                             <div class="form-group">
