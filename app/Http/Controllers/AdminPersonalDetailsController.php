@@ -86,7 +86,7 @@ class AdminPersonalDetailsController extends Controller
                 if ($files) {
                     $mimeType = $files->getMimeType();
                     if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                        $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/profiles';
+                        $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "public" . '/data/profiles';
                         $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
                         $isFile = $files->move($destinationPath,  $fileName);
                         chmod($destinationPath, 0755);
