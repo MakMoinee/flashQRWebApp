@@ -36,6 +36,8 @@ class StudentQuizController extends Controller
                     }
                 }
 
+                dd($flashID);
+
                 //check if user already answered the quiz
                 $queryData = json_decode(DB::table('answers')->where('flashCardID', '=', $flashID)->where('accountID', '=', $user['accountID'])->get(), true);
                 $quizArr = array();
