@@ -280,6 +280,7 @@
                                 <h5>Are You Sure You Want To Finish This Quiz?</h5>
                                 <input id="myQuiz" type="hidden" name="list" value="">
                                 <input id="myCards" type="hidden" name="cards" value="">
+                                <input id="myId" type="hidden" name="mFlashID" value="{{ $mFlashID }}">
                                 <input id="myAnswer" type="hidden" name="answer" value="">
                                 <input type="hidden" name="description"
                                     value="Flash Card={{ $flashCardName }}, Category={{ $categoryName }}">

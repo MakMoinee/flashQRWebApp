@@ -36,7 +36,6 @@ class StudentQuizController extends Controller
                     }
                 }
 
-                dd($flashID);
 
                 //check if user already answered the quiz
                 $queryData = json_decode(DB::table('answers')->where('flashCardID', '=', $flashID)->where('accountID', '=', $user['accountID'])->get(), true);
@@ -82,7 +81,8 @@ class StudentQuizController extends Controller
                     'categoryName' => $categoryName,
                     'description' => $description,
                     'imagePath' => $imagePath,
-                    'profilePhoto' => $imgPhoto
+                    'profilePhoto' => $imgPhoto,
+                    'mFlashID' => $flashID
                 ]);
             }
         }
@@ -128,7 +128,7 @@ class StudentQuizController extends Controller
                             $newAnswer->accountID = $user['accountID'];
                             $newAnswer->quizID = $q;
                             $newAnswer->answer = boolval($answer[$index]);
-                            $newAnswer->flashCardID = boolval($cards[$index]);
+                            $newAnswer->flashCardID = $request->mFlashID;
                             $isSave = $newAnswer->save();
                             if ($isSave) {
                                 $saveCount++;
