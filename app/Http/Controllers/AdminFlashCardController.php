@@ -88,7 +88,6 @@ class AdminFlashCardController extends Controller
                     $newFlashCard->description = $request->description;
                     $newFlashCard->accountID = $accountID;
                     $newFlashCard->createdBy = $fullName;
-                    dd($files);
                     if ($files) {
                         $mimeType = $files->getMimeType();
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {

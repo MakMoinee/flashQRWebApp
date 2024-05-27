@@ -433,7 +433,7 @@
 
                             <div class="form-group text-center">
                                 <h6>Are You Sure You Want To Delete This Category?</h6>
-                                <input type="hidden" name="imagePath" value="" id="deleteImagePath">
+                                <input type="hidden" name="deleteImagePath" value="" id="deleteImagePath">
                             </div>
                     </div>
                 </div>

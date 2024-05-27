@@ -276,7 +276,7 @@ class AdminCategoryController extends Controller
 
             if ($request->btnDeleteCategory) {
                 try {
-                    $originalDirectoryPath = $request->imagePath;
+                    $originalDirectoryPath = $request->deleteImagePath;
                     if ($originalDirectoryPath) {
                         $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/public" . $originalDirectoryPath;
                         File::delete($destinationPath);
