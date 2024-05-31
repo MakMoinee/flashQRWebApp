@@ -408,6 +408,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" onclick="exportToCSV(document.getElementById('myAccountID').value)"
+                        class="btn btn-primary text-white">Export</button>
                     <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
                         style="color:white !important;">Close</button>
                 </div>
@@ -416,6 +418,48 @@
     </div>
     <script>
         let results = @json($results);
+
+        function exportToCSV(id) {
+            // Get the table element
+            var table = document.getElementById("resultsTable");
+            var rows = table.querySelectorAll("tr");
+
+            // Initialize CSV content
+            var csvContent = "";
+
+            // Loop through each row
+            rows.forEach(function(row, index) {
+                var rowData = [];
+                var cols = row.querySelectorAll("td, th");
+
+                // Loop through each cell
+                cols.forEach(function(col) {
+                    // Escape quotes in cell data
+                    var data = col.innerText.replace(/"/g, '""');
+                    rowData.push('"' + data + '"');
+                });
+
+                // Join the row data with commas and add to csvContent
+                csvContent += rowData.join(",") + "\n";
+            });
+
+            // Create a blob from the CSV content
+            var blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;'
+            });
+
+            // Create a link to download the blob as a file
+            var link = document.createElement("a");
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `user_records_${id}.csv`);
+            link.style.visibility = 'hidden';
+
+            // Append the link to the body and trigger the download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
 
         function showRecord(id) {
             let data = results[id];

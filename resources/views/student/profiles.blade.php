@@ -192,7 +192,13 @@
                                     <img id="myPhoto" style="float: left;" src="{{ $profilePhoto }}"
                                         width="120" height="120" class="img-responsive" alt=""
                                         srcset="">
-                                    <h2 style="float:left;margin-left: 30px; margin-top: 40px;">Upload A New Photo</h2>
+                                    <h2 style="float:left;margin-left: 30px; margin-top: 40px;">
+                                        Upload A New Photo
+                                        <br>
+                                        <span><h6>Accepted File Formats: .jpg, .png, .jpeg</h6></span>
+                                    </h2>
+                                    
+
                                     <input id="mFile" required style="display: none;" type="file"
                                         name="imgFile" accept=".jpg,.png,.jpeg" onchange="previewImage(event)">
 
@@ -202,8 +208,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <button id="btnUpdateProfile" style="float: left; margin-top: 40px;"
-                                        class="btn btn-warning text-white" name="btnUpdateProfile"
-                                        value="yes" onclick="updatePhoto()">Update</button>
+                                        class="btn btn-warning text-white" name="btnUpdateProfile" value="yes"
+                                        onclick="updatePhoto()">Update</button>
 
                         </form>
                         <button onclick="cancel()" style="display: none;float: left; margin-top: 30px;"
@@ -359,7 +365,7 @@
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
     <script>
-         function updatePhoto() {
+        function updatePhoto() {
             let profileForm = document.getElementById('profileForm');
             let btnUpdateProfilePhoto = document.getElementById('btnUpdateProfile');
             if (btnUpdateProfilePhoto.innerHTML == "Save") {
@@ -431,7 +437,7 @@
         </script>
         {{ session()->forget('successUpdate') }}
     @endif
-    
+
     @if (session()->pull('errorAddPhoto'))
         <script>
             setTimeout(() => {

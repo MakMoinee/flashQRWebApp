@@ -62,6 +62,11 @@
             width: 500px;
         }
 
+        
+        #v{
+            height: 300px !important;
+        }
+
         button {
             background-color: #4CAF50;
             /* Green */

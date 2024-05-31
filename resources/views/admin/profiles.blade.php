@@ -220,7 +220,14 @@
                                     <img id="myPhoto" style="float: left;" src="{{ $profilePhoto }}"
                                         width="120" height="120" class="img-responsive" alt=""
                                         srcset="">
-                                    <h2 style="float:left;margin-left: 30px; margin-top: 40px;">Upload A New Photo</h2>
+                                    <h2 style="float:left;margin-left: 30px; margin-top: 40px;">
+                                        Upload A New Photo
+                                        <br>
+                                        <span>
+                                            <h6>Accepted File Formats: .jpg, .png, .jpeg</h6>
+                                        </span>
+                                    </h2>
+
                                     <input id="mFile" required style="display: none;" type="file"
                                         name="imgFile" accept=".jpg,.png,.jpeg" onchange="previewImage(event)">
 
@@ -280,8 +287,8 @@
                                 <div class="col-lg-12">
                                     <input required class="form-control" type="number" name="day"
                                         id="" placeholder="Day"
-                                        style="width: 125px !important; float: left;" min="1"
-                                        max="31" value="{{ $birthDay }}">
+                                        style="width: 125px !important; float: left;" min="1" max="31"
+                                        value="{{ $birthDay }}">
                                     <select required class="form-control" name="month" id=""
                                         style="width: 135px !important; float: left;">
                                         <option value="">Mon</option>
