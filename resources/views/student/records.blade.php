@@ -222,7 +222,8 @@
                                                     </table>
                                                 </div>
                                                 <div class="card-footer">
-                                                    <button class="btn btn-primary text-white" onclick="exportToCSV()">Export</button>
+                                                    <button class="btn btn-primary text-white"
+                                                        onclick="exportToPDF()">Export</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,53 +253,50 @@
     <script src="./assets/files/coreui-chartjs.js.download"></script>
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Include autoTable plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+
     <script></script>
 
 
     <script>
         let results = @json($results);
         let accountID = parseInt('<?php echo $userID; ?>');
+        async function exportToPDF() {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
 
-        function exportToCSV() {
             // Get the table element
-            var table = document.getElementById("resultsTable");
-            var rows = table.querySelectorAll("tr");
+            const table = document.getElementById("resultsTable");
 
-            // Initialize CSV content
-            var csvContent = "";
+            // Extract table headers
+            const headers = [];
+            table.querySelectorAll("thead th").forEach(th => {
+                headers.push(th.innerText);
+            });
 
-            // Loop through each row
-            rows.forEach(function(row, index) {
-                var rowData = [];
-                var cols = row.querySelectorAll("td, th");
-
-                // Loop through each cell
-                cols.forEach(function(col) {
-                    // Escape quotes in cell data
-                    var data = col.innerText.replace(/"/g, '""');
-                    rowData.push('"' + data + '"');
+            // Extract table rows
+            const data = [];
+            table.querySelectorAll("tbody tr").forEach(tr => {
+                const row = [];
+                tr.querySelectorAll("td").forEach(td => {
+                    row.push(td.innerText);
                 });
-
-                // Join the row data with commas and add to csvContent
-                csvContent += rowData.join(",") + "\n";
+                data.push(row);
             });
 
-            // Create a blob from the CSV content
-            var blob = new Blob([csvContent], {
-                type: 'text/csv;charset=utf-8;'
+            // Generate the PDF with autoTable
+            doc.autoTable({
+                head: [headers],
+                body: data,
             });
 
-            // Create a link to download the blob as a file
-            var link = document.createElement("a");
-            var url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `user_records_${accountID}.csv`);
-            link.style.visibility = 'hidden';
-
-            // Append the link to the body and trigger the download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Save the PDF
+            doc.save(`user_records_${accountID}.pdf`);
         }
 
         function showRecord(id) {

@@ -289,6 +289,10 @@
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Include autoTable plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
 
 
     <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel"
@@ -408,7 +412,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="exportToCSV(document.getElementById('myAccountID').value)"
+                    <button type="button" onclick="exportToPDF(document.getElementById('myAccountID').value)"
                         class="btn btn-primary text-white">Export</button>
                     <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
                         style="color:white !important;">Close</button>
@@ -419,46 +423,40 @@
     <script>
         let results = @json($results);
 
-        function exportToCSV(id) {
+
+        async function exportToPDF(id) {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
+
             // Get the table element
-            var table = document.getElementById("resultsTable");
-            var rows = table.querySelectorAll("tr");
+            const table = document.getElementById("resultsTable");
 
-            // Initialize CSV content
-            var csvContent = "";
+            // Extract table headers
+            const headers = [];
+            table.querySelectorAll("thead th").forEach(th => {
+                headers.push(th.innerText);
+            });
 
-            // Loop through each row
-            rows.forEach(function(row, index) {
-                var rowData = [];
-                var cols = row.querySelectorAll("td, th");
-
-                // Loop through each cell
-                cols.forEach(function(col) {
-                    // Escape quotes in cell data
-                    var data = col.innerText.replace(/"/g, '""');
-                    rowData.push('"' + data + '"');
+            // Extract table rows
+            const data = [];
+            table.querySelectorAll("tbody tr").forEach(tr => {
+                const row = [];
+                tr.querySelectorAll("td").forEach(td => {
+                    row.push(td.innerText);
                 });
-
-                // Join the row data with commas and add to csvContent
-                csvContent += rowData.join(",") + "\n";
+                data.push(row);
             });
 
-            // Create a blob from the CSV content
-            var blob = new Blob([csvContent], {
-                type: 'text/csv;charset=utf-8;'
+            // Generate the PDF with autoTable
+            doc.autoTable({
+                head: [headers],
+                body: data,
             });
 
-            // Create a link to download the blob as a file
-            var link = document.createElement("a");
-            var url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `user_records_${id}.csv`);
-            link.style.visibility = 'hidden';
-
-            // Append the link to the body and trigger the download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Save the PDF
+            doc.save(`user_records_${id}.pdf`);
         }
 
         function showRecord(id) {

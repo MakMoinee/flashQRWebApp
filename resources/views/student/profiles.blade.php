@@ -364,6 +364,7 @@
     <script src="./assets/files/coreui-chartjs.js.download"></script>
     <script src="./assets/files/coreui-utils.js.download"></script>
     <script src="./assets/files/main.js.download"></script>
+    
     <script>
         function updatePhoto() {
             let profileForm = document.getElementById('profileForm');

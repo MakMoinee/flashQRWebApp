@@ -19,8 +19,13 @@ exif,gd2,pdo_mysql,file_ext
 - remove the suffix `.example copy` in ``.env.example copy``, just leave it as `.env`
 - run the command `php artisan storage:link` in the cmd.
 
-## Running the server
+## Running the server with CMD
 - Open cmd where your project is located.
 - Type the command `php artisan serve --port 8443` to start the server
+![Server Start](serverstart.PNG)
+- Open a browser, and browse the url ``http://localhost:8443``
+
+## Running the server with .bat file
+- Open start_service.bat
 ![Server Start](serverstart.PNG)
 - Open a browser, and browse the url ``http://localhost:8443``
